@@ -24,8 +24,8 @@ version: 1.0.0
 
 # About/contact
 author:
-  name: Codinfox
-  description: 안녕하세요. 공부하는 개발자입니다.
+  name: 안녕지구
+  description: 안녕하세요. 기록하는 개발자입니다.
   # gravatar: 3c2986ad7ac1f2230ea3596f44563328 # md5 hash of your email address
   contact:
     # linkedin:  https://www.linkedin.com/in/lizhihao
@@ -33,31 +33,43 @@ author:
     # facebook:  <hide>
     # twitter:   https://twitter.com/Li_Zhihao
     # weibo:     http://weibo.com/41173780
-    email:     hi.jigoo@gmail.com
+    email:     mailto:hi.jigoo@gmail.com
 
 # Navigation (2nd level links supported)
 nav:
   Home:           
     - '/'
-  Blog:           
-    - '/blog/'
-    - { Categories: '/blog/categories/' }
-    - { Tags: '/blog/tags/' }
+  Categories: 
+    - '/blog/categories/'
+    - { Android: '/blog/categories/#Android' }
+    - { Algorithm: '/blog/categories/#Algorithm' }
+    - { Bixby: '/blog/categories/#Bixby' }
+    - { Daily: '/blog/categories/#Daily' }
+  Tags:
+    - '/blog/tags/'
+  # Blog:           
+  #   - '/blog/'
+  #   - { Categories: '/blog/categories/' }
+  #   - { Tags: '/blog/tags/' }
   About:          
     - '/about/'
-  Github Project: 
-    - 'http://codinfox.github.io/'
+  # Github Project: 
+  #   - 'http://codinfox.github.io/'
 
 # Where are tags and categories displayed
 tag_page: '/blog/tags/'
 category_page: '/blog/categories/'
 
 hero:
-  image: /public/img/we_will_be_giants_by_yalestewart.jpg
-  caption: Original Artwork &copy; <a href="http://yalestewart.deviantart.com/art/We-Will-Be-Giants-370176475">Yale Stewart</a>
+  image: /public/img/bom_family.jpg
+  caption: Bom Family
+  # image: /public/img/we_will_be_giants_by_yalestewart.jpg
+  # caption: Original Artwork &copy; <a href="http://yalestewart.deviantart.com/art/We-Will-Be-Giants-370176475">Yale Stewart</a>
 
 # Puglins
 mathjax: true # whether support mathjax
 google_analytics_token: 'UA-00000000-1' # leave blank if you don't want google analytics
 disqus_short_name: 'your_short_name' # leave blank if you don't want disqus
 
+# Highlighter
+# highlighter: rouge

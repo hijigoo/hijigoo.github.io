@@ -61,7 +61,17 @@
               {% assign sub_url = sub_nav[1] | prepend: site.baseurl %}
             {% endif %}
               <a class="sidebar-nav-item sidebar-nav-item-sub {% if page.url == sub_nav[1] %}active{% endif %}" href="{{ sub_url }}">
-                {{ sub_nav[0] }}
+                <!-- {{ sub_nav[0] }} -->
+                {% assign t = sub_nav[0] %}
+                {{ sub_nav[0] }}&nbsp
+                (
+                  {% assign counter = 0 %}
+                  {% for item in site.categories.[t] %}
+                  {% unless item.published == false %}
+                  {% assign counter=counter | plus:1 %}
+                  {% endunless %}{% endfor %}
+                  {{ counter }}
+                )
               </a>
           {% endfor %}
         {% endfor %}
@@ -69,7 +79,7 @@
 
     {% endfor %}
 
-    <span class="sidebar-nav-item">Currently v{{ site.version }}</span>
+    <!-- <span class="sidebar-nav-item">Currently v{{ site.version }}</span> -->
   </nav>
 
   <div class="sidebar-item">

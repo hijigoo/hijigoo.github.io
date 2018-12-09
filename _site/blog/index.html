@@ -33,6 +33,18 @@
 MathJax.Hub.Config({ tex2jax: { inlineMath: [ ['$','$'], ["\\(","\\)"] ], processEscapes: true } });
   </script>
   
+
+  <!-- Web Font -->
+  <!-- <link href="https://fonts.googleapis.com/css?family=Nanum+Gothic" rel="stylesheet"> -->
+  <link href="https://fonts.googleapis.com/css?family=Nanum+Gothic|Nanum+Gothic+Coding" rel="stylesheet">
+
+  <!-- Highlighter -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/styles/atom-one-dark.min.css" />
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.11.0/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script>
+
+  <!-- Custom -->
+  <link rel="stylesheet" href="/public/css/custom.css">
 </head>
 
 
@@ -54,7 +66,7 @@ MathJax.Hub.Config({ tex2jax: { inlineMath: [ ['$','$'], ["\\(","\\)"] ], proces
       </div>
       -->
       <div class="sidebar-personal-info-section">
-        <p>A passionate <strong>developer and researcher</strong>, learning to be a giant.</p>
+        <p>안녕하세요. 기록하는 개발자입니다.</p>
       </div>
       
       
@@ -72,7 +84,7 @@ MathJax.Hub.Config({ tex2jax: { inlineMath: [ ['$','$'], ["\\(","\\)"] ], proces
         
         
         
-        <a href="hi.jigoo@gmail.com">
+        <a href="mailto:hi.jigoo@gmail.com">
           <i class="fa fa-envelope" aria-hidden="true"></i>
         </a>
         
@@ -108,8 +120,8 @@ MathJax.Hub.Config({ tex2jax: { inlineMath: [ ['$','$'], ["\\(","\\)"] ], proces
       
 
       <span class="foldable">
-        <a class="sidebar-nav-item active" href="/blog/">
-          Blog
+        <a class="sidebar-nav-item " href="/blog/categories/">
+          Categories
         </a>
 
         
@@ -117,8 +129,15 @@ MathJax.Hub.Config({ tex2jax: { inlineMath: [ ['$','$'], ["\\(","\\)"] ], proces
             
             
             
-              <a class="sidebar-nav-item sidebar-nav-item-sub " href="/blog/categories/">
-                Categories
+              <a class="sidebar-nav-item sidebar-nav-item-sub " href="/blog/categories/#Android">
+                <!-- Android -->
+                
+                Android&nbsp
+                (
+                  
+                  
+                  3
+                )
               </a>
           
         
@@ -126,10 +145,64 @@ MathJax.Hub.Config({ tex2jax: { inlineMath: [ ['$','$'], ["\\(","\\)"] ], proces
             
             
             
-              <a class="sidebar-nav-item sidebar-nav-item-sub " href="/blog/tags/">
-                Tags
+              <a class="sidebar-nav-item sidebar-nav-item-sub " href="/blog/categories/#Algorithm">
+                <!-- Algorithm -->
+                
+                Algorithm&nbsp
+                (
+                  
+                  
+                  0
+                )
               </a>
           
+        
+          
+            
+            
+            
+              <a class="sidebar-nav-item sidebar-nav-item-sub " href="/blog/categories/#Bixby">
+                <!-- Bixby -->
+                
+                Bixby&nbsp
+                (
+                  
+                  
+                  0
+                )
+              </a>
+          
+        
+          
+            
+            
+            
+              <a class="sidebar-nav-item sidebar-nav-item-sub " href="/blog/categories/#Daily">
+                <!-- Daily -->
+                
+                Daily&nbsp
+                (
+                  
+                  
+                  0
+                )
+              </a>
+          
+        
+      </span>
+
+    
+      
+      
+      
+
+      
+
+      <span class="">
+        <a class="sidebar-nav-item " href="/blog/tags/">
+          Tags
+        </a>
+
         
       </span>
 
@@ -149,28 +222,13 @@ MathJax.Hub.Config({ tex2jax: { inlineMath: [ ['$','$'], ["\\(","\\)"] ], proces
       </span>
 
     
-      
-      
-      
 
-      
-
-      <span class="">
-        <a class="sidebar-nav-item " href="http://codinfox.github.io/">
-          Github Project
-        </a>
-
-        
-      </span>
-
-    
-
-    <span class="sidebar-nav-item">Currently v1.0.0</span>
+    <!-- <span class="sidebar-nav-item">Currently v1.0.0</span> -->
   </nav>
 
   <div class="sidebar-item">
     <p>
-    &copy; 2018 Codinfox. This work is liscensed under <a href="http://creativecommons.org/licenses/by-nc/4.0/">CC BY-NC 4.0</a>.
+    &copy; 2018 안녕지구. This work is liscensed under <a href="http://creativecommons.org/licenses/by-nc/4.0/">CC BY-NC 4.0</a>.
     </p>
   </div>
 
@@ -190,7 +248,7 @@ MathJax.Hub.Config({ tex2jax: { inlineMath: [ ['$','$'], ["\\(","\\)"] ], proces
         <div class="container">
           <h3 class="masthead-title">
             <a href="/" title="Home" title="안녕지구">
-              <!-- <img class="masthead-logo" src=""/> -->
+              <!-- <img class="masthead-logo" src="/public/logo.png"/> -->
               안녕지구
             </a>
             <small>#developer #bompapa</small>
@@ -203,13 +261,15 @@ MathJax.Hub.Config({ tex2jax: { inlineMath: [ ['$','$'], ["\\(","\\)"] ], proces
   
   <div class="post">
     <h1 class="post-title">
-      <a href="/2014/01/02/introducing-lanyon/">
+      <a href="/android/2014/01/02/introducing-lanyon/">
         Introducing Lanyon
       </a>
     </h1>
 
     <span class="post-date">02 Jan 2014</span>
      | 
+    
+    <a href="/blog/tags/#android" class="post-tag">Android</a>
     
     
 
@@ -255,21 +315,23 @@ MathJax.Hub.Config({ tex2jax: { inlineMath: [ ['$','$'], ["\\(","\\)"] ], proces
     <article>
     <div class="post-more">
       
-      <a href="/2014/01/02/introducing-lanyon/#disqus_thread"> <i class="fa fa-comments" aria-hidden="true"></i>Comment</a>&nbsp;
+      <a href="/android/2014/01/02/introducing-lanyon/#disqus_thread"> <i class="fa fa-comments" aria-hidden="true"></i>Comment</a>&nbsp;
       
-      <a href="/2014/01/02/introducing-lanyon/"><i class="fa fa-plus-circle" aria-hidden="true"></i>Read more</a>
+      <a href="/android/2014/01/02/introducing-lanyon/"><i class="fa fa-plus-circle" aria-hidden="true"></i>Read more</a>
     </div>
   </div>
   
   <div class="post">
     <h1 class="post-title">
-      <a href="/2014/01/01/example-content/">
+      <a href="/android/2014/01/01/example-content/">
         Example content
       </a>
     </h1>
 
     <span class="post-date">01 Jan 2014</span>
      | 
+    
+    <a href="/blog/tags/#android" class="post-tag">Android</a>
     
     
 
@@ -309,17 +371,15 @@ MathJax.Hub.Config({ tex2jax: { inlineMath: [ ['$','$'], ["\\(","\\)"] ], proces
 
 <p>Cum sociis natoque penatibus et magnis dis <code class="highlighter-rouge">code element</code> montes, nascetur ridiculus mus.</p>
 
-<figure class="highlight"><pre><code class="language-js" data-lang="js"><span class="c1">// Example can be run directly in your JavaScript console
-</span>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>// Example can be run directly in your JavaScript console
 
-<span class="c1">// Create a function that takes two arguments and returns the sum of those arguments
-</span>
-<span class="kd">var</span> <span class="nx">adder</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Function</span><span class="p">(</span><span class="s2">"a"</span><span class="p">,</span> <span class="s2">"b"</span><span class="p">,</span> <span class="s2">"return a + b"</span><span class="p">);</span>
+// Create a function that takes two arguments and returns the sum of those arguments
+var adder = new Function("a", "b", "return a + b");
 
-<span class="c1">// Call the function
-</span>
-<span class="nx">adder</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">6</span><span class="p">);</span>
-<span class="c1">// &gt; 8</span></code></pre></figure>
+// Call the function
+adder(2, 6);
+// &gt; 8
+</code></pre></div></div>
 
 <p>Aenean lacinia bibendum nulla sed consectetur. Etiam porta sem malesuada magna mollis euismod. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa.</p>
 
@@ -403,41 +463,39 @@ MathJax.Hub.Config({ tex2jax: { inlineMath: [ ['$','$'], ["\\(","\\)"] ], proces
     <article>
     <div class="post-more">
       
-      <a href="/2014/01/01/example-content/#disqus_thread"> <i class="fa fa-comments" aria-hidden="true"></i>Comment</a>&nbsp;
+      <a href="/android/2014/01/01/example-content/#disqus_thread"> <i class="fa fa-comments" aria-hidden="true"></i>Comment</a>&nbsp;
       
-      <a href="/2014/01/01/example-content/"><i class="fa fa-plus-circle" aria-hidden="true"></i>Read more</a>
+      <a href="/android/2014/01/01/example-content/"><i class="fa fa-plus-circle" aria-hidden="true"></i>Read more</a>
     </div>
   </div>
   
   <div class="post">
     <h1 class="post-title">
-      <a href="/2013/12/31/whats-jekyll/">
-        What's Jekyll?
+      <a href="/android/2013/12/31/whats-jekyll/">
+        안녕하세요. 폰트 테스트.
       </a>
     </h1>
 
     <span class="post-date">31 Dec 2013</span>
      | 
     
+    <a href="/blog/tags/#android" class="post-tag">Android</a>
+    
     
 
     <article>
-      <p><a href="http://jekyllrb.com">Jekyll</a> is a static site generator, an open-source tool for creating simple yet powerful websites of all shapes and sizes. From <a href="https://github.com/mojombo/jekyll/blob/master/README.markdown">the project’s readme</a>:</p>
+      <p>갑 천하를 피가 쓸쓸하랴? 굳세게 풍부하게 찬미를 고행을 충분히 듣기만 그러므로 사랑의 것이다. 있는 우리의 영락과 많이 보이는 피다. 전인 내려온 열락의 피가 인간의 청춘의 밝은 있음으로써 대중을 말이다. 곳으로 찾아 싸인 영락과 들어 황금시대다. 뜨거운지라, 이상은 소금이라 새가 얼마나 있다. 피고, 타오르고 우리는 품고 관현악이며, 부패뿐이다. 있는 스며들어 피가 이 능히 공자는 것이다. 위하여 광야에서 없으면 것은 철환하였는가? 되려니와, 몸이 않는 있는 사막이다.</p>
 
-<blockquote>
-  <p>Jekyll is a simple, blog aware, static site generator. It takes a template directory […] and spits out a complete, static website suitable for serving with Apache or your favorite web server. This is also the engine behind GitHub Pages, which you can use to host your project’s page or blog right here from GitHub.</p>
-</blockquote>
+<p>소담스러운 심장은 있는 희망의 구할 힘있다. 뜨거운지라, 것이 거선의 불어 창공에 별과 보라. 방지하는 맺어, 실현에 인생의 품에 운다. 길지 쓸쓸한 눈이 몸이 새 수 이 어디 돋고, 끓는다. 되는 별과 할지니, 몸이 길지 피다. 천지는 크고 맺어, 이것이야말로 그와 있으며, 목숨을 뜨고, 피다. 때까지 희망의 있음으로써 이것을 말이다. 피가 그것은 이것을 주는 구하기 목숨을 장식하는 없으면 내려온 이것이다. 옷을 수 같지 아름다우냐? 있음으로써 가치를 목숨을 뿐이다. 들어 온갖 위하여 피부가 꽃 옷을 석가는 무엇을 내는 부패뿐이다.</p>
 
-<p>It’s an immensely useful tool and one we encourage you to use here with Lanyon.</p>
-
-<p>Find out more by <a href="https://github.com/mojombo/jekyll">visiting the project on GitHub</a>.</p>
+<p>옷을 우리 그들에게 피고 얼음 듣는다. 크고 원질이 꾸며 할지니, 이것이다. 이상의 이상은 이상, 피가 가슴에 그들은 끓는다. 못하다 별과 스며들어 청춘은 그러므로 역사를 간에 그것을 원질이 봄바람이다. 것이 새 위하여서, 자신과 위하여서 위하여 바로 피가 온갖 것이다. 사랑의 설산에서 풀이 그들은 어디 부패를 하는 봄날의 없는 봄바람이다. 얼음 꽃 위하여 동산에는 풍부하게 보는 같으며, 인생을 듣는다. 불어 부패를 수 맺어, 없으면 자신과 아니다. 굳세게 인생에 동력은 봄바람이다. 굳세게 이것이야말로 별과 이상 인생을 끓는 있다. 못할 아니한 같이, 봄바람이다.</p>
 
     <article>
     <div class="post-more">
       
-      <a href="/2013/12/31/whats-jekyll/#disqus_thread"> <i class="fa fa-comments" aria-hidden="true"></i>Comment</a>&nbsp;
+      <a href="/android/2013/12/31/whats-jekyll/#disqus_thread"> <i class="fa fa-comments" aria-hidden="true"></i>Comment</a>&nbsp;
       
-      <a href="/2013/12/31/whats-jekyll/"><i class="fa fa-plus-circle" aria-hidden="true"></i>Read more</a>
+      <a href="/android/2013/12/31/whats-jekyll/"><i class="fa fa-plus-circle" aria-hidden="true"></i>Read more</a>
     </div>
   </div>
   
