@@ -1,8 +1,8 @@
 ---
 layout: post
 title: Example content
-category: Android
-tag: [Android]
+category: Daily
+tag: [MarkDown]
 ---
 
 
