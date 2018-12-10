@@ -139,7 +139,7 @@ MathJax.Hub.Config({ tex2jax: { inlineMath: [ ['$','$'], ["\\(","\\)"] ], proces
                 (
                   
                   
-                  3
+                  0
                 )
               </a>
           
@@ -155,7 +155,7 @@ MathJax.Hub.Config({ tex2jax: { inlineMath: [ ['$','$'], ["\\(","\\)"] ], proces
                 (
                   
                   
-                  1
+                  3
                 )
               </a>
           
@@ -187,7 +187,7 @@ MathJax.Hub.Config({ tex2jax: { inlineMath: [ ['$','$'], ["\\(","\\)"] ], proces
                 (
                   
                   
-                  0
+                  1
                 )
               </a>
           
@@ -261,6 +261,96 @@ MathJax.Hub.Config({ tex2jax: { inlineMath: [ ['$','$'], ["\\(","\\)"] ], proces
 
       <div class="container content">
         <div class="posts">
+  
+  <div class="post">
+    <h1 class="post-title">
+      <a href="/algorithm/2018/12/10/backjoon-stack-series-1874/">
+        백준 알고리즘 - 스택 수열(1874)
+      </a>
+    </h1>
+
+    <span class="post-date">10 Dec 2018</span>
+     | 
+    
+    <a href="/blog/tags/#백준" class="post-tag">백준</a>
+    
+    <a href="/blog/tags/#알고리즘" class="post-tag">알고리즘</a>
+    
+    <a href="/blog/tags/#자료구조" class="post-tag">자료구조</a>
+    
+    
+
+    <article>
+      <p>구조체 배열이 아닌 단순 <strong>배열</strong>을 사용해서 구현한 스택 수열 알고리즘 코드입니다.</p>
+
+<h2 id="배열과-헤드위치-선언">배열과 헤드위치 선언</h2>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>int stack[100005];
+int head = 0;
+</code></pre></div></div>
+
+<h2 id="전체-코드">전체 코드</h2>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>#include &lt;stdio.h&gt;
+
+int stack[100005];
+int head = 0;
+
+int main() {
+
+	int n;
+	scanf("%d", &amp;n);
+
+	int inc = 1;
+
+	int outputIdx = 0;
+	char output[500005];
+	bool isFailed = false;
+
+	while(n--) {
+
+		int number;
+		scanf("%d", &amp;number);
+
+		// 수열이 형성되지 못하는 경우 체크
+		if (head &lt; 0 || number &lt; stack[head]) {
+			isFailed = true;
+			break;;
+		}
+
+		// 출력(POP)되어야 할 숫자(number)가 스택에 들어갈 때까지 PUSH
+		while (stack[head] &lt; number) {
+			output[outputIdx++] = '+';
+			stack[++head] = inc;
+			inc++;
+		}
+		
+		// 숫자(number)를 출력(POP)
+		while (stack[head] &gt;= number) {
+			output[outputIdx++] = '-';
+			head--;
+		}
+
+	}
+
+	if (isFailed) {
+		printf("NO\n");
+	} else {
+		for (int i = 0; i &lt; outputIdx; i++ ) {
+			printf("%c\n", output[i]);
+		}
+	}
+	return 0;
+}
+</code></pre></div></div>
+
+    <article>
+    <div class="post-more">
+      
+      <a href="/algorithm/2018/12/10/backjoon-stack-series-1874/#disqus_thread"> <i class="fa fa-comments" aria-hidden="true"></i>Comment</a>&nbsp;
+      
+      <a href="/algorithm/2018/12/10/backjoon-stack-series-1874/"><i class="fa fa-plus-circle" aria-hidden="true"></i>Read more</a>
+    </div>
+  </div>
   
   <div class="post">
     <h1 class="post-title">
@@ -383,77 +473,144 @@ int main() {
   
   <div class="post">
     <h1 class="post-title">
-      <a href="/android/2014/01/02/introducing-lanyon/">
-        Introducing Lanyon
+      <a href="/algorithm/2018/12/10/backjoon-queue-10845/">
+        백준 알고리즘 - 큐(10845)
       </a>
     </h1>
 
-    <span class="post-date">02 Jan 2014</span>
+    <span class="post-date">10 Dec 2018</span>
      | 
     
-    <a href="/blog/tags/#android" class="post-tag">Android</a>
+    <a href="/blog/tags/#백준" class="post-tag">백준</a>
+    
+    <a href="/blog/tags/#알고리즘" class="post-tag">알고리즘</a>
+    
+    <a href="/blog/tags/#자료구조" class="post-tag">자료구조</a>
     
     
 
     <article>
-      <p>Lanyon is an unassuming <a href="http://jekyllrb.com">Jekyll</a> theme that places content first by tucking away navigation in a hidden drawer. It’s based on <a href="http://getpoole.com">Poole</a>, the Jekyll butler.</p>
+      <p><a href="../backjoon-stack-10828/">스택(10828)</a>과 마찬가지로 간단한 <strong>링크드 리스트</strong>를 이용해서 구현한 <strong>큐</strong>입니다. 배열을 사용해서 더 간단하게도 구현 가능하지만 <strong>구조체 배열</strong>을 연습하고자 링크드 리스트를 사용했습니다.</p>
 
-<h3 id="built-on-poole">Built on Poole</h3>
+<h2 id="구조체-배열">구조체 배열</h2>
 
-<p>Poole is the Jekyll Butler, serving as an upstanding and effective foundation for Jekyll themes by <a href="https://twitter.com/mdo">@mdo</a>. Poole, and every theme built on it (like Lanyon here) includes the following:</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>// 정적이지만 동적할당처럼 사용하는 구조체 배열
+typedef struct node {
+	int data;
+	node* next;
+} Node;
 
-<ul>
-  <li>Complete Jekyll setup included (layouts, config, <a href="/404">404</a>, <a href="/atom.xml">RSS feed</a>, posts, and <a href="/about">example page</a>)</li>
-  <li>Mobile friendly design and development</li>
-  <li>Easily scalable text and component sizing with <code class="highlighter-rouge">rem</code> units in the CSS</li>
-  <li>Support for a wide gamut of HTML elements</li>
-  <li>Related posts (time-based, because Jekyll) below each post</li>
-  <li>Syntax highlighting, courtesy Pygments (the Python-based code snippet highlighter)</li>
-</ul>
+int nodeIndex = 0;
+Node nodeArray[10000];
+Node* allocNode() {
+	return &amp;nodeArray[nodeIndex++];
+};
 
-<h3 id="lanyon-features">Lanyon features</h3>
+// 아래와 같이 사용할 수 있습니다.
+Node* node = allocNode();
+</code></pre></div></div>
 
-<p>In addition to the features of Poole, Lanyon adds the following:</p>
+<h2 id="전체-코드">전체 코드</h2>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>#include &lt;stdio.h&gt;
 
-<ul>
-  <li>Toggleable sliding sidebar (built with only CSS) via <strong>☰</strong> link in top corner</li>
-  <li>Sidebar includes support for textual modules and a dynamically generated navigation with active link support</li>
-  <li>Two orientations for content and sidebar, default (left sidebar) and <a href="https://github.com/poole/lanyon#reverse-layout">reverse</a> (right sidebar), available via <code class="highlighter-rouge">&lt;body&gt;</code> classes</li>
-  <li><a href="https://github.com/poole/lanyon#themes">Eight optional color schemes</a>, available via <code class="highlighter-rouge">&lt;body&gt;</code> classes</li>
-</ul>
+// 구조체 배열
+typedef struct node {
+	int data;
+	node* next;
+} Node;
 
-<p><a href="https://github.com/poole/lanyon#readme">Head to the readme</a> to learn more.</p>
+int nodeidx = 0;
+Node nodearray[10000];
+Node* allocNode() {
+	return &amp;nodearray[nodeidx++];
+};
 
-<h3 id="browser-support">Browser support</h3>
+// 메인 함수
+int main() {
 
-<p>Lanyon is by preference a forward-thinking project. In addition to the latest versions of Chrome, Safari (mobile and desktop), and Firefox, it is only compatible with Internet Explorer 9 and above.</p>
+	int N;
+	scanf("%d", &amp;N);
 
-<h3 id="download">Download</h3>
+	Node* head = '\0';
+	Node* tail = '\0';
 
-<p>Lanyon is developed on and hosted with GitHub. Head to the <a href="https://github.com/poole/lanyon">GitHub repository</a> for downloads, bug reports, and features requests.</p>
+	char order[6];
+	int count = 0;
+	while (N--) {
+		scanf("%s", order);
 
-<p>Thanks!</p>
+		// 새로운 노드 생성해서 큐에 PUSH
+		if (order[1] == 'u') {
+			int data;
+			scanf("%d", &amp;data);
+			Node* node = allocNode();
+			node-&gt;data = data;
+			if (count == 0) {
+				head = node;
+				tail = node;
+			} else {
+				tail-&gt;next = node;
+				tail = node;
+			}
+			count++;
+
+		// 상위 노드(head) POP
+		} else if (order[0] == 'p') {
+			if (count == 0) printf("-1\n");
+			else {
+				printf("%d\n", head-&gt;data);
+				head = head-&gt;next;
+				count--;
+			}
+
+		// 큐에 있는 노드 갯수 출력
+		} else if (order[0] == 's') {
+			printf("%d\n", count);
+
+		// 큐가 비어 있는지 출력
+		} else if (order[0] == 'e') {
+			if (count == 0) printf("1\n");
+			else printf("0\n");
+
+		// 상위 노드(head) 값 출력
+		} else if (order[0] == 'f') {
+			if (count == 0) printf("-1\n");
+			else {
+				printf("%d\n", head-&gt;data);
+			}
+
+		// 마지막 노드(tail) 값 출력
+		} else if (order[0] == 'b') {
+			if (count == 0) printf("-1\n");
+			else {
+				printf("%d\n", tail-&gt;data);
+			}
+		}
+	};
+	return 0;
+}
+</code></pre></div></div>
 
     <article>
     <div class="post-more">
       
-      <a href="/android/2014/01/02/introducing-lanyon/#disqus_thread"> <i class="fa fa-comments" aria-hidden="true"></i>Comment</a>&nbsp;
+      <a href="/algorithm/2018/12/10/backjoon-queue-10845/#disqus_thread"> <i class="fa fa-comments" aria-hidden="true"></i>Comment</a>&nbsp;
       
-      <a href="/android/2014/01/02/introducing-lanyon/"><i class="fa fa-plus-circle" aria-hidden="true"></i>Read more</a>
+      <a href="/algorithm/2018/12/10/backjoon-queue-10845/"><i class="fa fa-plus-circle" aria-hidden="true"></i>Read more</a>
     </div>
   </div>
   
   <div class="post">
     <h1 class="post-title">
-      <a href="/android/2014/01/01/example-content/">
+      <a href="/daily/2018/12/01/example-content/">
         Example content
       </a>
     </h1>
 
-    <span class="post-date">01 Jan 2014</span>
+    <span class="post-date">01 Dec 2018</span>
      | 
     
-    <a href="/blog/tags/#android" class="post-tag">Android</a>
+    <a href="/blog/tags/#markdown" class="post-tag">MarkDown</a>
     
     
 
@@ -585,39 +742,9 @@ adder(2, 6);
     <article>
     <div class="post-more">
       
-      <a href="/android/2014/01/01/example-content/#disqus_thread"> <i class="fa fa-comments" aria-hidden="true"></i>Comment</a>&nbsp;
+      <a href="/daily/2018/12/01/example-content/#disqus_thread"> <i class="fa fa-comments" aria-hidden="true"></i>Comment</a>&nbsp;
       
-      <a href="/android/2014/01/01/example-content/"><i class="fa fa-plus-circle" aria-hidden="true"></i>Read more</a>
-    </div>
-  </div>
-  
-  <div class="post">
-    <h1 class="post-title">
-      <a href="/android/2013/12/31/whats-jekyll/">
-        안녕하세요. 폰트 테스트.
-      </a>
-    </h1>
-
-    <span class="post-date">31 Dec 2013</span>
-     | 
-    
-    <a href="/blog/tags/#android" class="post-tag">Android</a>
-    
-    
-
-    <article>
-      <p>갑 천하를 피가 쓸쓸하랴? 굳세게 풍부하게 찬미를 고행을 충분히 듣기만 그러므로 사랑의 것이다. 있는 우리의 영락과 많이 보이는 피다. 전인 내려온 열락의 피가 인간의 청춘의 밝은 있음으로써 대중을 말이다. 곳으로 찾아 싸인 영락과 들어 황금시대다. 뜨거운지라, 이상은 소금이라 새가 얼마나 있다. 피고, 타오르고 우리는 품고 관현악이며, 부패뿐이다. 있는 스며들어 피가 이 능히 공자는 것이다. 위하여 광야에서 없으면 것은 철환하였는가? 되려니와, 몸이 않는 있는 사막이다.</p>
-
-<p>소담스러운 심장은 있는 희망의 구할 힘있다. 뜨거운지라, 것이 거선의 불어 창공에 별과 보라. 방지하는 맺어, 실현에 인생의 품에 운다. 길지 쓸쓸한 눈이 몸이 새 수 이 어디 돋고, 끓는다. 되는 별과 할지니, 몸이 길지 피다. 천지는 크고 맺어, 이것이야말로 그와 있으며, 목숨을 뜨고, 피다. 때까지 희망의 있음으로써 이것을 말이다. 피가 그것은 이것을 주는 구하기 목숨을 장식하는 없으면 내려온 이것이다. 옷을 수 같지 아름다우냐? 있음으로써 가치를 목숨을 뿐이다. 들어 온갖 위하여 피부가 꽃 옷을 석가는 무엇을 내는 부패뿐이다.</p>
-
-<p>옷을 우리 그들에게 피고 얼음 듣는다. 크고 원질이 꾸며 할지니, 이것이다. 이상의 이상은 이상, 피가 가슴에 그들은 끓는다. 못하다 별과 스며들어 청춘은 그러므로 역사를 간에 그것을 원질이 봄바람이다. 것이 새 위하여서, 자신과 위하여서 위하여 바로 피가 온갖 것이다. 사랑의 설산에서 풀이 그들은 어디 부패를 하는 봄날의 없는 봄바람이다. 얼음 꽃 위하여 동산에는 풍부하게 보는 같으며, 인생을 듣는다. 불어 부패를 수 맺어, 없으면 자신과 아니다. 굳세게 인생에 동력은 봄바람이다. 굳세게 이것이야말로 별과 이상 인생을 끓는 있다. 못할 아니한 같이, 봄바람이다.</p>
-
-    <article>
-    <div class="post-more">
-      
-      <a href="/android/2013/12/31/whats-jekyll/#disqus_thread"> <i class="fa fa-comments" aria-hidden="true"></i>Comment</a>&nbsp;
-      
-      <a href="/android/2013/12/31/whats-jekyll/"><i class="fa fa-plus-circle" aria-hidden="true"></i>Read more</a>
+      <a href="/daily/2018/12/01/example-content/"><i class="fa fa-plus-circle" aria-hidden="true"></i>Read more</a>
     </div>
   </div>
   

@@ -4,13 +4,82 @@
  <title>안녕지구</title>
  <link href="http://localhost:4000/atom.xml" rel="self"/>
  <link href="http://localhost:4000/"/>
- <updated>2018-12-10T22:39:57+09:00</updated>
+ <updated>2018-12-10T23:17:02+09:00</updated>
  <id>http://localhost:4000</id>
  <author>
    <name>안녕지구</name>
    <email></email>
  </author>
 
+ 
+ <entry>
+   <title>백준 알고리즘 - 스택 수열(1874)</title>
+   <link href="http://localhost:4000/algorithm/2018/12/10/backjoon-stack-series-1874/"/>
+   <updated>2018-12-10T00:00:00+09:00</updated>
+   <id>http://localhost:4000/algorithm/2018/12/10/backjoon-stack-series-1874</id>
+   <content type="html">&lt;p&gt;구조체 배열이 아닌 단순 &lt;strong&gt;배열&lt;/strong&gt;을 사용해서 구현한 스택 수열 알고리즘 코드입니다.&lt;/p&gt;
+
+&lt;h2 id=&quot;배열과-헤드위치-선언&quot;&gt;배열과 헤드위치 선언&lt;/h2&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;int stack[100005];
+int head = 0;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;전체-코드&quot;&gt;전체 코드&lt;/h2&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;#include &amp;lt;stdio.h&amp;gt;
+
+int stack[100005];
+int head = 0;
+
+int main() {
+
+	int n;
+	scanf(&quot;%d&quot;, &amp;amp;n);
+
+	int inc = 1;
+
+	int outputIdx = 0;
+	char output[500005];
+	bool isFailed = false;
+
+	while(n--) {
+
+		int number;
+		scanf(&quot;%d&quot;, &amp;amp;number);
+
+		// 수열이 형성되지 못하는 경우 체크
+		if (head &amp;lt; 0 || number &amp;lt; stack[head]) {
+			isFailed = true;
+			break;;
+		}
+
+		// 출력(POP)되어야 할 숫자(number)가 스택에 들어갈 때까지 PUSH
+		while (stack[head] &amp;lt; number) {
+			output[outputIdx++] = '+';
+			stack[++head] = inc;
+			inc++;
+		}
+		
+		// 숫자(number)를 출력(POP)
+		while (stack[head] &amp;gt;= number) {
+			output[outputIdx++] = '-';
+			head--;
+		}
+
+	}
+
+	if (isFailed) {
+		printf(&quot;NO\n&quot;);
+	} else {
+		for (int i = 0; i &amp;lt; outputIdx; i++ ) {
+			printf(&quot;%c\n&quot;, output[i]);
+		}
+	}
+	return 0;
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+</content>
+ </entry>
  
  <entry>
    <title>백준 알고리즘 - 스택(10828)</title>
@@ -111,55 +180,118 @@ int main() {
  </entry>
  
  <entry>
-   <title>Introducing Lanyon</title>
-   <link href="http://localhost:4000/android/2014/01/02/introducing-lanyon/"/>
-   <updated>2014-01-02T00:00:00+09:00</updated>
-   <id>http://localhost:4000/android/2014/01/02/introducing-lanyon</id>
-   <content type="html">&lt;p&gt;Lanyon is an unassuming &lt;a href=&quot;http://jekyllrb.com&quot;&gt;Jekyll&lt;/a&gt; theme that places content first by tucking away navigation in a hidden drawer. It’s based on &lt;a href=&quot;http://getpoole.com&quot;&gt;Poole&lt;/a&gt;, the Jekyll butler.&lt;/p&gt;
+   <title>백준 알고리즘 - 큐(10845)</title>
+   <link href="http://localhost:4000/algorithm/2018/12/10/backjoon-queue-10845/"/>
+   <updated>2018-12-10T00:00:00+09:00</updated>
+   <id>http://localhost:4000/algorithm/2018/12/10/backjoon-queue-10845</id>
+   <content type="html">&lt;p&gt;&lt;a href=&quot;../backjoon-stack-10828/&quot;&gt;스택(10828)&lt;/a&gt;과 마찬가지로 간단한 &lt;strong&gt;링크드 리스트&lt;/strong&gt;를 이용해서 구현한 &lt;strong&gt;큐&lt;/strong&gt;입니다. 배열을 사용해서 더 간단하게도 구현 가능하지만 &lt;strong&gt;구조체 배열&lt;/strong&gt;을 연습하고자 링크드 리스트를 사용했습니다.&lt;/p&gt;
 
-&lt;h3 id=&quot;built-on-poole&quot;&gt;Built on Poole&lt;/h3&gt;
+&lt;h2 id=&quot;구조체-배열&quot;&gt;구조체 배열&lt;/h2&gt;
 
-&lt;p&gt;Poole is the Jekyll Butler, serving as an upstanding and effective foundation for Jekyll themes by &lt;a href=&quot;https://twitter.com/mdo&quot;&gt;@mdo&lt;/a&gt;. Poole, and every theme built on it (like Lanyon here) includes the following:&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;// 정적이지만 동적할당처럼 사용하는 구조체 배열
+typedef struct node {
+	int data;
+	node* next;
+} Node;
 
-&lt;ul&gt;
-  &lt;li&gt;Complete Jekyll setup included (layouts, config, &lt;a href=&quot;/404&quot;&gt;404&lt;/a&gt;, &lt;a href=&quot;/atom.xml&quot;&gt;RSS feed&lt;/a&gt;, posts, and &lt;a href=&quot;/about&quot;&gt;example page&lt;/a&gt;)&lt;/li&gt;
-  &lt;li&gt;Mobile friendly design and development&lt;/li&gt;
-  &lt;li&gt;Easily scalable text and component sizing with &lt;code class=&quot;highlighter-rouge&quot;&gt;rem&lt;/code&gt; units in the CSS&lt;/li&gt;
-  &lt;li&gt;Support for a wide gamut of HTML elements&lt;/li&gt;
-  &lt;li&gt;Related posts (time-based, because Jekyll) below each post&lt;/li&gt;
-  &lt;li&gt;Syntax highlighting, courtesy Pygments (the Python-based code snippet highlighter)&lt;/li&gt;
-&lt;/ul&gt;
+int nodeIndex = 0;
+Node nodeArray[10000];
+Node* allocNode() {
+	return &amp;amp;nodeArray[nodeIndex++];
+};
 
-&lt;h3 id=&quot;lanyon-features&quot;&gt;Lanyon features&lt;/h3&gt;
+// 아래와 같이 사용할 수 있습니다.
+Node* node = allocNode();
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
-&lt;p&gt;In addition to the features of Poole, Lanyon adds the following:&lt;/p&gt;
+&lt;h2 id=&quot;전체-코드&quot;&gt;전체 코드&lt;/h2&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;#include &amp;lt;stdio.h&amp;gt;
 
-&lt;ul&gt;
-  &lt;li&gt;Toggleable sliding sidebar (built with only CSS) via &lt;strong&gt;☰&lt;/strong&gt; link in top corner&lt;/li&gt;
-  &lt;li&gt;Sidebar includes support for textual modules and a dynamically generated navigation with active link support&lt;/li&gt;
-  &lt;li&gt;Two orientations for content and sidebar, default (left sidebar) and &lt;a href=&quot;https://github.com/poole/lanyon#reverse-layout&quot;&gt;reverse&lt;/a&gt; (right sidebar), available via &lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;lt;body&amp;gt;&lt;/code&gt; classes&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;https://github.com/poole/lanyon#themes&quot;&gt;Eight optional color schemes&lt;/a&gt;, available via &lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;lt;body&amp;gt;&lt;/code&gt; classes&lt;/li&gt;
-&lt;/ul&gt;
+// 구조체 배열
+typedef struct node {
+	int data;
+	node* next;
+} Node;
 
-&lt;p&gt;&lt;a href=&quot;https://github.com/poole/lanyon#readme&quot;&gt;Head to the readme&lt;/a&gt; to learn more.&lt;/p&gt;
+int nodeidx = 0;
+Node nodearray[10000];
+Node* allocNode() {
+	return &amp;amp;nodearray[nodeidx++];
+};
 
-&lt;h3 id=&quot;browser-support&quot;&gt;Browser support&lt;/h3&gt;
+// 메인 함수
+int main() {
 
-&lt;p&gt;Lanyon is by preference a forward-thinking project. In addition to the latest versions of Chrome, Safari (mobile and desktop), and Firefox, it is only compatible with Internet Explorer 9 and above.&lt;/p&gt;
+	int N;
+	scanf(&quot;%d&quot;, &amp;amp;N);
 
-&lt;h3 id=&quot;download&quot;&gt;Download&lt;/h3&gt;
+	Node* head = '\0';
+	Node* tail = '\0';
 
-&lt;p&gt;Lanyon is developed on and hosted with GitHub. Head to the &lt;a href=&quot;https://github.com/poole/lanyon&quot;&gt;GitHub repository&lt;/a&gt; for downloads, bug reports, and features requests.&lt;/p&gt;
+	char order[6];
+	int count = 0;
+	while (N--) {
+		scanf(&quot;%s&quot;, order);
 
-&lt;p&gt;Thanks!&lt;/p&gt;
+		// 새로운 노드 생성해서 큐에 PUSH
+		if (order[1] == 'u') {
+			int data;
+			scanf(&quot;%d&quot;, &amp;amp;data);
+			Node* node = allocNode();
+			node-&amp;gt;data = data;
+			if (count == 0) {
+				head = node;
+				tail = node;
+			} else {
+				tail-&amp;gt;next = node;
+				tail = node;
+			}
+			count++;
+
+		// 상위 노드(head) POP
+		} else if (order[0] == 'p') {
+			if (count == 0) printf(&quot;-1\n&quot;);
+			else {
+				printf(&quot;%d\n&quot;, head-&amp;gt;data);
+				head = head-&amp;gt;next;
+				count--;
+			}
+
+		// 큐에 있는 노드 갯수 출력
+		} else if (order[0] == 's') {
+			printf(&quot;%d\n&quot;, count);
+
+		// 큐가 비어 있는지 출력
+		} else if (order[0] == 'e') {
+			if (count == 0) printf(&quot;1\n&quot;);
+			else printf(&quot;0\n&quot;);
+
+		// 상위 노드(head) 값 출력
+		} else if (order[0] == 'f') {
+			if (count == 0) printf(&quot;-1\n&quot;);
+			else {
+				printf(&quot;%d\n&quot;, head-&amp;gt;data);
+			}
+
+		// 마지막 노드(tail) 값 출력
+		} else if (order[0] == 'b') {
+			if (count == 0) printf(&quot;-1\n&quot;);
+			else {
+				printf(&quot;%d\n&quot;, tail-&amp;gt;data);
+			}
+		}
+	};
+	return 0;
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 </content>
  </entry>
  
  <entry>
    <title>Example content</title>
-   <link href="http://localhost:4000/android/2014/01/01/example-content/"/>
-   <updated>2014-01-01T00:00:00+09:00</updated>
-   <id>http://localhost:4000/android/2014/01/01/example-content</id>
+   <link href="http://localhost:4000/daily/2018/12/01/example-content/"/>
+   <updated>2018-12-01T00:00:00+09:00</updated>
+   <id>http://localhost:4000/daily/2018/12/01/example-content</id>
    <content type="html">&lt;div class=&quot;message&quot;&gt;
   Howdy! This is an example blog post that shows several types of HTML content supported in this theme.
 &lt;/div&gt;
@@ -283,19 +415,6 @@ adder(2, 6);
 &lt;hr /&gt;
 
 &lt;p&gt;Want to see something else added? &lt;a href=&quot;https://github.com/poole/poole/issues/new&quot;&gt;Open an issue.&lt;/a&gt;&lt;/p&gt;
-</content>
- </entry>
- 
- <entry>
-   <title>안녕하세요. 폰트 테스트.</title>
-   <link href="http://localhost:4000/android/2013/12/31/whats-jekyll/"/>
-   <updated>2013-12-31T00:00:00+09:00</updated>
-   <id>http://localhost:4000/android/2013/12/31/whats-jekyll</id>
-   <content type="html">&lt;p&gt;갑 천하를 피가 쓸쓸하랴? 굳세게 풍부하게 찬미를 고행을 충분히 듣기만 그러므로 사랑의 것이다. 있는 우리의 영락과 많이 보이는 피다. 전인 내려온 열락의 피가 인간의 청춘의 밝은 있음으로써 대중을 말이다. 곳으로 찾아 싸인 영락과 들어 황금시대다. 뜨거운지라, 이상은 소금이라 새가 얼마나 있다. 피고, 타오르고 우리는 품고 관현악이며, 부패뿐이다. 있는 스며들어 피가 이 능히 공자는 것이다. 위하여 광야에서 없으면 것은 철환하였는가? 되려니와, 몸이 않는 있는 사막이다.&lt;/p&gt;
-
-&lt;p&gt;소담스러운 심장은 있는 희망의 구할 힘있다. 뜨거운지라, 것이 거선의 불어 창공에 별과 보라. 방지하는 맺어, 실현에 인생의 품에 운다. 길지 쓸쓸한 눈이 몸이 새 수 이 어디 돋고, 끓는다. 되는 별과 할지니, 몸이 길지 피다. 천지는 크고 맺어, 이것이야말로 그와 있으며, 목숨을 뜨고, 피다. 때까지 희망의 있음으로써 이것을 말이다. 피가 그것은 이것을 주는 구하기 목숨을 장식하는 없으면 내려온 이것이다. 옷을 수 같지 아름다우냐? 있음으로써 가치를 목숨을 뿐이다. 들어 온갖 위하여 피부가 꽃 옷을 석가는 무엇을 내는 부패뿐이다.&lt;/p&gt;
-
-&lt;p&gt;옷을 우리 그들에게 피고 얼음 듣는다. 크고 원질이 꾸며 할지니, 이것이다. 이상의 이상은 이상, 피가 가슴에 그들은 끓는다. 못하다 별과 스며들어 청춘은 그러므로 역사를 간에 그것을 원질이 봄바람이다. 것이 새 위하여서, 자신과 위하여서 위하여 바로 피가 온갖 것이다. 사랑의 설산에서 풀이 그들은 어디 부패를 하는 봄날의 없는 봄바람이다. 얼음 꽃 위하여 동산에는 풍부하게 보는 같으며, 인생을 듣는다. 불어 부패를 수 맺어, 없으면 자신과 아니다. 굳세게 인생에 동력은 봄바람이다. 굳세게 이것이야말로 별과 이상 인생을 끓는 있다. 못할 아니한 같이, 봄바람이다.&lt;/p&gt;
 </content>
  </entry>
  
