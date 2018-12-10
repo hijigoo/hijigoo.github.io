@@ -4,13 +4,111 @@
  <title>안녕지구</title>
  <link href="http://localhost:4000/atom.xml" rel="self"/>
  <link href="http://localhost:4000/"/>
- <updated>2018-12-10T00:31:09+09:00</updated>
+ <updated>2018-12-10T22:39:57+09:00</updated>
  <id>http://localhost:4000</id>
  <author>
    <name>안녕지구</name>
    <email></email>
  </author>
 
+ 
+ <entry>
+   <title>백준 알고리즘 - 스택(10828)</title>
+   <link href="http://localhost:4000/algorithm/2018/12/10/backjoon-stack-10828/"/>
+   <updated>2018-12-10T00:00:00+09:00</updated>
+   <id>http://localhost:4000/algorithm/2018/12/10/backjoon-stack-10828</id>
+   <content type="html">&lt;p&gt;간단한 &lt;strong&gt;링크드 리스트&lt;/strong&gt;를 이용해서 구현한 &lt;strong&gt;스택&lt;/strong&gt;입니다. 배열을 사용해서 더 간단하게도 구현 가능하지만 &lt;strong&gt;구조체 배열&lt;/strong&gt;을 연습하고자 링크드 리스트를 사용했습니다.&lt;/p&gt;
+
+&lt;h2 id=&quot;구조체-배열&quot;&gt;구조체 배열&lt;/h2&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;// 정적이지만 동적할당처럼 사용하는 구조체 배열
+typedef struct node {
+	int data;
+	node* next;
+} Node;
+
+int nodeIndex = 0;
+Node nodeArray[10000];
+Node* allocNode() {
+	return &amp;amp;nodeArray[nodeIndex++];
+};
+
+// 아래와 같이 사용할 수 있습니다.
+Node* node = allocNode();
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;전체-코드&quot;&gt;전체 코드&lt;/h2&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;#include &amp;lt;cstring&amp;gt;
+#include &amp;lt;stdio.h&amp;gt;
+
+// 구조체 배열
+typedef struct node {
+	int data;
+	node* next;
+} Node;
+
+int nodeIndex = 0;
+Node nodeArray[10000];
+Node* allocNode() {
+	return &amp;amp;nodeArray[nodeIndex++];
+};
+
+// 메인 함수
+int main() {
+
+	int N;
+	scanf(&quot;%d&quot;, &amp;amp;N);
+
+
+	Node* head = '\0';
+	char order[10];
+	int count = 0;
+	while (N--) {
+		scanf(&quot;%s&quot;, order);
+
+		if (order[1] == 'u') {
+			int data;
+			scanf(&quot;%d&quot;, &amp;amp;data);
+			Node* node = allocNode();
+			node-&amp;gt;data = data;
+
+			if (count == 0) {
+				head = node;
+			} else {
+				node-&amp;gt;next = head;
+				head = node;
+			}
+			count++;
+		} else if (order[0] == 'p') {
+			if (head == '\0') {
+				printf(&quot;%d\n&quot;, -1);
+			} else {
+				printf(&quot;%d\n&quot;, head-&amp;gt;data);
+				head = head-&amp;gt;next;
+				count--;
+			}
+		} else if (order[0] == 's') {
+			printf(&quot;%d\n&quot;, count);
+		} else if (order[0] == 'e') {
+			if (count == 0) {
+				printf(&quot;%d\n&quot;, 1);
+			} else {
+				printf(&quot;%d\n&quot;, 0);
+			}
+		} else if (order[0] == 't') {
+			if (count == 0) {
+				printf(&quot;%d\n&quot;, -1);
+			} else {
+				printf(&quot;%d\n&quot;, head-&amp;gt;data);
+			}
+		}
+	};
+
+	return 0;
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+</content>
+ </entry>
  
  <entry>
    <title>Introducing Lanyon</title>

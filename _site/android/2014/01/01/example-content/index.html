@@ -41,7 +41,10 @@ MathJax.Hub.Config({ tex2jax: { inlineMath: [ ['$','$'], ["\\(","\\)"] ], proces
   <!-- Highlighter -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/styles/atom-one-dark.min.css" />
   <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.11.0/highlight.min.js"></script>
-  <script>hljs.initHighlightingOnLoad();</script>
+  <script>
+    hljs.initHighlightingOnLoad();
+    hljs.configure({tabReplace: '    '})
+  </script>
 
   <!-- Custom -->
   <link rel="stylesheet" href="/public/css/custom.css">
@@ -152,7 +155,7 @@ MathJax.Hub.Config({ tex2jax: { inlineMath: [ ['$','$'], ["\\(","\\)"] ], proces
                 (
                   
                   
-                  0
+                  1
                 )
               </a>
           
@@ -396,6 +399,15 @@ adder(2, 6);
 <div class="related">
   <h2>Related Posts</h2>
   <ul class="related-posts">
+    
+      <li>
+        <h3>
+          <a href="/algorithm/2018/12/10/backjoon-stack-10828/">
+            백준 알고리즘 - 스택(10828)
+            <small>10 Dec 2018</small>
+          </a>
+        </h3>
+      </li>
     
       <li>
         <h3>
