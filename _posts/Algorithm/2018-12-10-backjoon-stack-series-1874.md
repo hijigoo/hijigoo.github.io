@@ -41,17 +41,20 @@ int main() {
 		int number;
 		scanf("%d", &number);
 
+		// 수열이 형성되지 못하는 경우 체크
 		if (head < 0 || number < stack[head]) {
 			isFailed = true;
 			break;;
 		}
 
+		// 출력(POP)되어야 할 숫자(number)가 스택에 들어갈 때까지 PUSH
 		while (stack[head] < number) {
 			output[outputIdx++] = '+';
 			stack[++head] = inc;
 			inc++;
 		}
-
+		
+		// 숫자(number)를 출력(POP)
 		while (stack[head] >= number) {
 			output[outputIdx++] = '-';
 			head--;
