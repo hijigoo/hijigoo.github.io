@@ -4,7 +4,7 @@
  <title>안녕지구</title>
  <link href="http://localhost:4000/atom.xml" rel="self"/>
  <link href="http://localhost:4000/"/>
- <updated>2018-12-10T23:17:02+09:00</updated>
+ <updated>2018-12-13T02:28:10+09:00</updated>
  <id>http://localhost:4000</id>
  <author>
    <name>안녕지구</name>
@@ -13,10 +13,165 @@
 
  
  <entry>
-   <title>백준 알고리즘 - 스택 수열(1874)</title>
-   <link href="http://localhost:4000/algorithm/2018/12/10/backjoon-stack-series-1874/"/>
+   <title>포스팅을 시작하면서</title>
+   <link href="http://localhost:4000/bixby/2018/12/13/intro/"/>
+   <updated>2018-12-13T00:00:00+09:00</updated>
+   <id>http://localhost:4000/bixby/2018/12/13/intro</id>
+   <content type="html">&lt;h2 id=&quot;포스팅을-시작하면서&quot;&gt;포스팅을 시작하면서&lt;/h2&gt;
+
+&lt;p&gt;안녕하세요. 블로그를 시작하면서 어떤 내용을 정리하면 좋을지 고민했었습니다. 그러다가 현재 개발하고 있으면서, 동시에 자료가 없어서 고생중인 ‘빅스비 캡슐’개발에 대해 정리하면 좋겠다는 생각을 했습니다. 공부도 하면서 (개발하는 사람은 적더라도)공유하는 공간을 만들면 의미가 있을 것이라고 생각합니다.&lt;/p&gt;
+
+&lt;div class=&quot;message&quot;&gt;
+빅스비 캡슐(Capsule)은 빅스비 위에서 동작하는 어플리케이션입니다.*
+&lt;/div&gt;
+
+&lt;h2 id=&quot;인공지능--딥러닝&quot;&gt;[인공지능 == 딥러닝]?&lt;/h2&gt;
+
+&lt;p&gt;개인적으로 딥러닝에 관심을 가지며 조금씩 공부하고 있지만 딥러닝이 인공지능의 전부는 아니라고 생각합니다. 이미 많은 사람들이 
+&lt;a href=&quot;https://translate.google.co.kr/&quot;&gt;번역&lt;/a&gt;, 
+화질 개선, 얼굴 인식 
+등 (매우 놀라운)딥러닝 기술을 다양한 곳에서 접하고 있지만 우리가 어릴때부터 상상해왔던 인공지능과는 조금 달라 보입니다. 우리가 상상했던 인공지능은 &lt;a href=&quot;https://www.youtube.com/watch?v=LikxFZZO2sk&quot;&gt;Parkour Atlas&lt;/a&gt;와 같은 &lt;strong&gt;로봇&lt;/strong&gt;이나 &lt;a href=&quot;https://assistant.google.com/&quot;&gt;Google Assistance&lt;/a&gt;, &lt;a href=&quot;https://developer.amazon.com/alexa&quot;&gt;Alexa&lt;/a&gt; 혹은 &lt;a href=&quot;https://kakao.ai/&quot;&gt;카카오 미니&lt;/a&gt;와 같이 사람과 대화를 주고 받는 &lt;strong&gt;AI 비서&lt;/strong&gt;에 더 가깝지 않았나요?&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/2018-12-13-intro/robot.jpeg&quot; alt=&quot;image&quot; /&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;인공지능을-modeling&quot;&gt;인공지능을 Modeling&lt;/h2&gt;
+
+&lt;p&gt;일 년 전 쯤에 회사 동료 한분과 함께 서울대 연구소에서 진행한 ‘NLP 딥러닝’ 세미나를 다녀온 적이 있었는데요, 그 당시 인공지능이라고 말하는 챗봇은 [&lt;em&gt;switch case&lt;/em&gt;] 가 90% 이상이라는 얘기를 들었습니다. 하지만, 요즘 챗봇 Builder 와 마찬가지로 빅스비도 독립적인 개발 방식을 보입니다. 모든 실행 Flow을 개발자가 직접적으로 프로그래밍하여 제어하는 것이 아닌, 개발자는 일부 코드와 &lt;strong&gt;Modeling&lt;/strong&gt;을 제공하면 빅스비가 내부 규칙에 따라서 Flow를 구성해 실행합니다. 사실 이 전통적인 프로그래밍과 다른 방식 때문에 개발하다보면 답답하기도 하고 화나기도 하고 심지어 전체 구조를 뒤집을 때도 있습니다. 하지만 조금씩 적응하다보면 매력을 느낄 수 있을 것이라고 생각합니다.&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;Developing for Bixby is different than traditional software development because you’re not writing the program; the Artificial Intelligence (AI) is. You perform modeling, which is how you teach Bixby about the domain you’re implementing. Using your models, and those of other developers, Bixby constructs a program that satisfies the user’s specific request in milliseconds the moment the request is made. As a developer, your job is to teach Bixby how to write these programs.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h2 id=&quot;앞으로&quot;&gt;앞으로&lt;/h2&gt;
+&lt;p&gt;스스로도 많이 공부하고, 도움을 드릴 수 있는 기회가 되었으면 좋겠습니다. 감사합니다.&lt;/p&gt;
+</content>
+ </entry>
+ 
+ <entry>
+   <title>BOJ - 최대 힙(11279)</title>
+   <link href="http://localhost:4000/algorithm/2018/12/11/boj-max-heap-11279/"/>
+   <updated>2018-12-11T00:00:00+09:00</updated>
+   <id>http://localhost:4000/algorithm/2018/12/11/boj-max-heap-11279</id>
+   <content type="html">&lt;p&gt;&lt;strong&gt;배열&lt;/strong&gt;을 사용해서 간단하게 구현한 &lt;strong&gt;최대 힙(MaxHeap)&lt;/strong&gt;입니다. 코드의 길이를 줄이기 보다는 가독성을 높이는 방향으로 작성하다보니 전체 코드 라인이 길어졌습니다.&lt;/p&gt;
+
+&lt;div class=&quot;message&quot;&gt;
+힙이 가득찬 상태에서 자식 노드의 위치를 가져올 때 배열의 Index를 넘어서 런타임 에러가 발생했습니다. 따로 로직을 추가해서 처리해도 되지만 메모리가 충분하기 때문에 배열의 크기를 (최대 힙 크기 * 2 + 1) 이상으로 잡았습니다.
+&lt;/div&gt;
+
+&lt;h2 id=&quot;전체-코드&quot;&gt;전체 코드&lt;/h2&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;#include &amp;lt;stdio.h&amp;gt;
+
+// 최대힙 초기화
+int maxHeap[200005];
+int lastIdx = 0;
+
+// 자식 노드 Index 
+int getLeftChild(int idx) {
+	return idx * 2;
+}
+
+int getRightChild(int idx) {
+	return idx * 2 + 1;
+}
+
+// 부모 노드 Index 
+int getParent(int idx) {
+	return idx / 2;
+}
+
+// 교환하는 함수
+void swap(int idx1, int idx2, int* arr) {
+	int tmp = arr[idx1];
+	arr[idx1] = arr[idx2];
+	arr[idx2] = tmp;
+}
+
+// dequeue 함수
+int dequeue() {
+	
+	if (lastIdx == 0) return 0;
+
+	int head = maxHeap[1];
+	maxHeap[1] = maxHeap[lastIdx];
+	maxHeap[lastIdx] = 0;
+	lastIdx--;
+
+	int curIdx = 1;
+	while (true) {
+		int rIdx = getRightChild(curIdx);
+		int lIdx = getLeftChild(curIdx);
+
+		int curVal = maxHeap[curIdx];
+		int rVal = maxHeap[rIdx];
+		int lVal = maxHeap[lIdx];
+		
+		int nextIdx = rVal &amp;gt; lVal ? rIdx : lIdx;
+		int nextVal = maxHeap[nextIdx];
+		if (curVal &amp;lt; nextVal) {
+			swap(curIdx, nextIdx, maxHeap);
+			curIdx = nextIdx;
+		} else {
+			break;
+		}
+	}
+
+	return head;
+}
+
+// enqueue 함수
+void enqueue(int val) {
+	lastIdx++;
+	maxHeap[lastIdx] = val;
+
+	int curIdx = lastIdx;
+	while (true) {
+		if (curIdx == 1) break;
+
+		int pIdx = getParent(curIdx);
+		
+		int curVal = maxHeap[curIdx];
+		int pVal = maxHeap[pIdx];
+
+		int nextIdx = pIdx;
+		int nextVal = maxHeap[nextIdx];
+		if (curVal &amp;gt; nextVal) {
+			swap(curIdx, nextIdx, maxHeap);
+			curIdx = nextIdx;
+		} else {
+			break;
+		}
+	}
+}
+
+
+int main() {
+	
+	int N;
+	scanf(&quot;%d&quot;, &amp;amp;N);
+
+	while (N--) {
+		int x;
+		scanf(&quot;%d&quot;, &amp;amp;x);
+
+		if (x &amp;gt; 0) {
+			enqueue(x);
+		} else if (x == 0) {
+			int val = dequeue();
+			printf(&quot;%d\n&quot;, val);
+		}
+	}
+
+	return 0;
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+</content>
+ </entry>
+ 
+ <entry>
+   <title>BOJ - 스택 수열(1874)</title>
+   <link href="http://localhost:4000/algorithm/2018/12/10/boj-stack-series-1874/"/>
    <updated>2018-12-10T00:00:00+09:00</updated>
-   <id>http://localhost:4000/algorithm/2018/12/10/backjoon-stack-series-1874</id>
+   <id>http://localhost:4000/algorithm/2018/12/10/boj-stack-series-1874</id>
    <content type="html">&lt;p&gt;구조체 배열이 아닌 단순 &lt;strong&gt;배열&lt;/strong&gt;을 사용해서 구현한 스택 수열 알고리즘 코드입니다.&lt;/p&gt;
 
 &lt;h2 id=&quot;배열과-헤드위치-선언&quot;&gt;배열과 헤드위치 선언&lt;/h2&gt;
@@ -82,10 +237,10 @@ int main() {
  </entry>
  
  <entry>
-   <title>백준 알고리즘 - 스택(10828)</title>
-   <link href="http://localhost:4000/algorithm/2018/12/10/backjoon-stack-10828/"/>
+   <title>BOJ - 스택(10828)</title>
+   <link href="http://localhost:4000/algorithm/2018/12/10/boj-stack-10828/"/>
    <updated>2018-12-10T00:00:00+09:00</updated>
-   <id>http://localhost:4000/algorithm/2018/12/10/backjoon-stack-10828</id>
+   <id>http://localhost:4000/algorithm/2018/12/10/boj-stack-10828</id>
    <content type="html">&lt;p&gt;간단한 &lt;strong&gt;링크드 리스트&lt;/strong&gt;를 이용해서 구현한 &lt;strong&gt;스택&lt;/strong&gt;입니다. 배열을 사용해서 더 간단하게도 구현 가능하지만 &lt;strong&gt;구조체 배열&lt;/strong&gt;을 연습하고자 링크드 리스트를 사용했습니다.&lt;/p&gt;
 
 &lt;h2 id=&quot;구조체-배열&quot;&gt;구조체 배열&lt;/h2&gt;
@@ -180,10 +335,10 @@ int main() {
  </entry>
  
  <entry>
-   <title>백준 알고리즘 - 큐(10845)</title>
-   <link href="http://localhost:4000/algorithm/2018/12/10/backjoon-queue-10845/"/>
+   <title>BOJ - 큐(10845)</title>
+   <link href="http://localhost:4000/algorithm/2018/12/10/boj-queue-10845/"/>
    <updated>2018-12-10T00:00:00+09:00</updated>
-   <id>http://localhost:4000/algorithm/2018/12/10/backjoon-queue-10845</id>
+   <id>http://localhost:4000/algorithm/2018/12/10/boj-queue-10845</id>
    <content type="html">&lt;p&gt;&lt;a href=&quot;../backjoon-stack-10828/&quot;&gt;스택(10828)&lt;/a&gt;과 마찬가지로 간단한 &lt;strong&gt;링크드 리스트&lt;/strong&gt;를 이용해서 구현한 &lt;strong&gt;큐&lt;/strong&gt;입니다. 배열을 사용해서 더 간단하게도 구현 가능하지만 &lt;strong&gt;구조체 배열&lt;/strong&gt;을 연습하고자 링크드 리스트를 사용했습니다.&lt;/p&gt;
 
 &lt;h2 id=&quot;구조체-배열&quot;&gt;구조체 배열&lt;/h2&gt;
@@ -261,7 +416,7 @@ int main() {
 		} else if (order[0] == 's') {
 			printf(&quot;%d\n&quot;, count);
 
-		// 큐가 비어 있는지 출력
+		// 큐가 비어 있는지 확인
 		} else if (order[0] == 'e') {
 			if (count == 0) printf(&quot;1\n&quot;);
 			else printf(&quot;0\n&quot;);

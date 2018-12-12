@@ -11,7 +11,7 @@
 
   <title>
     
-      백준 알고리즘 - 큐(10845) &middot; 안녕지구
+      BOJ - 스택(10828) &middot; 안녕지구
     
   </title>
 
@@ -36,7 +36,7 @@ MathJax.Hub.Config({ tex2jax: { inlineMath: [ ['$','$'], ["\\(","\\)"] ], proces
 
   <!-- Web Font -->
   <!-- <link href="https://fonts.googleapis.com/css?family=Nanum+Gothic" rel="stylesheet"> -->
-  <link href="https://fonts.googleapis.com/css?family=Nanum+Gothic|Nanum+Gothic+Coding" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Nanum+Gothic|Nanum+Gothic+Coding|Noto+Sans+KR" rel="stylesheet">
 
   <!-- Highlighter -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/styles/atom-one-dark.min.css" />
@@ -155,7 +155,7 @@ MathJax.Hub.Config({ tex2jax: { inlineMath: [ ['$','$'], ["\\(","\\)"] ], proces
                 (
                   
                   
-                  3
+                  4
                 )
               </a>
           
@@ -171,7 +171,7 @@ MathJax.Hub.Config({ tex2jax: { inlineMath: [ ['$','$'], ["\\(","\\)"] ], proces
                 (
                   
                   
-                  0
+                  1
                 )
               </a>
           
@@ -261,9 +261,11 @@ MathJax.Hub.Config({ tex2jax: { inlineMath: [ ['$','$'], ["\\(","\\)"] ], proces
 
       <div class="container content">
         <div class="post">
-  <h1 class="post-title">백준 알고리즘 - 큐(10845)</h1>
+  <h1 class="post-title">BOJ - 스택(10828)</h1>
   <span class="post-date">10 Dec 2018</span>
    | 
+  
+    <a href="/blog/tags/#boj" class="post-tag">BOJ</a>
   
     <a href="/blog/tags/#백준" class="post-tag">백준</a>
   
@@ -273,7 +275,7 @@ MathJax.Hub.Config({ tex2jax: { inlineMath: [ ['$','$'], ["\\(","\\)"] ], proces
   
   
   <article>
-    <p><a href="../backjoon-stack-10828/">스택(10828)</a>과 마찬가지로 간단한 <strong>링크드 리스트</strong>를 이용해서 구현한 <strong>큐</strong>입니다. 배열을 사용해서 더 간단하게도 구현 가능하지만 <strong>구조체 배열</strong>을 연습하고자 링크드 리스트를 사용했습니다.</p>
+    <p>간단한 <strong>링크드 리스트</strong>를 이용해서 구현한 <strong>스택</strong>입니다. 배열을 사용해서 더 간단하게도 구현 가능하지만 <strong>구조체 배열</strong>을 연습하고자 링크드 리스트를 사용했습니다.</p>
 
 <h2 id="구조체-배열">구조체 배열</h2>
 
@@ -294,7 +296,8 @@ Node* node = allocNode();
 </code></pre></div></div>
 
 <h2 id="전체-코드">전체 코드</h2>
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>#include &lt;stdio.h&gt;
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>#include &lt;cstring&gt;
+#include &lt;stdio.h&gt;
 
 // 구조체 배열
 typedef struct node {
@@ -302,10 +305,10 @@ typedef struct node {
 	node* next;
 } Node;
 
-int nodeidx = 0;
-Node nodearray[10000];
+int nodeIndex = 0;
+Node nodeArray[10000];
 Node* allocNode() {
-	return &amp;nodearray[nodeidx++];
+	return &amp;nodeArray[nodeIndex++];
 };
 
 // 메인 함수
@@ -314,62 +317,51 @@ int main() {
 	int N;
 	scanf("%d", &amp;N);
 
-	Node* head = '\0';
-	Node* tail = '\0';
 
-	char order[6];
+	Node* head = '\0';
+	char order[10];
 	int count = 0;
 	while (N--) {
 		scanf("%s", order);
 
-		// 새로운 노드 생성해서 큐에 PUSH
 		if (order[1] == 'u') {
 			int data;
 			scanf("%d", &amp;data);
 			Node* node = allocNode();
 			node-&gt;data = data;
+
 			if (count == 0) {
 				head = node;
-				tail = node;
 			} else {
-				tail-&gt;next = node;
-				tail = node;
+				node-&gt;next = head;
+				head = node;
 			}
 			count++;
-
-		// 상위 노드(head) POP
 		} else if (order[0] == 'p') {
-			if (count == 0) printf("-1\n");
-			else {
+			if (head == '\0') {
+				printf("%d\n", -1);
+			} else {
 				printf("%d\n", head-&gt;data);
 				head = head-&gt;next;
 				count--;
 			}
-
-		// 큐에 있는 노드 갯수 출력
 		} else if (order[0] == 's') {
 			printf("%d\n", count);
-
-		// 큐가 비어 있는지 출력
 		} else if (order[0] == 'e') {
-			if (count == 0) printf("1\n");
-			else printf("0\n");
-
-		// 상위 노드(head) 값 출력
-		} else if (order[0] == 'f') {
-			if (count == 0) printf("-1\n");
-			else {
-				printf("%d\n", head-&gt;data);
+			if (count == 0) {
+				printf("%d\n", 1);
+			} else {
+				printf("%d\n", 0);
 			}
-
-		// 마지막 노드(tail) 값 출력
-		} else if (order[0] == 'b') {
-			if (count == 0) printf("-1\n");
-			else {
-				printf("%d\n", tail-&gt;data);
+		} else if (order[0] == 't') {
+			if (count == 0) {
+				printf("%d\n", -1);
+			} else {
+				printf("%d\n", head-&gt;data);
 			}
 		}
 	};
+
 	return 0;
 }
 </code></pre></div></div>
@@ -383,27 +375,27 @@ int main() {
     
       <li>
         <h3>
-          <a href="/algorithm/2018/12/10/backjoon-stack-series-1874/">
-            백준 알고리즘 - 스택 수열(1874)
-            <small>10 Dec 2018</small>
+          <a href="/bixby/2018/12/13/intro/">
+            포스팅을 시작하면서
+            <small>13 Dec 2018</small>
           </a>
         </h3>
       </li>
     
       <li>
         <h3>
-          <a href="/algorithm/2018/12/10/backjoon-stack-10828/">
-            백준 알고리즘 - 스택(10828)
-            <small>10 Dec 2018</small>
+          <a href="/algorithm/2018/12/11/boj-max-heap-11279/">
+            BOJ - 최대 힙(11279)
+            <small>11 Dec 2018</small>
           </a>
         </h3>
       </li>
     
       <li>
         <h3>
-          <a href="/daily/2018/12/01/example-content/">
-            Example content
-            <small>01 Dec 2018</small>
+          <a href="/algorithm/2018/12/10/boj-stack-series-1874/">
+            BOJ - 스택 수열(1874)
+            <small>10 Dec 2018</small>
           </a>
         </h3>
       </li>
@@ -417,12 +409,12 @@ int main() {
   <div id="disqus_thread"></div>
   <script>
 var disqus_config = function () {
-  this.page.url = 'http://localhost:4000/algorithm/2018/12/10/backjoon-queue-10845/'; // Replace PAGE_URL with your page's canonical URL variable
-  this.page.identifier = '/algorithm/2018/12/10/backjoon-queue-10845'; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+  this.page.url = 'http://localhost:4000/algorithm/2018/12/10/boj-stack-10828/'; // Replace PAGE_URL with your page's canonical URL variable
+  this.page.identifier = '/algorithm/2018/12/10/boj-stack-10828'; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
 };
 (function() {
   var d = document, s = d.createElement('script');
-  s.src = '//your_short_name.disqus.com/embed.js';
+  s.src = '//hijigoo.disqus.com/embed.js';
   s.setAttribute('data-timestamp', +new Date());
   (d.head || d.body).appendChild(s);
 })();
@@ -459,12 +451,12 @@ var disqus_config = function () {
     <script>
 (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){ (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o), m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m) })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
 
-ga('create', 'UA-00000000-1', 'auto');
+ga('create', 'UA-130716162-1', 'auto');
 ga('send', 'pageview');
     </script>
     
   </body>
   
-  <script id="dsq-count-scr" src="//your_short_name.disqus.com/count.js" async></script>
+  <script id="dsq-count-scr" src="//hijigoo.disqus.com/count.js" async></script>
   
 </html>

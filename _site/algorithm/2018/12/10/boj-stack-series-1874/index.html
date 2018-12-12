@@ -11,7 +11,7 @@
 
   <title>
     
-      백준 알고리즘 - 스택(10828) &middot; 안녕지구
+      BOJ - 스택 수열(1874) &middot; 안녕지구
     
   </title>
 
@@ -36,7 +36,7 @@ MathJax.Hub.Config({ tex2jax: { inlineMath: [ ['$','$'], ["\\(","\\)"] ], proces
 
   <!-- Web Font -->
   <!-- <link href="https://fonts.googleapis.com/css?family=Nanum+Gothic" rel="stylesheet"> -->
-  <link href="https://fonts.googleapis.com/css?family=Nanum+Gothic|Nanum+Gothic+Coding" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Nanum+Gothic|Nanum+Gothic+Coding|Noto+Sans+KR" rel="stylesheet">
 
   <!-- Highlighter -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/styles/atom-one-dark.min.css" />
@@ -155,7 +155,7 @@ MathJax.Hub.Config({ tex2jax: { inlineMath: [ ['$','$'], ["\\(","\\)"] ], proces
                 (
                   
                   
-                  3
+                  4
                 )
               </a>
           
@@ -171,7 +171,7 @@ MathJax.Hub.Config({ tex2jax: { inlineMath: [ ['$','$'], ["\\(","\\)"] ], proces
                 (
                   
                   
-                  0
+                  1
                 )
               </a>
           
@@ -261,9 +261,11 @@ MathJax.Hub.Config({ tex2jax: { inlineMath: [ ['$','$'], ["\\(","\\)"] ], proces
 
       <div class="container content">
         <div class="post">
-  <h1 class="post-title">백준 알고리즘 - 스택(10828)</h1>
+  <h1 class="post-title">BOJ - 스택 수열(1874)</h1>
   <span class="post-date">10 Dec 2018</span>
    | 
+  
+    <a href="/blog/tags/#boj" class="post-tag">BOJ</a>
   
     <a href="/blog/tags/#백준" class="post-tag">백준</a>
   
@@ -273,93 +275,64 @@ MathJax.Hub.Config({ tex2jax: { inlineMath: [ ['$','$'], ["\\(","\\)"] ], proces
   
   
   <article>
-    <p>간단한 <strong>링크드 리스트</strong>를 이용해서 구현한 <strong>스택</strong>입니다. 배열을 사용해서 더 간단하게도 구현 가능하지만 <strong>구조체 배열</strong>을 연습하고자 링크드 리스트를 사용했습니다.</p>
+    <p>구조체 배열이 아닌 단순 <strong>배열</strong>을 사용해서 구현한 스택 수열 알고리즘 코드입니다.</p>
 
-<h2 id="구조체-배열">구조체 배열</h2>
-
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>// 정적이지만 동적할당처럼 사용하는 구조체 배열
-typedef struct node {
-	int data;
-	node* next;
-} Node;
-
-int nodeIndex = 0;
-Node nodeArray[10000];
-Node* allocNode() {
-	return &amp;nodeArray[nodeIndex++];
-};
-
-// 아래와 같이 사용할 수 있습니다.
-Node* node = allocNode();
+<h2 id="배열과-헤드위치-선언">배열과 헤드위치 선언</h2>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>int stack[100005];
+int head = 0;
 </code></pre></div></div>
 
 <h2 id="전체-코드">전체 코드</h2>
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>#include &lt;cstring&gt;
-#include &lt;stdio.h&gt;
 
-// 구조체 배열
-typedef struct node {
-	int data;
-	node* next;
-} Node;
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>#include &lt;stdio.h&gt;
 
-int nodeIndex = 0;
-Node nodeArray[10000];
-Node* allocNode() {
-	return &amp;nodeArray[nodeIndex++];
-};
+int stack[100005];
+int head = 0;
 
-// 메인 함수
 int main() {
 
-	int N;
-	scanf("%d", &amp;N);
+	int n;
+	scanf("%d", &amp;n);
 
+	int inc = 1;
 
-	Node* head = '\0';
-	char order[10];
-	int count = 0;
-	while (N--) {
-		scanf("%s", order);
+	int outputIdx = 0;
+	char output[500005];
+	bool isFailed = false;
 
-		if (order[1] == 'u') {
-			int data;
-			scanf("%d", &amp;data);
-			Node* node = allocNode();
-			node-&gt;data = data;
+	while(n--) {
 
-			if (count == 0) {
-				head = node;
-			} else {
-				node-&gt;next = head;
-				head = node;
-			}
-			count++;
-		} else if (order[0] == 'p') {
-			if (head == '\0') {
-				printf("%d\n", -1);
-			} else {
-				printf("%d\n", head-&gt;data);
-				head = head-&gt;next;
-				count--;
-			}
-		} else if (order[0] == 's') {
-			printf("%d\n", count);
-		} else if (order[0] == 'e') {
-			if (count == 0) {
-				printf("%d\n", 1);
-			} else {
-				printf("%d\n", 0);
-			}
-		} else if (order[0] == 't') {
-			if (count == 0) {
-				printf("%d\n", -1);
-			} else {
-				printf("%d\n", head-&gt;data);
-			}
+		int number;
+		scanf("%d", &amp;number);
+
+		// 수열이 형성되지 못하는 경우 체크
+		if (head &lt; 0 || number &lt; stack[head]) {
+			isFailed = true;
+			break;;
 		}
-	};
 
+		// 출력(POP)되어야 할 숫자(number)가 스택에 들어갈 때까지 PUSH
+		while (stack[head] &lt; number) {
+			output[outputIdx++] = '+';
+			stack[++head] = inc;
+			inc++;
+		}
+		
+		// 숫자(number)를 출력(POP)
+		while (stack[head] &gt;= number) {
+			output[outputIdx++] = '-';
+			head--;
+		}
+
+	}
+
+	if (isFailed) {
+		printf("NO\n");
+	} else {
+		for (int i = 0; i &lt; outputIdx; i++ ) {
+			printf("%c\n", output[i]);
+		}
+	}
 	return 0;
 }
 </code></pre></div></div>
@@ -373,27 +346,27 @@ int main() {
     
       <li>
         <h3>
-          <a href="/algorithm/2018/12/10/backjoon-stack-series-1874/">
-            백준 알고리즘 - 스택 수열(1874)
-            <small>10 Dec 2018</small>
+          <a href="/bixby/2018/12/13/intro/">
+            포스팅을 시작하면서
+            <small>13 Dec 2018</small>
           </a>
         </h3>
       </li>
     
       <li>
         <h3>
-          <a href="/algorithm/2018/12/10/backjoon-queue-10845/">
-            백준 알고리즘 - 큐(10845)
-            <small>10 Dec 2018</small>
+          <a href="/algorithm/2018/12/11/boj-max-heap-11279/">
+            BOJ - 최대 힙(11279)
+            <small>11 Dec 2018</small>
           </a>
         </h3>
       </li>
     
       <li>
         <h3>
-          <a href="/daily/2018/12/01/example-content/">
-            Example content
-            <small>01 Dec 2018</small>
+          <a href="/algorithm/2018/12/10/boj-stack-10828/">
+            BOJ - 스택(10828)
+            <small>10 Dec 2018</small>
           </a>
         </h3>
       </li>
@@ -407,12 +380,12 @@ int main() {
   <div id="disqus_thread"></div>
   <script>
 var disqus_config = function () {
-  this.page.url = 'http://localhost:4000/algorithm/2018/12/10/backjoon-stack-10828/'; // Replace PAGE_URL with your page's canonical URL variable
-  this.page.identifier = '/algorithm/2018/12/10/backjoon-stack-10828'; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+  this.page.url = 'http://localhost:4000/algorithm/2018/12/10/boj-stack-series-1874/'; // Replace PAGE_URL with your page's canonical URL variable
+  this.page.identifier = '/algorithm/2018/12/10/boj-stack-series-1874'; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
 };
 (function() {
   var d = document, s = d.createElement('script');
-  s.src = '//your_short_name.disqus.com/embed.js';
+  s.src = '//hijigoo.disqus.com/embed.js';
   s.setAttribute('data-timestamp', +new Date());
   (d.head || d.body).appendChild(s);
 })();
@@ -449,12 +422,12 @@ var disqus_config = function () {
     <script>
 (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){ (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o), m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m) })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
 
-ga('create', 'UA-00000000-1', 'auto');
+ga('create', 'UA-130716162-1', 'auto');
 ga('send', 'pageview');
     </script>
     
   </body>
   
-  <script id="dsq-count-scr" src="//your_short_name.disqus.com/count.js" async></script>
+  <script id="dsq-count-scr" src="//hijigoo.disqus.com/count.js" async></script>
   
 </html>

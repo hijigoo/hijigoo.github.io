@@ -11,7 +11,7 @@
 
   <title>
     
-      Categories &middot; 안녕지구
+      포스팅을 시작하면서 &middot; 안녕지구
     
   </title>
 
@@ -123,7 +123,7 @@ MathJax.Hub.Config({ tex2jax: { inlineMath: [ ['$','$'], ["\\(","\\)"] ], proces
       
 
       <span class="foldable">
-        <a class="sidebar-nav-item active" href="/blog/categories/">
+        <a class="sidebar-nav-item " href="/blog/categories/">
           Categories
         </a>
 
@@ -260,82 +260,101 @@ MathJax.Hub.Config({ tex2jax: { inlineMath: [ ['$','$'], ["\\(","\\)"] ], proces
       </div>
 
       <div class="container content">
-        <div class="page">
-  <h1 class="page-title">Categories</h1>
-  <div class="tags-expo">
-  <div class="tags-expo-list">
-    
-    <a href="#daily" class="post-tag">Daily</a>
-    
-    <a href="#algorithm" class="post-tag">Algorithm</a>
-    
-    <a href="#bixby" class="post-tag">Bixby</a>
-    
-  </div>
-  <hr/>
-  <div class="tags-expo-section">
-    
-    <h2 id="daily">Daily</h2>
-    <ul class="tags-expo-posts">
-      
-        <a class="post-title" href="/daily/2018/12/01/example-content/">
-      <li>
-        Example content
-      <small class="post-date">01 Dec 2018</small>
-      </li>
-      </a>
-      
-    </ul>
-    
-    <h2 id="algorithm">Algorithm</h2>
-    <ul class="tags-expo-posts">
-      
-        <a class="post-title" href="/algorithm/2018/12/11/boj-max-heap-11279/">
-      <li>
-        BOJ - 최대 힙(11279)
-      <small class="post-date">11 Dec 2018</small>
-      </li>
-      </a>
-      
-        <a class="post-title" href="/algorithm/2018/12/10/boj-stack-series-1874/">
-      <li>
-        BOJ - 스택 수열(1874)
-      <small class="post-date">10 Dec 2018</small>
-      </li>
-      </a>
-      
-        <a class="post-title" href="/algorithm/2018/12/10/boj-stack-10828/">
-      <li>
-        BOJ - 스택(10828)
-      <small class="post-date">10 Dec 2018</small>
-      </li>
-      </a>
-      
-        <a class="post-title" href="/algorithm/2018/12/10/boj-queue-10845/">
-      <li>
-        BOJ - 큐(10845)
-      <small class="post-date">10 Dec 2018</small>
-      </li>
-      </a>
-      
-    </ul>
-    
-    <h2 id="bixby">Bixby</h2>
-    <ul class="tags-expo-posts">
-      
-        <a class="post-title" href="/bixby/2018/12/13/intro/">
-      <li>
-        포스팅을 시작하면서
-      <small class="post-date">13 Dec 2018</small>
-      </li>
-      </a>
-      
-    </ul>
-    
-  </div>
+        <div class="post">
+  <h1 class="post-title">포스팅을 시작하면서</h1>
+  <span class="post-date">13 Dec 2018</span>
+   | 
+  
+    <a href="/blog/tags/#인공지능" class="post-tag">인공지능</a>
+  
+    <a href="/blog/tags/#빅스비" class="post-tag">빅스비</a>
+  
+  
+  <article>
+    <h2 id="포스팅을-시작하면서">포스팅을 시작하면서</h2>
+
+<p>안녕하세요. 블로그를 시작하면서 어떤 내용을 정리하면 좋을지 고민했었습니다. 그러다가 현재 개발하고 있으면서, 동시에 자료가 없어서 고생중인 ‘빅스비 캡슐’개발에 대해 정리하면 좋겠다는 생각을 했습니다. 공부도 하면서 (개발하는 사람은 적더라도)공유하는 공간을 만들면 의미가 있을 것이라고 생각합니다.</p>
+
+<div class="message">
+빅스비 캡슐(Capsule)은 빅스비 위에서 동작하는 어플리케이션입니다.*
 </div>
 
+<h2 id="인공지능--딥러닝">[인공지능 == 딥러닝]?</h2>
+
+<p>개인적으로 딥러닝에 관심을 가지며 조금씩 공부하고 있지만 딥러닝이 인공지능의 전부는 아니라고 생각합니다. 이미 많은 사람들이 
+<a href="https://translate.google.co.kr/">번역</a>, 
+화질 개선, 얼굴 인식 
+등 (매우 놀라운)딥러닝 기술을 다양한 곳에서 접하고 있지만 우리가 어릴때부터 상상해왔던 인공지능과는 조금 달라 보입니다. 우리가 상상했던 인공지능은 <a href="https://www.youtube.com/watch?v=LikxFZZO2sk">Parkour Atlas</a>와 같은 <strong>로봇</strong>이나 <a href="https://assistant.google.com/">Google Assistance</a>, <a href="https://developer.amazon.com/alexa">Alexa</a> 혹은 <a href="https://kakao.ai/">카카오 미니</a>와 같이 사람과 대화를 주고 받는 <strong>AI 비서</strong>에 더 가깝지 않았나요?</p>
+
+<p><img src="/assets/2018-12-13-intro/robot.jpeg" alt="image" /></p>
+
+<h2 id="인공지능을-modeling">인공지능을 Modeling</h2>
+
+<p>일 년 전 쯤에 회사 동료 한분과 함께 서울대 연구소에서 진행한 ‘NLP 딥러닝’ 세미나를 다녀온 적이 있었는데요, 그 당시 인공지능이라고 말하는 챗봇은 [<em>switch case</em>] 가 90% 이상이라는 얘기를 들었습니다. 하지만, 요즘 챗봇 Builder 와 마찬가지로 빅스비도 독립적인 개발 방식을 보입니다. 모든 실행 Flow을 개발자가 직접적으로 프로그래밍하여 제어하는 것이 아닌, 개발자는 일부 코드와 <strong>Modeling</strong>을 제공하면 빅스비가 내부 규칙에 따라서 Flow를 구성해 실행합니다. 사실 이 전통적인 프로그래밍과 다른 방식 때문에 개발하다보면 답답하기도 하고 화나기도 하고 심지어 전체 구조를 뒤집을 때도 있습니다. 하지만 조금씩 적응하다보면 매력을 느낄 수 있을 것이라고 생각합니다.</p>
+
+<blockquote>
+  <p>Developing for Bixby is different than traditional software development because you’re not writing the program; the Artificial Intelligence (AI) is. You perform modeling, which is how you teach Bixby about the domain you’re implementing. Using your models, and those of other developers, Bixby constructs a program that satisfies the user’s specific request in milliseconds the moment the request is made. As a developer, your job is to teach Bixby how to write these programs.</p>
+</blockquote>
+
+<h2 id="앞으로">앞으로</h2>
+<p>스스로도 많이 공부하고, 도움을 드릴 수 있는 기회가 되었으면 좋겠습니다. 감사합니다.</p>
+
+  </article>
 </div>
+
+<div class="related">
+  <h2>Related Posts</h2>
+  <ul class="related-posts">
+    
+      <li>
+        <h3>
+          <a href="/algorithm/2018/12/11/boj-max-heap-11279/">
+            BOJ - 최대 힙(11279)
+            <small>11 Dec 2018</small>
+          </a>
+        </h3>
+      </li>
+    
+      <li>
+        <h3>
+          <a href="/algorithm/2018/12/10/boj-stack-series-1874/">
+            BOJ - 스택 수열(1874)
+            <small>10 Dec 2018</small>
+          </a>
+        </h3>
+      </li>
+    
+      <li>
+        <h3>
+          <a href="/algorithm/2018/12/10/boj-stack-10828/">
+            BOJ - 스택(10828)
+            <small>10 Dec 2018</small>
+          </a>
+        </h3>
+      </li>
+    
+  </ul>
+</div>
+
+
+<div class="comments">
+  <h2>Comments</h2>
+  <div id="disqus_thread"></div>
+  <script>
+var disqus_config = function () {
+  this.page.url = 'http://localhost:4000/bixby/2018/12/13/intro/'; // Replace PAGE_URL with your page's canonical URL variable
+  this.page.identifier = '/bixby/2018/12/13/intro'; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+};
+(function() {
+  var d = document, s = d.createElement('script');
+  s.src = '//hijigoo.disqus.com/embed.js';
+  s.setAttribute('data-timestamp', +new Date());
+  (d.head || d.body).appendChild(s);
+})();
+  </script>
+  <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+</div>
+
 
       </div>
     </div>
