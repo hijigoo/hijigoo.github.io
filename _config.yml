@@ -41,9 +41,9 @@ nav:
     - '/'
   Categories: 
     - '/blog/categories/'
-    - { Android: '/blog/categories/#Android' }
-    - { Algorithm: '/blog/categories/#Algorithm' }
     - { Bixby: '/blog/categories/#Bixby' }
+    - { Algorithm: '/blog/categories/#Algorithm' }
+    - { Android: '/blog/categories/#Android' }
     - { Daily: '/blog/categories/#Daily' }
   Tags:
     - '/blog/tags/'
