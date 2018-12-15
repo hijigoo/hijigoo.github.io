@@ -11,7 +11,7 @@
 
   <title>
     
-      포스팅을 시작하면서 &middot; 안녕지구
+      BOJ - 카드 정렬(1715) &middot; 안녕지구
     
   </title>
 
@@ -261,43 +261,156 @@ MathJax.Hub.Config({ tex2jax: { inlineMath: [ ['$','$'], ["\\(","\\)"] ], proces
 
       <div class="container content">
         <div class="post">
-  <h1 class="post-title">포스팅을 시작하면서</h1>
-  <span class="post-date">13 Dec 2018</span>
+  <h1 class="post-title">BOJ - 카드 정렬(1715)</h1>
+  <span class="post-date">15 Dec 2018</span>
    | 
   
-    <a href="/blog/tags/#인공지능" class="post-tag">인공지능</a>
+    <a href="/blog/tags/#boj" class="post-tag">BOJ</a>
   
-    <a href="/blog/tags/#빅스비" class="post-tag">빅스비</a>
+    <a href="/blog/tags/#백준" class="post-tag">백준</a>
+  
+    <a href="/blog/tags/#알고리즘" class="post-tag">알고리즘</a>
+  
+    <a href="/blog/tags/#자료구조" class="post-tag">자료구조</a>
   
   
   <article>
-    <h2 id="포스팅을-시작하면서">포스팅을 시작하면서</h2>
-
-<p>안녕하세요. 블로그를 시작하면서 어떤 내용을 정리하면 좋을지 고민해봤습니다. 그러다가 현재 개발하고 있으면서, 동시에 자료가 없어서 고생중인 ‘빅스비 캡슐’개발에 대해 정리하면 좋겠다는 생각을 했습니다. 공부도 하면서 (개발하는 사람은 적더라도)공유하는 공간을 만들면 의미가 있을 것이라고 생각합니다.</p>
+    <p><strong>최대 힙(MaxHeap)</strong>을 연습하기 위해 풀어본 문제입니다. 문제를 풀기 위해서는 가지고 있는 카드 묶음 중 가장 작은 두 묶음을 찾아서 더해주어야 했기 때문에 <strong>최소 힙(MinHeap)</strong>을 사용했습니다. 가장 작은 묶음 두 개를 꺼내서 더해준 후 다시 최소 힙에 넣어줍니다. 힙 안에 한 개만 남을 때까지 반복합니다. 힙만 구현하면 메인 함수는 매우 간단합니다.</p>
 
 <div class="message">
-빅스비 캡슐(Capsule)은 빅스비 위에서 동작하는 어플리케이션입니다.
+최대 힙에서 최소 힙으로 변경할 때 부등호만 변경해 주었더니 정상적으로 동작하지 않았습니다. 최대 힙에서는 모든 노드를 0으로 초기화 했었는데요, 최소 힙에서는 값이 마지막 자리를 찾아가는 과정에서 문제가 발생했습니다. 이를 해결하기 위해 마지막 노드의 Index 사용하여 비교할 자식 노드가 있는지 확인했습니다.
 </div>
 
-<h2 id="인공지능--딥러닝">[인공지능 == 딥러닝]?</h2>
+<h2 id="최소-힙minheap">최소 힙(MinHeap)</h2>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>// 초기화
+int minHeap[200005];
+int lastIdx = 0;
 
-<p>개인적으로 딥러닝에 관심을 가지며 조금씩 공부하고 있지만 딥러닝이 인공지능의 전부는 아니라고 생각합니다. 이미 많은 사람들이 
-<a href="https://translate.google.co.kr/">번역</a>, 
-화질 개선, 얼굴 인식 
-등 (매우 놀라운)딥러닝 기술을 다양한 곳에서 접하고 있지만 우리가 어릴때부터 상상해왔던 인공지능과는 조금 달라 보입니다. 우리가 상상했던 인공지능은 <a href="https://www.youtube.com/watch?v=LikxFZZO2sk">Parkour Atlas</a>와 같은 <strong>로봇</strong>이나 <a href="https://assistant.google.com/">Google Assistance</a>, <a href="https://developer.amazon.com/alexa">Alexa</a> 혹은 <a href="https://kakao.ai/">카카오 미니</a>와 같이 사람과 대화를 주고 받는 <strong>음성 인식 비서</strong>에 더 가깝지 않았나요? 저는 딥러닝과 마찬가지로 사람과 상호작용하는 서비스도 매우 중요하다고 생각합니다.</p>
+// 자식 노드 Index 
+int getLeftChild(int idx) {
+	return idx * 2;
+}
 
-<p><img src="/assets/2018-12-13-intro/robot.jpeg" alt="image" /></p>
+int getRightChild(int idx) {
+	return idx * 2 + 1;
+}
 
-<h2 id="인공지능을-modeling">인공지능을 Modeling</h2>
+// 부모 노드 Index 
+int getParent(int idx) {
+	return idx / 2;
+}
 
-<p>일 년 전 쯤에 회사 동료 한분과 함께 서울대 연구소에서 진행한 ‘NLP 딥러닝’ 세미나를 다녀온 적이 있었는데요, 그 당시 인공지능이라고 말하는 챗봇은 [<em>switch case</em>] 가 90% 이상이라는 얘기를 들었습니다. 하지만, 요즘 챗봇 Builder 와 마찬가지로 <strong>빅스비도 독립적인 개발 방식</strong>을 보입니다. 모든 실행 Flow을 개발자가 직접적으로 프로그래밍하여 제어하는 것이 아닌, 개발자는 일부 코드와 <strong>Modeling</strong>을 제공하면 빅스비가 내부 규칙에 따라서 Flow를 구성해 실행합니다. 사실 이 전통적인 프로그래밍과 다른 방식 때문에 개발하다보면 답답하기도 하고 화나기도 하고 심지어 전체 구조를 뒤집을 때도 있습니다. 하지만 조금씩 적응(이해)하다보면 매력을 느낄 수 있을 것이라고 생각합니다.</p>
+// 교환하는 함수
+void swap(int idx1, int idx2, int* arr) {
+	int tmp = arr[idx1];
+	arr[idx1] = arr[idx2];
+	arr[idx2] = tmp;
+}
 
-<blockquote>
-  <p>Developing for Bixby is different than traditional software development because you’re not writing the program; the Artificial Intelligence (AI) is. You perform modeling, which is how you teach Bixby about the domain you’re implementing. Using your models, and those of other developers, Bixby constructs a program that satisfies the user’s specific request in milliseconds the moment the request is made. As a developer, your job is to teach Bixby how to write these programs.</p>
-</blockquote>
+// dequeue 함수
+int dequeue() {
 
-<h2 id="앞으로">앞으로</h2>
-<p>많이 공부하고, 도움을 드릴 수 있는 기회가 되었으면 좋겠습니다. 감사합니다.</p>
+	if (lastIdx == 0) return -1;
+
+	int maxVal = minHeap[1];
+	minHeap[1] = minHeap[lastIdx];
+	minHeap[lastIdx] = 0;
+	lastIdx--;
+
+	int curIdx = 1;
+	while (true) {
+		int left = getLeftChild(curIdx);
+		int right = getRightChild(curIdx);
+
+		int curVal = minHeap[curIdx];
+
+		int leftVal = minHeap[left];
+		int rightVal = minHeap[right];
+
+		int nextIdx;
+		int nextVal;
+
+		// 자식 노드가 없는 경우
+		if (lastIdx &lt; left) {
+			break;
+
+		// 왼쪽 자식 노드만 있는 경우 
+		} else if (lastIdx == left) {
+			nextIdx = left;
+			nextVal = minHeap[nextIdx];
+
+		// 둘 다 있는 경우 비교
+		} else if (lastIdx &gt;= right) {
+			nextIdx = leftVal &lt; rightVal ? left : right;
+			nextVal = minHeap[nextIdx];
+		}
+
+		if (curVal &gt; nextVal) {
+			swap(curIdx, nextIdx, minHeap);
+			curIdx = nextIdx;
+		} else {
+			break;
+		}
+	}
+
+	return maxVal;
+}
+
+// enqueue 함수
+void enqueue(int val) {
+	lastIdx++;
+	minHeap[lastIdx] = val;
+
+	int curIdx = lastIdx;
+	while (true) {
+		if (curIdx == 1) break;
+
+		int nextIdx = getParent(curIdx);
+
+		int curVal = minHeap[curIdx];
+		int nextVal = minHeap[nextIdx];
+
+		if (curVal &lt; nextVal) {
+			swap(curIdx, nextIdx, minHeap);
+			curIdx = nextIdx;
+		} else {
+			break;
+		}
+	}
+}
+</code></pre></div></div>
+
+<h2 id="메인-함수">메인 함수</h2>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>#include &lt;stdio.h&gt;
+
+int main() {
+
+	int N;
+	scanf("%d", &amp;N);
+
+	int ans = 0;
+
+	// enqueue
+	while (N--) {
+		int val;
+		scanf("%d", &amp;val);
+		enqueue(val);
+	}
+
+	// 비교 횟수 계산
+	while (lastIdx &gt; 1) {
+		int val1 = dequeue();
+		int val2 = dequeue();
+		
+		ans += (val1 + val2);
+
+		enqueue(val1 + val2);
+	}
+
+	printf("%d", ans);
+
+}
+</code></pre></div></div>
 
   </article>
 </div>
@@ -317,9 +430,9 @@ MathJax.Hub.Config({ tex2jax: { inlineMath: [ ['$','$'], ["\\(","\\)"] ], proces
     
       <li>
         <h3>
-          <a href="/algorithm/2018/12/15/boj-card-merge-1715/">
-            BOJ - 카드 정렬(1715)
-            <small>15 Dec 2018</small>
+          <a href="/bixby/2018/12/13/intro/">
+            포스팅을 시작하면서
+            <small>13 Dec 2018</small>
           </a>
         </h3>
       </li>
@@ -342,8 +455,8 @@ MathJax.Hub.Config({ tex2jax: { inlineMath: [ ['$','$'], ["\\(","\\)"] ], proces
   <div id="disqus_thread"></div>
   <script>
 var disqus_config = function () {
-  this.page.url = 'http://localhost:4000/bixby/2018/12/13/intro/'; // Replace PAGE_URL with your page's canonical URL variable
-  this.page.identifier = '/bixby/2018/12/13/intro'; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+  this.page.url = 'http://localhost:4000/algorithm/2018/12/15/boj-card-merge-1715/'; // Replace PAGE_URL with your page's canonical URL variable
+  this.page.identifier = '/algorithm/2018/12/15/boj-card-merge-1715'; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
 };
 (function() {
   var d = document, s = d.createElement('script');
