@@ -11,7 +11,7 @@
 
   <title>
     
-      Example content &middot; 안녕지구
+      Gettting Started - Overview (2) &middot; 안녕지구
     
   </title>
 
@@ -261,137 +261,47 @@ MathJax.Hub.Config({ tex2jax: { inlineMath: [ ['$','$'], ["\\(","\\)"] ], proces
 
       <div class="container content">
         <div class="post">
-  <h1 class="post-title">Example content</h1>
-  <span class="post-date">01 Dec 2018</span>
+  <h1 class="post-title">Gettting Started - Overview (2)</h1>
+  <span class="post-date">16 Dec 2018</span>
    | 
   
-    <a href="/blog/tags/#markdown" class="post-tag">MarkDown</a>
+    <a href="/blog/tags/#인공지능" class="post-tag">인공지능</a>
+  
+    <a href="/blog/tags/#빅스비" class="post-tag">빅스비</a>
   
   
   <article>
-    <div class="message">
-  Howdy! This is an example blog post that shows several types of HTML content supported in this theme.
+    <p>이번 포스트에서는 우리가 구현하는 <strong>캡슐(Capsule)</strong>이 플랫폼에서 어떻 동작하는지 알아보려고 합니다. 내용은 공식 <a href="https://bixbydevelopers.com/dev/docs/get-started/overview">Bixby Developer</a> 페이지를 참고했습니다.</p>
+
+<div class="message">
+빅스비 캡슐(Capsule)은 빅스비 위에서 동작하는 어플리케이션입니다. 스타벅스 캡슐(Startbucks Capsule)이 그중에 하나입니다.
 </div>
 
-<p>Cum sociis natoque penatibus et magnis <a href="#">dis parturient montes</a>, nascetur ridiculus mus. <em>Aenean eu leo quam.</em> Pellentesque ornare sem lacinia quam venenatis vestibulum. Sed posuere consectetur est at lobortis. Cras mattis consectetur purus sit amet fermentum.</p>
+<h2 id="플랫폼과-상호-작용는-캡슐">플랫폼과 상호 작용는 캡슐</h2>
 
-<blockquote>
-  <p>Curabitur blandit tempus porttitor. Nullam quis risus eget urna mollis ornare vel eu leo. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
-</blockquote>
+<p>개발자는 <strong>‘자연어 학습(Natural Language Traning)’</strong>, <strong>‘모델링(Concept and Action Models)’</strong>, <strong>‘함수 작성(API Function)’</strong> 그리고 사용자에게 보여주는 <strong>화면(Dialog &amp; Layout)</strong> 을 구현해야 한다고 했는데요, 개발자가 구현한 내용들이 캡슐에서 빅스비 플랫폼과 동작하는 과정을 알아보려고 합니다. 다음은 사용자 발화가 들어왔을 때 빅스비가 실행되는 Flow입니다.</p>
 
-<p>Etiam porta <strong>sem malesuada magna</strong> mollis euismod. Cras mattis consectetur purus sit amet fermentum. Aenean lacinia bibendum nulla sed consectetur.</p>
+<p><img src="/assets/2018-12-16-overview-2/flow-18218708982895970544.png" alt="image" /></p>
 
-<h2 id="inline-html-elements">Inline HTML elements</h2>
-
-<p>HTML defines a long list of available inline tags, a complete list of which can be found on the <a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element">Mozilla Developer Network</a>.</p>
-
-<ul>
-  <li><strong>To bold text</strong>, use <code class="highlighter-rouge">&lt;strong&gt;</code>.</li>
-  <li><em>To italicize text</em>, use <code class="highlighter-rouge">&lt;em&gt;</code>.</li>
-  <li>Abbreviations, like <abbr title="HyperText Markup Langage">HTML</abbr> should use <code class="highlighter-rouge">&lt;abbr&gt;</code>, with an optional <code class="highlighter-rouge">title</code> attribute for the full phrase.</li>
-  <li>Citations, like <cite>— Mark otto</cite>, should use <code class="highlighter-rouge">&lt;cite&gt;</code>.</li>
-  <li><del>Deleted</del> text should use <code class="highlighter-rouge">&lt;del&gt;</code> and <ins>inserted</ins> text should use <code class="highlighter-rouge">&lt;ins&gt;</code>.</li>
-  <li>Superscript <sup>text</sup> uses <code class="highlighter-rouge">&lt;sup&gt;</code> and subscript <sub>text</sub> uses <code class="highlighter-rouge">&lt;sub&gt;</code>.</li>
-</ul>
-
-<p>Most of these elements are styled by browsers with few modifications on our part.</p>
-
-<h2 id="heading">Heading</h2>
-
-<p>Vivamus sagittis lacus vel augue rutrum faucibus dolor auctor. Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.</p>
-
-<h3 id="code">Code</h3>
-
-<p>Cum sociis natoque penatibus et magnis dis <code class="highlighter-rouge">code element</code> montes, nascetur ridiculus mus.</p>
-
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>// Example can be run directly in your JavaScript console
-
-// Create a function that takes two arguments and returns the sum of those arguments
-var adder = new Function("a", "b", "return a + b");
-
-// Call the function
-adder(2, 6);
-// &gt; 8
+<p><strong>첫 번째</strong>로, 사용자가 발화를 하면 빅스비 플랫폼은 개발자가 학습한 데이터를 기반으로 <strong>intent</strong>로 변환합니다. intent 다음과 같습니다.</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>// Give two values (number of dice and number of sides) with the
+// goal of rolling dice
+intent {
+ goal: example.dice.RollResult
+ value: example.dice.NumSides (6)
+ value: example.dice.NumDice (2)
+}
 </code></pre></div></div>
 
-<p>Aenean lacinia bibendum nulla sed consectetur. Etiam porta sem malesuada magna mollis euismod. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa.</p>
+<p><strong>두 번째</strong>로, 변환된 intent를 실행시킬 수 있도록 개발자가 정의한 모델인 Concept과 Action을 참고하여 실행될 프로그램(그래프)를 생성합니다.
+<!-- ![image](/assets/2018-12-16-overview/1st-execution-graph-11771877356118750247.png) --></p>
 
-<h3 id="lists">Lists</h3>
+<p><strong>세 번째</strong>로, 빅스비가 개발자가 정의한 Action에 도달했을 때, Javascript가 있다면 같이 실행합니다. 이 Javascript에는 서버와의 통신이나 추가적인 로직들을 넣을 수 있습니다.</p>
 
-<p>Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Aenean lacinia bibendum nulla sed consectetur. Etiam porta sem malesuada magna mollis euismod. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
+<p><strong>마지막</strong>으로 Dialog와 Layout을 통해 사용자에게 보여줄 화면을 표시합니다.
+<!-- ![image](/assets/2018-12-16-overview/layout-result-16107432446437221263.png) --></p>
 
-<ul>
-  <li>Praesent commodo cursus magna, vel scelerisque nisl consectetur et.</li>
-  <li>Donec id elit non mi porta gravida at eget metus.</li>
-  <li>Nulla vitae elit libero, a pharetra augue.</li>
-</ul>
-
-<p>Donec ullamcorper nulla non metus auctor fringilla. Nulla vitae elit libero, a pharetra augue.</p>
-
-<ol>
-  <li>Vestibulum id ligula porta felis euismod semper.</li>
-  <li>Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.</li>
-  <li>Maecenas sed diam eget risus varius blandit sit amet non magna.</li>
-</ol>
-
-<p>Cras mattis consectetur purus sit amet fermentum. Sed posuere consectetur est at lobortis.</p>
-
-<dl>
-  <dt>HyperText Markup Language (HTML)</dt>
-  <dd>The language used to describe and define the content of a Web page</dd>
-
-  <dt>Cascading Style Sheets (CSS)</dt>
-  <dd>Used to describe the appearance of Web content</dd>
-
-  <dt>JavaScript (JS)</dt>
-  <dd>The programming language used to build advanced Web sites and applications</dd>
-</dl>
-
-<p>Integer posuere erat a ante venenatis dapibus posuere velit aliquet. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Nullam quis risus eget urna mollis ornare vel eu leo.</p>
-
-<h3 id="tables">Tables</h3>
-
-<p>Aenean lacinia bibendum nulla sed consectetur. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-
-<table>
-  <thead>
-    <tr>
-      <th>Name</th>
-      <th>Upvotes</th>
-      <th>Downvotes</th>
-    </tr>
-  </thead>
-  <tfoot>
-    <tr>
-      <td>Totals</td>
-      <td>21</td>
-      <td>23</td>
-    </tr>
-  </tfoot>
-  <tbody>
-    <tr>
-      <td>Alice</td>
-      <td>10</td>
-      <td>11</td>
-    </tr>
-    <tr>
-      <td>Bob</td>
-      <td>4</td>
-      <td>3</td>
-    </tr>
-    <tr>
-      <td>Charlie</td>
-      <td>7</td>
-      <td>9</td>
-    </tr>
-  </tbody>
-</table>
-
-<p>Nullam id dolor id nibh ultricies vehicula ut id elit. Sed posuere consectetur est at lobortis. Nullam quis risus eget urna mollis ornare vel eu leo.</p>
-
-<hr />
-
-<p>Want to see something else added? <a href="https://github.com/poole/poole/issues/new">Open an issue.</a></p>
+<p>이 모든 과정들은 빅스비 캡슐(Bixby Capsule)에서 동작합니다. 다음 포스트에서는 예제 프로젝트를 개발해보면서 자세하게 알아보도록 하겠습니다. 감사합니다.</p>
 
   </article>
 </div>
@@ -399,15 +309,6 @@ adder(2, 6);
 <div class="related">
   <h2>Related Posts</h2>
   <ul class="related-posts">
-    
-      <li>
-        <h3>
-          <a href="/bixby/2018/12/16/overview_2/">
-            Gettting Started - Overview (2)
-            <small>16 Dec 2018</small>
-          </a>
-        </h3>
-      </li>
     
       <li>
         <h3>
@@ -427,6 +328,15 @@ adder(2, 6);
         </h3>
       </li>
     
+      <li>
+        <h3>
+          <a href="/algorithm/2018/12/15/boj-card-merge-1715/">
+            BOJ - 카드 정렬(1715)
+            <small>15 Dec 2018</small>
+          </a>
+        </h3>
+      </li>
+    
   </ul>
 </div>
 
@@ -436,8 +346,8 @@ adder(2, 6);
   <div id="disqus_thread"></div>
   <script>
 var disqus_config = function () {
-  this.page.url = 'http://localhost:4000/daily/2018/12/01/example-content/'; // Replace PAGE_URL with your page's canonical URL variable
-  this.page.identifier = '/daily/2018/12/01/example-content'; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+  this.page.url = 'http://localhost:4000/bixby/2018/12/16/overview_2/'; // Replace PAGE_URL with your page's canonical URL variable
+  this.page.identifier = '/bixby/2018/12/16/overview_2'; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
 };
 (function() {
   var d = document, s = d.createElement('script');
