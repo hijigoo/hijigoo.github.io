@@ -155,7 +155,7 @@ MathJax.Hub.Config({ tex2jax: { inlineMath: [ ['$','$'], ["\\(","\\)"] ], proces
                 (
                   
                   
-                  5
+                  6
                 )
               </a>
           
@@ -344,6 +344,106 @@ module.exports = {
       <a href="/bixby/2018/12/16/overview/#disqus_thread"> <i class="fa fa-comments" aria-hidden="true"></i>Comment</a>&nbsp;
       
       <a href="/bixby/2018/12/16/overview/"><i class="fa fa-plus-circle" aria-hidden="true"></i>Read more</a>
+    </div>
+  </div>
+  
+  <div class="post">
+    <h1 class="post-title">
+      <a href="/algorithm/2018/12/16/boj-josephus-1158/">
+        BOJ - 조세퍼스 문제(1158)
+      </a>
+    </h1>
+
+    <span class="post-date">16 Dec 2018</span>
+     | 
+    
+    <a href="/blog/tags/#boj" class="post-tag">BOJ</a>
+    
+    <a href="/blog/tags/#백준" class="post-tag">백준</a>
+    
+    <a href="/blog/tags/#알고리즘" class="post-tag">알고리즘</a>
+    
+    <a href="/blog/tags/#자료구조" class="post-tag">자료구조</a>
+    
+    
+
+    <article>
+      <p><strong>이중 연결 리스트(Double Linked List)</strong>를 연습하기 위해 풀어본 문제입니다. 문제를 풀기 위해서 <strong>원형 링크드 리스트(Circular Liked List)</strong>를 구현해야 하는데 이중 연결 리스트를 이용해서 구현했습니다.</p>
+
+<h2 id="구조체-배열">구조체 배열</h2>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>struct Node {
+	Node* next;
+	Node* prev;
+	int data;
+}narr[5005];
+
+int nidx = 0;
+Node* allocNode() {
+	return &amp;narr[nidx++];
+}
+</code></pre></div></div>
+
+<h2 id="원형-링크드-리스트">원형 링크드 리스트</h2>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Node* head = NULL;
+Node* tail = NULL;
+
+void addNode(int data) {
+	Node* nn = allocNode();
+	nn-&gt;data = data;
+	if (head == NULL) {
+		head = nn;
+		tail = nn;
+		nn-&gt;prev = tail;
+		nn-&gt;next = head;
+	} else {
+		head-&gt;prev = nn;
+		tail-&gt;next = nn;
+		nn-&gt;prev = tail;
+		nn-&gt;next = head;
+		tail = nn;
+	}
+}
+
+int delNode(int idx) {
+	Node* cn = head;
+	if (head == NULL) return 0;
+	while (--idx) {
+		cn = cn-&gt;next;
+	}
+	head = cn-&gt;next;
+
+	cn-&gt;prev-&gt;next = cn-&gt;next;
+	cn-&gt;next-&gt;prev = cn-&gt;prev;
+	return cn-&gt;data;
+}
+</code></pre></div></div>
+
+<h2 id="메인-함수">메인 함수</h2>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>#include &lt;stdio.h&gt;
+
+int main() {
+	int N, M;
+	scanf("%d %d", &amp;N, &amp;M);
+
+	for (int i = 1; i &lt;= N; i++) {
+		addNode(i);
+	}
+
+	printf("&lt;");
+	for (int i = 1; i &lt; N; i++) {
+		printf("%d, ", delNode(M));
+	}
+	printf("%d", delNode(M));
+	printf("&gt;");
+}
+</code></pre></div></div>
+
+    <article>
+    <div class="post-more">
+      
+      <a href="/algorithm/2018/12/16/boj-josephus-1158/#disqus_thread"> <i class="fa fa-comments" aria-hidden="true"></i>Comment</a>&nbsp;
+      
+      <a href="/algorithm/2018/12/16/boj-josephus-1158/"><i class="fa fa-plus-circle" aria-hidden="true"></i>Read more</a>
     </div>
   </div>
   
@@ -709,98 +809,6 @@ int main() {
       <a href="/algorithm/2018/12/11/boj-max-heap-11279/#disqus_thread"> <i class="fa fa-comments" aria-hidden="true"></i>Comment</a>&nbsp;
       
       <a href="/algorithm/2018/12/11/boj-max-heap-11279/"><i class="fa fa-plus-circle" aria-hidden="true"></i>Read more</a>
-    </div>
-  </div>
-  
-  <div class="post">
-    <h1 class="post-title">
-      <a href="/algorithm/2018/12/10/boj-stack-series-1874/">
-        BOJ - 스택 수열(1874)
-      </a>
-    </h1>
-
-    <span class="post-date">10 Dec 2018</span>
-     | 
-    
-    <a href="/blog/tags/#boj" class="post-tag">BOJ</a>
-    
-    <a href="/blog/tags/#백준" class="post-tag">백준</a>
-    
-    <a href="/blog/tags/#알고리즘" class="post-tag">알고리즘</a>
-    
-    <a href="/blog/tags/#자료구조" class="post-tag">자료구조</a>
-    
-    
-
-    <article>
-      <p>구조체 배열이 아닌 단순 <strong>배열</strong>을 사용해서 구현한 스택 수열 알고리즘 코드입니다.</p>
-
-<h2 id="배열과-헤드위치-선언">배열과 헤드위치 선언</h2>
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>int stack[100005];
-int head = 0;
-</code></pre></div></div>
-
-<h2 id="전체-코드">전체 코드</h2>
-
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>#include &lt;stdio.h&gt;
-
-int stack[100005];
-int head = 0;
-
-int main() {
-
-	int n;
-	scanf("%d", &amp;n);
-
-	int inc = 1;
-
-	int outputIdx = 0;
-	char output[500005];
-	bool isFailed = false;
-
-	while(n--) {
-
-		int number;
-		scanf("%d", &amp;number);
-
-		// 수열이 형성되지 못하는 경우 체크
-		if (head &lt; 0 || number &lt; stack[head]) {
-			isFailed = true;
-			break;;
-		}
-
-		// 출력(POP)되어야 할 숫자(number)가 스택에 들어갈 때까지 PUSH
-		while (stack[head] &lt; number) {
-			output[outputIdx++] = '+';
-			stack[++head] = inc;
-			inc++;
-		}
-		
-		// 숫자(number)를 출력(POP)
-		while (stack[head] &gt;= number) {
-			output[outputIdx++] = '-';
-			head--;
-		}
-
-	}
-
-	if (isFailed) {
-		printf("NO\n");
-	} else {
-		for (int i = 0; i &lt; outputIdx; i++ ) {
-			printf("%c\n", output[i]);
-		}
-	}
-	return 0;
-}
-</code></pre></div></div>
-
-    <article>
-    <div class="post-more">
-      
-      <a href="/algorithm/2018/12/10/boj-stack-series-1874/#disqus_thread"> <i class="fa fa-comments" aria-hidden="true"></i>Comment</a>&nbsp;
-      
-      <a href="/algorithm/2018/12/10/boj-stack-series-1874/"><i class="fa fa-plus-circle" aria-hidden="true"></i>Read more</a>
     </div>
   </div>
   

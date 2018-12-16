@@ -4,7 +4,7 @@
  <title>안녕지구</title>
  <link href="http://localhost:4000/atom.xml" rel="self"/>
  <link href="http://localhost:4000/"/>
- <updated>2018-12-16T02:32:16+09:00</updated>
+ <updated>2018-12-16T17:37:54+09:00</updated>
  <id>http://localhost:4000</id>
  <author>
    <name>안녕지구</name>
@@ -75,6 +75,83 @@ module.exports = {
 
 &lt;p&gt;이번 포스트에서는 이해를 위해서 많은 부분을 생략했는데요, 자연어 학습 및 모델링 하는 부분은 나중에 예제를 프로젝트를 통해서 알아보도록 하겠습니다.
 다음 포스트에서는 빅스비 플랫폼이 어떻게 동작하는지 설명드리겠습니다. 감사합니다.&lt;/p&gt;
+</content>
+ </entry>
+ 
+ <entry>
+   <title>BOJ - 조세퍼스 문제(1158)</title>
+   <link href="http://localhost:4000/algorithm/2018/12/16/boj-josephus-1158/"/>
+   <updated>2018-12-16T00:00:00+09:00</updated>
+   <id>http://localhost:4000/algorithm/2018/12/16/boj-josephus-1158</id>
+   <content type="html">&lt;p&gt;&lt;strong&gt;이중 연결 리스트(Double Linked List)&lt;/strong&gt;를 연습하기 위해 풀어본 문제입니다. 문제를 풀기 위해서 &lt;strong&gt;원형 링크드 리스트(Circular Liked List)&lt;/strong&gt;를 구현해야 하는데 이중 연결 리스트를 이용해서 구현했습니다.&lt;/p&gt;
+
+&lt;h2 id=&quot;구조체-배열&quot;&gt;구조체 배열&lt;/h2&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;struct Node {
+	Node* next;
+	Node* prev;
+	int data;
+}narr[5005];
+
+int nidx = 0;
+Node* allocNode() {
+	return &amp;amp;narr[nidx++];
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;원형-링크드-리스트&quot;&gt;원형 링크드 리스트&lt;/h2&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Node* head = NULL;
+Node* tail = NULL;
+
+void addNode(int data) {
+	Node* nn = allocNode();
+	nn-&amp;gt;data = data;
+	if (head == NULL) {
+		head = nn;
+		tail = nn;
+		nn-&amp;gt;prev = tail;
+		nn-&amp;gt;next = head;
+	} else {
+		head-&amp;gt;prev = nn;
+		tail-&amp;gt;next = nn;
+		nn-&amp;gt;prev = tail;
+		nn-&amp;gt;next = head;
+		tail = nn;
+	}
+}
+
+int delNode(int idx) {
+	Node* cn = head;
+	if (head == NULL) return 0;
+	while (--idx) {
+		cn = cn-&amp;gt;next;
+	}
+	head = cn-&amp;gt;next;
+
+	cn-&amp;gt;prev-&amp;gt;next = cn-&amp;gt;next;
+	cn-&amp;gt;next-&amp;gt;prev = cn-&amp;gt;prev;
+	return cn-&amp;gt;data;
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;메인-함수&quot;&gt;메인 함수&lt;/h2&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;#include &amp;lt;stdio.h&amp;gt;
+
+int main() {
+	int N, M;
+	scanf(&quot;%d %d&quot;, &amp;amp;N, &amp;amp;M);
+
+	for (int i = 1; i &amp;lt;= N; i++) {
+		addNode(i);
+	}
+
+	printf(&quot;&amp;lt;&quot;);
+	for (int i = 1; i &amp;lt; N; i++) {
+		printf(&quot;%d, &quot;, delNode(M));
+	}
+	printf(&quot;%d&quot;, delNode(M));
+	printf(&quot;&amp;gt;&quot;);
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 </content>
  </entry>
  
