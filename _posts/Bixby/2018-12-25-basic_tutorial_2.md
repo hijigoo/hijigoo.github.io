@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 주사위 프로젝트 - Concept과 Action 추가
+title: 주사위 프로젝트 - Concept과 Action 추가 (수정중)
 category: Bixby
 tag: [인공지능, 빅스비]
 ---
