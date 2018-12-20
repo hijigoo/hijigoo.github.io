@@ -11,7 +11,7 @@
 
   <title>
     
-      안녕지구 &middot; #developer #bompapa
+      주사위 프로젝트 - 프로젝트 생성 &middot; 안녕지구
     
   </title>
 
@@ -108,7 +108,7 @@ MathJax.Hub.Config({ tex2jax: { inlineMath: [ ['$','$'], ["\\(","\\)"] ], proces
       
 
       <span class="">
-        <a class="sidebar-nav-item active" href="/">
+        <a class="sidebar-nav-item " href="/">
           Home
         </a>
 
@@ -260,10 +260,114 @@ MathJax.Hub.Config({ tex2jax: { inlineMath: [ ['$','$'], ["\\(","\\)"] ], proces
       </div>
 
       <div class="container content">
-        <div class="hero">
-  <img src="/public/img/bom_family.jpg" />
-  <p><b>Bom</b>'s <i>Family</i></p>
+        <div class="post">
+  <h1 class="post-title">주사위 프로젝트 - 프로젝트 생성</h1>
+  <span class="post-date">21 Dec 2018</span>
+   | 
+  
+    <a href="/blog/tags/#인공지능" class="post-tag">인공지능</a>
+  
+    <a href="/blog/tags/#빅스비" class="post-tag">빅스비</a>
+  
+  
+  <article>
+    <p>안녕하세요. 이번에는 빅스비 개발자 홈페이지에 나와있는 <a href="https://bixbydevelopers.com/dev/docs/get-started/quick-start">Dice 프로젝트</a>를 만들어 보려고 합니다. 영어가 편하신분은 공식 사이트에서 보시는 것을 추천드립니다. Dice프로젝트는 사용자가 아래와 같이 말하면 그 결과를 보여주는 간단한 캡슐입니다. 아래 예제에서 숫자 4 와 2는 1~6 중에서 랜덤으로 나온 숫자입니다.</p>
+
+<blockquote>
+  <p>사용자: “<strong>면이 6개</strong>인 <strong>주사위 2개</strong>를 굴려줘!”<br />
+빅스비: “4 그리고 2 가 나왔습니다. 총 합은 6입니다.”</p>
+</blockquote>
+
+<h2 id="프로젝트-생성">프로젝트 생성</h2>
+
+<p>그럼 프로젝트를 만들어 보겠습니다. IDE는 <a href="https://bixbydevelopers.com/">공식 홈페이지</a>에서 자신이 사용하는 OS에 맞게 <a href="https://bixbydevelopers.com/">다운</a> 받으시면 됩니다. IDE를 설치하시고 아래와 같은 순서로 진행합니다.</p>
+
+<ol>
+  <li><strong>Fie-&gt;New Capsule</strong>을 선택하여 프로젝트를 생성합니다.</li>
+  <li>프로젝트를 생성할 폴더를 선택합니다.</li>
+  <li>Capsule ID를 입력합니다. 저는 <strong>study.dice</strong>로 생성했습니다.</li>
+  <li>마지막으로 <strong>Create</strong> 버튼을 누르시면 기본 구조로 프로젝트가 생성됩니다.</li>
+</ol>
+
+<p><img src="/assets/2018-12-21-basic_tutorial_1/screenshot01.png" alt="image" /></p>
+
+<p>처음 프로젝트를 생성하면 code와 resources폴더가 생깁니다. code폴더에는 Javascript 코드가 들어가는데 서버와 api 통신이나, 연산과 같은 각 Action이 실행될 때 필요한 로직이 들어갑니다. 그리고 resource폴더에는 언어별로 필요한 학습 데이터와 화면을 구성하는데 필요한 파일들이 들어갑니다.</p>
+
+<div class="message">
+캡슐에서는 사용자에게 보여지는 하나의 화면을 Moment라고 하며 여기에는 Dialog, View 그리고 Follow-Ups이 포함됩니다.
 </div>
+<p>참고: <a href="https://bixbydevelopers.com/dev/docs/dev-guide/design-guides/service">Designing Your Capsule</a></p>
+
+<p>그리고 <strong>capsule.bxb</strong> 파일을 보시면 아래와 같이 나와있는데요, 캡슐의 기본 설정 값을 입력한다고 생각하시면 됩니다. 저희는 한국어를 기본으로 할 것이기 때문에 <strong>targets</strong> 값을 <strong>bixby-mobile-ko-KR</strong> 로 변경합니다.</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>capsule {
+  id (study.dice)
+  version (0.1.0)
+  format (3)
+  targets {
+    target (bixby-mobile-ko-KR)
+  }
+}
+</code></pre></div></div>
+
+<p>다음에는 Concept과 Actions를 추가하여 모델링을 해보겠습니다.</p>
+
+  </article>
+</div>
+
+<div class="related">
+  <h2>Related Posts</h2>
+  <ul class="related-posts">
+    
+      <li>
+        <h3>
+          <a href="/algorithm/2018/12/18/boj-editor-1406/">
+            BOJ - 에디터(1406)
+            <small>18 Dec 2018</small>
+          </a>
+        </h3>
+      </li>
+    
+      <li>
+        <h3>
+          <a href="/bixby/2018/12/17/overview_2/">
+            Gettting Started - Overview (2)
+            <small>17 Dec 2018</small>
+          </a>
+        </h3>
+      </li>
+    
+      <li>
+        <h3>
+          <a href="/bixby/2018/12/16/overview_1/">
+            Gettting Started - Overview (1)
+            <small>16 Dec 2018</small>
+          </a>
+        </h3>
+      </li>
+    
+  </ul>
+</div>
+
+
+<div class="comments">
+  <h2>Comments</h2>
+  <div id="disqus_thread"></div>
+  <script>
+var disqus_config = function () {
+  this.page.url = 'http://localhost:4000/bixby/2018/12/21/basic_tutorial_1/'; // Replace PAGE_URL with your page's canonical URL variable
+  this.page.identifier = '/bixby/2018/12/21/basic_tutorial_1'; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+};
+(function() {
+  var d = document, s = d.createElement('script');
+  s.src = '//hijigoo.disqus.com/embed.js';
+  s.setAttribute('data-timestamp', +new Date());
+  (d.head || d.body).appendChild(s);
+})();
+  </script>
+  <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+</div>
+
 
       </div>
     </div>
