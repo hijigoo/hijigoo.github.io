@@ -1,13 +1,13 @@
 ---
 layout: post
-title: 주사위 프로젝트 - Concept과 Action 추가 (수정중)
+title: 주사위 프로젝트 - Concept과 Action 작성
 category: Bixby
 tag: [인공지능, 빅스비]
 ---
 
-## Concepts과 Actions 추가
+## Concepts과 Actions 작성
 
-이번 포스트에서는 Concept과 Action을 추가하여 모델링하는 과정을 설명드리겠습니다. Concept는 우리가 사용 할 변수라고 보시면 되고, Action은 함수라고 생각하면 조금 더 이해하기 편하실 겁니다.
+이번 포스트에서는 Concept과 Action을 만들어서 모델링하는 과정을 설명드리겠습니다. Concept는 우리가 사용 할 변수라고 보시면 되고, Action은 함수라고 생각하면 조금 더 이해하기 편하실 겁니다.
 
 >Concepts explain what Bixby knows, while actions determine what Bixby can do. 
 
