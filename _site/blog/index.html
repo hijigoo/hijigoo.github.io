@@ -139,7 +139,7 @@ MathJax.Hub.Config({ tex2jax: { inlineMath: [ ['$','$'], ["\\(","\\)"] ], proces
                 (
                   
                   
-                  4
+                  5
                 )
               </a>
           
@@ -264,6 +264,229 @@ MathJax.Hub.Config({ tex2jax: { inlineMath: [ ['$','$'], ["\\(","\\)"] ], proces
   
   <div class="post">
     <h1 class="post-title">
+      <a href="/bixby/2018/12/22/basic_tutorial_2/">
+        주사위 프로젝트 - Concept과 Action 추가 (수정중)
+      </a>
+    </h1>
+
+    <span class="post-date">22 Dec 2018</span>
+     | 
+    
+    <a href="/blog/tags/#인공지능" class="post-tag">인공지능</a>
+    
+    <a href="/blog/tags/#빅스비" class="post-tag">빅스비</a>
+    
+    
+
+    <article>
+      <h2 id="concepts과-actions-추가">Concepts과 Actions 추가</h2>
+
+<p>이번 포스트에서는 Concept과 Action을 추가하여 모델링하는 과정을 설명드리겠습니다. Concept는 우리가 사용 할 변수라고 보시면 되고, Action은 함수라고 생각하면 조금 더 이해하기 편하실 겁니다.</p>
+
+<blockquote>
+  <p>Concepts explain what Bixby knows, while actions determine what Bixby can do.</p>
+</blockquote>
+
+<p>프로젝트에서는 총 다섯개의 Concept과  한개의 Action을 사용합니다. 각 의미는 아래와 같습니다.</p>
+
+<ul>
+  <li><strong>Concept</strong>
+    <ul>
+      <li><strong>NumDice.model.bxb</strong> : 주사위의 개수를 의미하는 primitive concept 입니다.</li>
+      <li><strong>NumSides.model.bxb</strong> : 주사위 면의 개수를 의미하는 primitive concept 입니다.</li>
+      <li><strong>Roll.model.bxb</strong> : 주사위 하나에서 나온 숫자를 의미하는 primitive concept 입니다.</li>
+      <li><strong>Sum.model.bxb</strong> : 모든 주사위에서 나온 숫자의 합을 의미하는 primitive concept 입니다.</li>
+      <li><strong>RollResult.model.bxb</strong> : 최종 결과이며 Roll과 Sum을 포함하는 structure concept 입니다.</li>
+    </ul>
+  </li>
+  <li><strong>Action</strong>
+    <ul>
+      <li><strong>RollDice.model.bxb</strong> : NumDice와 NumSides를 입력으로 받아서 RollResult를 생성하는 action입니다.</li>
+    </ul>
+  </li>
+</ul>
+
+<p>위에서 primitive는 integer나 text 같은 기본 자료형을 의미합니다. 이제 models 폴더 아래에 concepts 폴더를 생성하고 위에 있는 Concept 파일들을 만들어줍니다. RollResult를 제외한 모든 Concept의 데이터 타입은 모두 integer 입니다. 위에서도 설명드렸듯이 RollResult는 Roll과 Sum을 포함하고 있는 strucutre 타입입니다. 아래는 각 파일 경로와 코드입니다.</p>
+
+<hr />
+
+<p><em>/model/concepts/Numdice.model.bxb</em></p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>integer (NumDice) {
+  description (The number of dice.)
+}
+</code></pre></div></div>
+
+<p><em>/model/concepts/NumSides.model.bxb</em></p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>integer (NumSides) {
+  description (The number of sides to the dice.)
+}
+</code></pre></div></div>
+
+<p><em>/model/concepts/Roll.model.bxb</em></p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>integer (Roll) {
+  description (The result of a dice roll.)
+}
+</code></pre></div></div>
+
+<p><em>/model/concepts/Sum.model.bxb</em></p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>integer (Sum) {
+  description (The total sum of all the dice rolled.)
+}
+</code></pre></div></div>
+
+<p><em>/model/concepts/RollResult.model.bxb</em></p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>structure (RollResult) {
+  description (The result object produced by the RollDice action.)
+  property (sum) {
+    type (Sum)
+    min (Required)
+    max (One)
+  }
+  property (roll) {
+    type (Roll)
+    min (Required)
+    max (Many)
+  }      
+}
+</code></pre></div></div>
+
+<hr />
+
+<p>위의 RollResult에서 roll은 주사위의 개수만큼 있기 때문에 리스트로 받아야 합니다. <strong>max값이 Many이면 값을 리스트로 받습니다.</strong> Concept을 정의했으니 이제 Action을 만들어보겠습니다. Action은 models 폴더 아래에 actions 폴더를 생성하고 RollDice.model.bxb 파일을 만듭니다.</p>
+
+<hr />
+
+<p><em>/model/actions/RollDice.model.bxb</em></p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>action (RollDice) {
+  type (Calculation)
+
+  collect{
+    input (numDice) {
+      type (NumDice)
+      min (Required)
+      max (One)
+    }
+
+    input (numSides) {
+      type (NumSides)
+      min (Required)
+      max (One)
+    }
+  } 
+
+  output (RollResult)
+}
+</code></pre></div></div>
+
+<hr />
+
+<p>위의 코드를 보시면 입력(collect)으로는 numDice와 numSides를 각각 하나씩 받고 아웃풋으로는 RollResult가 생성되도록 정의했습니다. type은 선택사항으로 <a href="https://bixbydevelopers.com/dev/docs/reference/type/action.type">링크</a>를 참고하여 넣어주시면 됩니다. 여기까지 기본적인 모델링을 했다고 생각하시면 됩니다. Bixby는 우리가 모델링한 Action과 Concept를 참고해서 실행 될 그래프를 만들어 줄 겁니다.</p>
+
+<p>이제 RollDice의 함수를 만들어야 합니다. 앞서 만든 RollDice의 Action이 interface라면, 이제 만들 함수는 implementation이라고 생각하시면 됩니다. 코드는 다음과 같습니다. code 폴더 아래에 RollDice.js 함수를 생성합니다.</p>
+
+<hr />
+
+<p><em>/model/code/RollDice.js</em></p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>// Main entry point
+module.exports.function = function rollDice(numDice, numSides) {
+
+  var sum = 0;
+  var result = [];
+
+  // Generate random roll number (1~numSides)
+  for (var i = 0; i &lt; numDice; i++) {
+    var roll = Math.ceil(Math.random() * numSides);
+    result.push(roll);
+    sum += roll;
+  }
+
+  // RollResult
+  return {
+    sum: sum, // required Sum
+    roll: result // required list Roll
+  }
+}
+</code></pre></div></div>
+
+<hr />
+
+<p>위의 함수를 보시면 RollDice.model.bxb 에 정의한 내용과 같게 numDice와 numSides를 입력으로 받고 RollResult를 리턴합니다. 마찬가지로 반환되는 JSON도 RollResult.model.bxb 와 같은 구조입니다.</p>
+
+<p>이제 Bixby가 실행될 때 Javascript 함수에도 접근할 수 있도록 endpoint를 정의 해주어야 합니다. resources 폴더 아래에 다시 ko 폴더를 만들고 endpoints.bxb 파일을 추가합니다.</p>
+
+<hr />
+
+<p><em>/resources/ko/endpoints.bxb</em></p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>endpoints {
+   authorization {
+     none
+   }
+   action-endpoints {
+     action-endpoint (RollDice) {
+       accepted-inputs (numDice, numSides)
+       local-endpoint ("RollDice.js")
+     }
+   }
+}
+</code></pre></div></div>
+
+<hr />
+
+<!-- 지금까지 구현한 프로젝트의 구조는 아래와 같습니다.
+
+![image](/assets/2018-12-22-basic_tutorial_2/screenshot05.png){: width="30%" height="30%"}
+ -->
+
+<p>이제 아래와 같은 순서로 실행해볼 수 있습니다.</p>
+
+<ol>
+  <li><strong>View &gt; Open Simulator</strong> 로 가서 Simulator를 실행합니다.</li>
+  <li>팝업창이 뜨면 <strong>Confirm</strong>을 눌러서 컴파일 하고 학습된 데이터를 준비합니다.</li>
+  <li>아직 자연어 학습을 하지 않았기 때문에 아래의 intent를 직접 입력합니다.
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>intent {
+  goal: RollResult
+  value: NumSides (6)
+  value: NumDice (2)
+}
+</code></pre></div>    </div>
+  </li>
+  <li><strong>Run NL</strong> 을 선택하여 실행합니다.</li>
+</ol>
+
+<p>간단하게 설명드리면, 사용자는 RollResult를 얻기를 원하며, NumSides값을 6으로, NumDice값을 2로 빅스비에게 알려준 것입니다.</p>
+
+<div class="message">
+자연어를 학습시키면 "면이 6개인 주사위 2개를 굴려줘!" 라는 발화가 위의 intent로 변환되어 실행됩니다. 이 부분은 맨 마지막에 다룰 예정입니다.
+</div>
+
+<p>지금까지 잘 따라오셨다면 아래와 같은 화면을 보실 수 있을 겁니다. 현재는 따로 화면(Moment)을 만들지 않았기 때문에 리턴된 output 데이터를 테이블형식으로 보여줍니다.</p>
+
+<div class="message">
+빅스비에서는 사용자에게 보여주는 응답, 즉 화면 자체를 Moment라고 지칭합니다.
+</div>
+
+<p><img src="/assets/2018-12-22-basic_tutorial_2/screenshot02.png" alt="image" /></p>
+
+<p>이제 빅스비가 실행 그래프(execution graph)가 어떻게 만들었는지 확인해봅시다. simulator에서 왼쪽 위에 Reset 버튼 옆에 있는 두개의 버튼 중 <strong>Debug</strong> 버튼을 눌러서 Debug Console을 실행하면 아래와 같은 화면을 보실 수 있을겁니다.</p>
+
+<!-- ![image](){: width="50%" height="50%"} -->
+<p><img src="/assets/2018-12-22-basic_tutorial_2/screenshot04.png" alt="image" /></p>
+
+<p>위의 그래프를 보면 intent에서 두 개의 value 값이 concept으로 맵핑되고 goal인 RollResult를 얻기 위해서 RollDice로 연결되었습니다. 그리고 그래프가 실행되면서 RollDice Action에 도달했을 때는 endpoint에서 연결 된 RollDice.js 를 실행시켜 최종 아웃풋인 RollResult를 결과로 얻습니다.</p>
+
+<p>다음 포스트에서는 RollResult를 화면에 보여주는 방법에 대해서 정리하겠습니다.</p>
+
+    <article>
+    <div class="post-more">
+      
+      <a href="/bixby/2018/12/22/basic_tutorial_2/#disqus_thread"> <i class="fa fa-comments" aria-hidden="true"></i>Comment</a>&nbsp;
+      
+      <a href="/bixby/2018/12/22/basic_tutorial_2/"><i class="fa fa-plus-circle" aria-hidden="true"></i>Read more</a>
+    </div>
+  </div>
+  
+  <div class="post">
+    <h1 class="post-title">
       <a href="/bixby/2018/12/21/basic_tutorial_1/">
         주사위 프로젝트 - 프로젝트 생성
       </a>
@@ -293,7 +516,7 @@ MathJax.Hub.Config({ tex2jax: { inlineMath: [ ['$','$'], ["\\(","\\)"] ], proces
 <ol>
   <li><strong>Fie-&gt;New Capsule</strong>을 선택하여 프로젝트를 생성합니다.</li>
   <li>프로젝트를 생성할 폴더를 선택합니다.</li>
-  <li>Capsule ID를 입력합니다. 저는 <strong>study.dice</strong>로 생성했습니다.</li>
+  <li>Capsule ID를 입력합니다. 저는 <strong>playground.dice</strong>로 생성했습니다.</li>
   <li>마지막으로 <strong>Create</strong> 버튼을 누르시면 기본 구조로 프로젝트가 생성됩니다.</li>
 </ol>
 
@@ -637,106 +860,6 @@ module.exports = {
       <a href="/bixby/2018/12/16/overview_1/#disqus_thread"> <i class="fa fa-comments" aria-hidden="true"></i>Comment</a>&nbsp;
       
       <a href="/bixby/2018/12/16/overview_1/"><i class="fa fa-plus-circle" aria-hidden="true"></i>Read more</a>
-    </div>
-  </div>
-  
-  <div class="post">
-    <h1 class="post-title">
-      <a href="/algorithm/2018/12/16/boj-josephus-1158/">
-        BOJ - 조세퍼스 문제(1158)
-      </a>
-    </h1>
-
-    <span class="post-date">16 Dec 2018</span>
-     | 
-    
-    <a href="/blog/tags/#boj" class="post-tag">BOJ</a>
-    
-    <a href="/blog/tags/#백준" class="post-tag">백준</a>
-    
-    <a href="/blog/tags/#알고리즘" class="post-tag">알고리즘</a>
-    
-    <a href="/blog/tags/#자료구조" class="post-tag">자료구조</a>
-    
-    
-
-    <article>
-      <p><strong>이중 연결 리스트(Double Linked List)</strong>를 연습하기 위해 풀어본 문제입니다. 문제를 풀기 위해서 <strong>원형 링크드 리스트(Circular Liked List)</strong>를 구현해야 하는데 이중 연결 리스트를 이용해서 구현했습니다.</p>
-
-<h2 id="구조체-배열">구조체 배열</h2>
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>struct Node {
-	Node* next;
-	Node* prev;
-	int data;
-}narr[5005];
-
-int nidx = 0;
-Node* allocNode() {
-	return &amp;narr[nidx++];
-}
-</code></pre></div></div>
-
-<h2 id="원형-링크드-리스트">원형 링크드 리스트</h2>
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Node* head = NULL;
-Node* tail = NULL;
-
-void addNode(int data) {
-	Node* nn = allocNode();
-	nn-&gt;data = data;
-	if (head == NULL) {
-		head = nn;
-		tail = nn;
-		nn-&gt;prev = tail;
-		nn-&gt;next = head;
-	} else {
-		head-&gt;prev = nn;
-		tail-&gt;next = nn;
-		nn-&gt;prev = tail;
-		nn-&gt;next = head;
-		tail = nn;
-	}
-}
-
-int delNode(int idx) {
-	Node* cn = head;
-	if (head == NULL) return 0;
-	while (--idx) {
-		cn = cn-&gt;next;
-	}
-	head = cn-&gt;next;
-
-	cn-&gt;prev-&gt;next = cn-&gt;next;
-	cn-&gt;next-&gt;prev = cn-&gt;prev;
-	return cn-&gt;data;
-}
-</code></pre></div></div>
-
-<h2 id="메인-함수">메인 함수</h2>
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>#include &lt;stdio.h&gt;
-
-int main() {
-	int N, M;
-	scanf("%d %d", &amp;N, &amp;M);
-
-	for (int i = 1; i &lt;= N; i++) {
-		addNode(i);
-	}
-
-	printf("&lt;");
-	for (int i = 1; i &lt; N; i++) {
-		printf("%d, ", delNode(M));
-	}
-	printf("%d", delNode(M));
-	printf("&gt;");
-}
-</code></pre></div></div>
-
-    <article>
-    <div class="post-more">
-      
-      <a href="/algorithm/2018/12/16/boj-josephus-1158/#disqus_thread"> <i class="fa fa-comments" aria-hidden="true"></i>Comment</a>&nbsp;
-      
-      <a href="/algorithm/2018/12/16/boj-josephus-1158/"><i class="fa fa-plus-circle" aria-hidden="true"></i>Read more</a>
     </div>
   </div>
   

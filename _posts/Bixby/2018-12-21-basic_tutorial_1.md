@@ -19,7 +19,7 @@ tag: [인공지능, 빅스비]
 
 1. **Fie->New Capsule**을 선택하여 프로젝트를 생성합니다.
 2. 프로젝트를 생성할 폴더를 선택합니다.
-3. Capsule ID를 입력합니다. 저는 **study.dice**로 생성했습니다.
+3. Capsule ID를 입력합니다. 저는 **playground.dice**로 생성했습니다.
 4. 마지막으로 **Create** 버튼을 누르시면 기본 구조로 프로젝트가 생성됩니다.
 
 ![image](/assets/2018-12-21-basic_tutorial_1/screenshot01.png)
