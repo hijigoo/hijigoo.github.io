@@ -155,7 +155,7 @@ MathJax.Hub.Config({ tex2jax: { inlineMath: [ ['$','$'], ["\\(","\\)"] ], proces
                 (
                   
                   
-                  7
+                  8
                 )
               </a>
           
@@ -445,6 +445,96 @@ module.exports.function = function rollDice(numDice, numSides) {
   
   <div class="post">
     <h1 class="post-title">
+      <a href="/algorithm/2018/12/22/boj-union-find-1717/">
+        BOJ - 집합의 표현(1717)
+      </a>
+    </h1>
+
+    <span class="post-date">22 Dec 2018</span>
+     | 
+    
+    <a href="/blog/tags/#boj" class="post-tag">BOJ</a>
+    
+    <a href="/blog/tags/#백준" class="post-tag">백준</a>
+    
+    <a href="/blog/tags/#알고리즘" class="post-tag">알고리즘</a>
+    
+    <a href="/blog/tags/#자료구조" class="post-tag">자료구조</a>
+    
+    
+
+    <article>
+      <p><strong>유니온 파인드(Union-Find)</strong>를 연습하기 위해 풀어본 문제입니다. 유니온 파인드는 배열을 사용해서 구현했습니다. 같은 집합에 포함되어 있는지 확인할 때는 find() 함수로 root노드가 같은지 확인하고, 합집합을 할 때는 각 트리의 root 노드가 다르다면 하나를 다른 노드의 자식으로 넣어서 트리를 합칩니다.</p>
+
+<div class="message">
+단순하게 구현했을 때는 Timeout이 발생했습니다. find를 할 떄 부모를 찾아가는 경로가 길어진 경우 시간이 많이 소비되었기 때문입니다. 이를 해결하기 위해 find() 함수에 p[n] = find(p[n]); 를 넣어서 Root 번호를 바로 찾을 수 있게 해서 시간을 단축했습니다. 이를 경로 압축(path compression)이라고 합니다.
+</div>
+
+<h2 id="유니온-파인">유니온 파인</h2>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>#define MAX 1000001
+int p[MAX];
+
+int find(int n) {
+	if (p[n] &lt; 0) return n;
+	else {
+		//경로 압축(path compression)
+		p[n] = find(p[n]);
+		return p[n];
+	}
+}
+
+void uni(int a, int b) {
+	int ap = find(a);
+	int bp = find(b);
+	if (ap != bp) {
+		p[bp] = ap;
+	}
+}
+</code></pre></div></div>
+
+<h2 id="메인-함수">메인 함수</h2>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>#include &lt;stdio.h&gt;
+
+int main() {
+
+	// init
+	for (int i = 0; i &lt; MAX; i++) {
+		p[i] = -1;
+	};
+
+	int n, m;
+	scanf("%d %d", &amp;n, &amp;m);
+
+	while(m--) {
+		int op, a, b;
+		scanf("%d %d %d", &amp;op, &amp;a, &amp;b);
+
+		if (op == 0) {
+			uni(a, b);
+		} else {
+			int ap = find(a);
+			int bp = find(b);
+
+			if (ap == bp) printf("YES\n");
+			else printf("NO\n");
+		}
+	}
+
+	return 0;
+}
+</code></pre></div></div>
+
+    <article>
+    <div class="post-more">
+      
+      <a href="/algorithm/2018/12/22/boj-union-find-1717/#disqus_thread"> <i class="fa fa-comments" aria-hidden="true"></i>Comment</a>&nbsp;
+      
+      <a href="/algorithm/2018/12/22/boj-union-find-1717/"><i class="fa fa-plus-circle" aria-hidden="true"></i>Read more</a>
+    </div>
+  </div>
+  
+  <div class="post">
+    <h1 class="post-title">
       <a href="/bixby/2018/12/21/basic_tutorial_1/">
         주사위 프로젝트 - 프로젝트 생성
       </a>
@@ -726,98 +816,6 @@ intent {
       <a href="/bixby/2018/12/17/overview_2/#disqus_thread"> <i class="fa fa-comments" aria-hidden="true"></i>Comment</a>&nbsp;
       
       <a href="/bixby/2018/12/17/overview_2/"><i class="fa fa-plus-circle" aria-hidden="true"></i>Read more</a>
-    </div>
-  </div>
-  
-  <div class="post">
-    <h1 class="post-title">
-      <a href="/bixby/2018/12/16/overview_1/">
-        Gettting Started - Overview (1)
-      </a>
-    </h1>
-
-    <span class="post-date">16 Dec 2018</span>
-     | 
-    
-    <a href="/blog/tags/#인공지능" class="post-tag">인공지능</a>
-    
-    <a href="/blog/tags/#빅스비" class="post-tag">빅스비</a>
-    
-    
-
-    <article>
-      <p>빅스비 개발을 시작하기 전에 전체적으로 어떻게 동작하는지 간략하게 소개드리려고 합니다. 내용은 공식 <a href="https://bixbydevelopers.com/dev/docs/get-started/overview">Bixby Developer</a> 페이지를 참고했습니다.</p>
-
-<h2 id="무엇을-개발해야-하나요">무엇을 개발해야 하나요</h2>
-
-<p><a href="/bixby/2018/12/13/intro/">이전 포스팅</a>에서도 설명 드렸듯이 빅스비는 전통적인 프로그래밍 방식과 다른 개발 방식을 보입니다. 개발자는 빅스비가 사용자의 발화를 이해할 수 있도록 IDE에서 자연어를 학습시켜야 합니다. 또한 빅스비가 <strong>실행 그래프</strong> 를 구성할 수 있게 <strong>모델링</strong>을 해주고, 필요하다면 서버와 통신과 같은 추가적인 함수를 작성해야 합니다. 마지막으로 사용자에게 보여줄 Dialog와 Layout을 작성합니다.</p>
-
-<p>다음은 빅스비가 사용자의 발화를 이해하고 그래프를 구성한 예제입니다.</p>
-
-<blockquote>
-  <p><em>“<strong>면이 여섯 개</strong>인 <strong>두 개</strong>의 주사위를 굴렸을 때 나온 숫자의 총 합을 구해줘”</em></p>
-</blockquote>
-
-<p><img src="/assets/2018-12-16-overview_1/1st-execution-graph-11771877356118750247.png" alt="image" /></p>
-
-<p>개발자는 그림과 같이 그래프를 구성하기 위해서 아래의 작업을 해줘야 합니다.</p>
-
-<ul>
-  <li>사용자 발화에서 NumDice(2)와 NumSides(6)를 추출할 수 있도록 <strong>자연어를 학습</strong>합니다.</li>
-  <li>그래프가 만들어 질 수 있도록 NumDice, NumSides 그리고 RollDice를 <strong>모델링</strong>을 합니다.</li>
-  <li>RollDice로 입력된 두 값을 사용하여 RollResult를 계산하는 <strong>함수</strong>를 넣습니다.</li>
-</ul>
-
-<!-- 
-**모델링(Modeling)**은 **Concept**과 **Action**을 정의하는 작업이라고 생각하시면 됩니다. 우리가 보고 있는 예제에서는 NumDice, NumSides, RollResult가 Concept이고 RollDice가 Action입니다. 나중에 조금 더 자세하게 다루겠습니다. 아래는 공식 홈페이지에 나와있는 Concept과 Action에 대한 설명입니다.
->A **concept** describes any "thing." It could represent a concrete object, such as coffee, flowers, or an airport.
-
->An **action** defines an operation that Bixby can perform, directly or indirectly, on behalf of a user. If concepts are nouns, actions are verbs. 
--->
-
-<p>다음은 RollDice 함수입니다. 서버와의 통신이나 추가로 필요한 함수는 Javascript로 작성합니다.</p>
-
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>// RollDice
-// Rolls a dice given a number of sides and a number of dice
-
-// Main entry point
-function rollDice(numDice, numSides) {
-
-  var sum = 0;
-  var result = [];
-
-  for (var i = 0; i &lt; numDice; i++) {
-    var roll = Math.ceil(Math.random() * numSides);
-    result.push(roll);
-    sum += roll;
-  }
-
-  // RollResult
-  return {
-    sum: sum, // required Sum
-    roll: result // required list Roll
-  }
-}
-
-// Exports
-module.exports = {
-  function: rollDice
-}
-</code></pre></div></div>
-
-<p>그리고 RollResult가 사용자에게 보여지도록 <strong>Dialog</strong>와 <strong>Layout</strong>을 작성하면 아래처럼 결과를 볼 수 있습니다. 아래 그림에서 빅스비가 얘기하는 부분(‘Here’s what I found’)이 Dialog이고 추가 정보를 보여주는 부분이 Layout 입니다.</p>
-
-<p><img src="/assets/2018-12-16-overview/layout-result-16107432446437221263.png" alt="image" /></p>
-
-<p>이번 포스트에서는 설명을 위해서 많은 부분을 생략했는데요, 자연어 학습 및 모델링 하는 부분은 나중에 예제를 프로젝트를 통해서 알아보도록 하겠습니다.
-다음 포스트에서는 빅스비 플랫폼이 어떻게 동작하는지 설명드리겠습니다. 감사합니다.</p>
-
-    <article>
-    <div class="post-more">
-      
-      <a href="/bixby/2018/12/16/overview_1/#disqus_thread"> <i class="fa fa-comments" aria-hidden="true"></i>Comment</a>&nbsp;
-      
-      <a href="/bixby/2018/12/16/overview_1/"><i class="fa fa-plus-circle" aria-hidden="true"></i>Read more</a>
     </div>
   </div>
   

@@ -11,7 +11,7 @@
 
   <title>
     
-      About &middot; 안녕지구
+      BOJ - 집합의 표현(1717) &middot; 안녕지구
     
   </title>
 
@@ -217,7 +217,7 @@ MathJax.Hub.Config({ tex2jax: { inlineMath: [ ['$','$'], ["\\(","\\)"] ], proces
       
 
       <span class="">
-        <a class="sidebar-nav-item active" href="/about/">
+        <a class="sidebar-nav-item " href="/about/">
           About
         </a>
 
@@ -260,12 +260,137 @@ MathJax.Hub.Config({ tex2jax: { inlineMath: [ ['$','$'], ["\\(","\\)"] ], proces
       </div>
 
       <div class="container content">
-        <div class="page">
-  <h1 class="page-title">About</h1>
-  <p>안녕하세요. 좋은 개발자가 되기 위해 노력하고 있습니다.<br />
-부족하지만 도움이 되었으면 좋겠습니다.</p>
+        <div class="post">
+  <h1 class="post-title">BOJ - 집합의 표현(1717)</h1>
+  <span class="post-date">22 Dec 2018</span>
+   | 
+  
+    <a href="/blog/tags/#boj" class="post-tag">BOJ</a>
+  
+    <a href="/blog/tags/#백준" class="post-tag">백준</a>
+  
+    <a href="/blog/tags/#알고리즘" class="post-tag">알고리즘</a>
+  
+    <a href="/blog/tags/#자료구조" class="post-tag">자료구조</a>
+  
+  
+  <article>
+    <p><strong>유니온 파인드(Union-Find)</strong>를 연습하기 위해 풀어본 문제입니다. 유니온 파인드는 배열을 사용해서 구현했습니다. 같은 집합에 포함되어 있는지 확인할 때는 find() 함수로 root노드가 같은지 확인하고, 합집합을 할 때는 각 트리의 root 노드가 다르다면 하나를 다른 노드의 자식으로 넣어서 트리를 합칩니다.</p>
 
+<div class="message">
+단순하게 구현했을 때는 Timeout이 발생했습니다. find를 할 떄 부모를 찾아가는 경로가 길어진 경우 시간이 많이 소비되었기 때문입니다. 이를 해결하기 위해 find() 함수에 p[n] = find(p[n]); 를 넣어서 Root 번호를 바로 찾을 수 있게 해서 시간을 단축했습니다. 이를 경로 압축(path compression)이라고 합니다.
 </div>
+
+<h2 id="유니온-파인">유니온 파인</h2>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>#define MAX 1000001
+int p[MAX];
+
+int find(int n) {
+	if (p[n] &lt; 0) return n;
+	else {
+		//경로 압축(path compression)
+		p[n] = find(p[n]);
+		return p[n];
+	}
+}
+
+void uni(int a, int b) {
+	int ap = find(a);
+	int bp = find(b);
+	if (ap != bp) {
+		p[bp] = ap;
+	}
+}
+</code></pre></div></div>
+
+<h2 id="메인-함수">메인 함수</h2>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>#include &lt;stdio.h&gt;
+
+int main() {
+
+	// init
+	for (int i = 0; i &lt; MAX; i++) {
+		p[i] = -1;
+	};
+
+	int n, m;
+	scanf("%d %d", &amp;n, &amp;m);
+
+	while(m--) {
+		int op, a, b;
+		scanf("%d %d %d", &amp;op, &amp;a, &amp;b);
+
+		if (op == 0) {
+			uni(a, b);
+		} else {
+			int ap = find(a);
+			int bp = find(b);
+
+			if (ap == bp) printf("YES\n");
+			else printf("NO\n");
+		}
+	}
+
+	return 0;
+}
+</code></pre></div></div>
+
+  </article>
+</div>
+
+<div class="related">
+  <h2>Related Posts</h2>
+  <ul class="related-posts">
+    
+      <li>
+        <h3>
+          <a href="/bixby/2018/12/22/basic_tutorial_2/">
+            주사위 프로젝트 - Concept과 Action 작성
+            <small>22 Dec 2018</small>
+          </a>
+        </h3>
+      </li>
+    
+      <li>
+        <h3>
+          <a href="/bixby/2018/12/21/basic_tutorial_1/">
+            주사위 프로젝트 - 프로젝트 생성
+            <small>21 Dec 2018</small>
+          </a>
+        </h3>
+      </li>
+    
+      <li>
+        <h3>
+          <a href="/algorithm/2018/12/18/boj-editor-1406/">
+            BOJ - 에디터(1406)
+            <small>18 Dec 2018</small>
+          </a>
+        </h3>
+      </li>
+    
+  </ul>
+</div>
+
+
+<div class="comments">
+  <h2>Comments</h2>
+  <div id="disqus_thread"></div>
+  <script>
+var disqus_config = function () {
+  this.page.url = 'http://localhost:4000/algorithm/2018/12/22/boj-union-find-1717/'; // Replace PAGE_URL with your page's canonical URL variable
+  this.page.identifier = '/algorithm/2018/12/22/boj-union-find-1717'; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+};
+(function() {
+  var d = document, s = d.createElement('script');
+  s.src = '//hijigoo.disqus.com/embed.js';
+  s.setAttribute('data-timestamp', +new Date());
+  (d.head || d.body).appendChild(s);
+})();
+  </script>
+  <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+</div>
+
 
       </div>
     </div>
