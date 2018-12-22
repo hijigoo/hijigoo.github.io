@@ -139,7 +139,23 @@ MathJax.Hub.Config({ tex2jax: { inlineMath: [ ['$','$'], ["\\(","\\)"] ], proces
                 (
                   
                   
-                  5
+                  6
+                )
+              </a>
+          
+        
+          
+            
+            
+            
+              <a class="sidebar-nav-item sidebar-nav-item-sub " href="/blog/categories/#RL">
+                <!-- 강화 학습 -->
+                
+                강화 학습&nbsp
+                (
+                  
+                  
+                  0
                 )
               </a>
           
@@ -155,7 +171,7 @@ MathJax.Hub.Config({ tex2jax: { inlineMath: [ ['$','$'], ["\\(","\\)"] ], proces
                 (
                   
                   
-                  8
+                  9
                 )
               </a>
           
@@ -261,6 +277,259 @@ MathJax.Hub.Config({ tex2jax: { inlineMath: [ ['$','$'], ["\\(","\\)"] ], proces
 
       <div class="container content">
         <div class="posts">
+  
+  <div class="post">
+    <h1 class="post-title">
+      <a href="/bixby/2018/12/23/basic_tutorial_3/">
+        주사위 프로젝트 - Capsule 테스트
+      </a>
+    </h1>
+
+    <span class="post-date">23 Dec 2018</span>
+     | 
+    
+    <a href="/blog/tags/#인공지능" class="post-tag">인공지능</a>
+    
+    <a href="/blog/tags/#빅스비" class="post-tag">빅스비</a>
+    
+    
+
+    <article>
+      <h2 id="capsule-테스트">Capsule 테스트</h2>
+
+<p>이제 아래와 같은 순서로 실행해볼 수 있습니다.</p>
+
+<ol>
+  <li><strong>View &gt; Open Simulator</strong> 로 가서 Simulator를 실행합니다.</li>
+  <li>팝업창이 뜨면 <strong>Confirm</strong>을 눌러서 컴파일 하고 학습된 데이터를 준비합니다.</li>
+  <li>아직 자연어 학습을 하지 않았기 때문에 아래의 intent를 직접 입력합니다.
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>intent {
+  goal: RollResult
+  value: NumSides (6)
+  value: NumDice (2)
+}
+</code></pre></div>    </div>
+  </li>
+  <li><strong>Run NL</strong> 을 선택하여 실행합니다.</li>
+</ol>
+
+<p>간단하게 설명드리면, 사용자는 RollResult를 얻기를 원하며, NumSides값을 6으로, NumDice값을 2로 빅스비에게 알려준 것입니다.</p>
+
+<div class="message">
+자연어를 학습시키면 "면이 6개인 주사위 2개를 굴려줘!" 라는 발화가 위의 intent로 변환되어 실행됩니다. 이 부분은 맨 마지막에 다룰 예정입니다.
+</div>
+
+<p>지금까지 잘 따라오셨다면 아래와 같은 화면을 보실 수 있을 겁니다. 현재는 따로 화면(Moment)을 만들지 않았기 때문에 리턴된 output 데이터를 테이블형식으로 보여줍니다.</p>
+
+<div class="message">
+빅스비에서는 사용자에게 보여주는 응답, 즉 화면 자체를 Moment라고 지칭합니다.
+</div>
+
+<p><img src="/assets/2018-12-23-basic_tutorial_3/screenshot02.png" alt="image" /></p>
+
+<p>이제 빅스비가 실행 그래프(execution graph)가 어떻게 만들었는지 확인해봅시다. simulator에서 왼쪽 위에 Reset 버튼 옆에 있는 두개의 버튼 중 <strong>Debug</strong> 버튼을 눌러서 Debug Console을 실행하면 아래와 같은 화면을 보실 수 있을겁니다.</p>
+
+<!-- ![image](){: width="50%" height="50%"} -->
+<p><img src="/assets/2018-12-23-basic_tutorial_3/screenshot03.png" alt="image" /></p>
+
+<p>위의 그래프를 보면 intent에서 두 개의 value 값이 concept으로 맵핑되고 goal인 RollResult를 얻기 위해서 RollDice로 연결되었습니다. 그리고 그래프가 실행되면서 RollDice Action에 도달했을 때는 endpoint에서 연결 된 RollDice.js 를 실행시켜 최종 아웃풋인 RollResult를 결과로 얻습니다.</p>
+
+<p>다음 포스트에서는 RollResult를 화면에 보여주는 방법에 대해서 정리하겠습니다.</p>
+
+    <article>
+    <div class="post-more">
+      
+      <a href="/bixby/2018/12/23/basic_tutorial_3/#disqus_thread"> <i class="fa fa-comments" aria-hidden="true"></i>Comment</a>&nbsp;
+      
+      <a href="/bixby/2018/12/23/basic_tutorial_3/"><i class="fa fa-plus-circle" aria-hidden="true"></i>Read more</a>
+    </div>
+  </div>
+  
+  <div class="post">
+    <h1 class="post-title">
+      <a href="/algorithm/2018/12/23/boj-friend-network-4195/">
+        BOJ - 친구 네트워크(4195)
+      </a>
+    </h1>
+
+    <span class="post-date">23 Dec 2018</span>
+     | 
+    
+    <a href="/blog/tags/#boj" class="post-tag">BOJ</a>
+    
+    <a href="/blog/tags/#백준" class="post-tag">백준</a>
+    
+    <a href="/blog/tags/#알고리즘" class="post-tag">알고리즘</a>
+    
+    <a href="/blog/tags/#자료구조" class="post-tag">자료구조</a>
+    
+    
+
+    <article>
+      <p><strong>유니온 파인드(Union-Find)</strong>를 사용해서 해결할 수 있는 문제입니다. 그런데 find 과정에서 단순하게 문자열 비교를 하면 Timeout이 발생합니다. 이를 해결하기 위해서 문자열을 hash 값으로 변환해서 비교해야 합니다. <strong>HashMap</strong>을 만들 때 hash 값은 겹칠 수 있기 때문에 <strong>Linked List</strong>를 사용했습니다. 이런 방식을 <a href="https://en.wikipedia.org/wiki/Hash_table#Separate_chaining"><strong>Separate chaining</strong></a>이라고 합니다. 기존의 HashMap 라이브러리를 사용하셔도 됩니다.</p>
+
+<p>HashCode를 구하는 식은 <a href="https://d2.naver.com/helloworld/831311">Naver D2</a>를 참고했습니다.</p>
+
+<div class="message">
+문자열을 배열로 받으면 주소가 고정되어서, Node에 저장된 name이 다음 입력을 받을 때 변경되는 문제가 있었습니다. 이 문제를 해결하고자 문자열을 동적 할당해서 매번 다른 주소값에 맵핑 되도록 수정했습니다. 문자열을 카피해서 해결하는 방법도 있습니다.
+</div>
+
+<h2 id="노드">노드</h2>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>// define
+#define MAX 200010
+
+// node
+struct Node {
+	Node* next;
+	int idx;
+	char* name;
+}nodearr[MAX];
+
+int nodeidx = 0;
+Node* allocnode(char* name, int idx) {
+	Node* node = &amp;nodearr[nodeidx++];
+	node-&gt;name = name;
+	node-&gt;idx = idx;
+	return node;
+}
+</code></pre></div></div>
+
+<h2 id="hash-code">Hash Code</h2>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>int hashCode(char* str) {
+	int hash = 0;
+	for (int i = 0; str[i] != '\0'; i++) {
+		hash = (hash * 31 + str[i]) % MAX;
+	}
+	return hash;
+}
+</code></pre></div></div>
+
+<h2 id="hash-map">Hash Map</h2>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Node* h[MAX];
+
+int get(char* name) {
+	int hash = hashCode(name);
+
+	Node* cur = h[hash];
+	while (cur != '\0') {
+		int isSame = 1;
+		for (int i = 0; i &lt; 21; i++) {
+			if (name[i] != cur-&gt;name[i]) {
+				isSame = 0;
+				break;
+			}
+		}
+		if (isSame) return cur-&gt;idx;
+		cur = cur-&gt;next;
+	}
+}
+
+void put(char* name, int idx) {
+	int hash = hashCode(name);
+	Node* node = allocnode(name, idx);
+	if (h[hash] == '\0') h[hash] = node;
+	else {
+		node-&gt;next = h[hash];
+		h[hash] = node;
+	}
+}
+
+int isContain(char* name) {
+	int hash = hashCode(name);
+	if (h[hash] == '\0') return 0;
+	else {
+		Node* cur = h[hash];
+		while (cur != '\0') {
+			int isSame = 1;
+			for (int i = 0; i &lt; 21; i++) {
+				if (name[i] != cur-&gt;name[i]) {
+					isSame = 0;
+					break;
+				}
+			}
+			if (isSame) return 1;
+			cur = cur-&gt;next;
+		}
+		return 0;
+	}
+}
+</code></pre></div></div>
+
+<h2 id="유니온-파인드">유니온 파인드</h2>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>int find(int n) {
+	if (p[n] &lt; 0) return n;
+	else {
+		// path compression
+		p[n] = find(p[n]);
+		return p[n];
+	}
+}
+
+int uni(int a, int b) {
+
+	int ap = find(a);
+	int bp = find(b);
+
+	if (ap != bp) {
+		p[bp] = ap;
+		c[ap] += c[bp];
+	}
+
+	return c[ap];
+}
+</code></pre></div></div>
+
+<h2 id="메인-함수">메인 함수</h2>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+int main() {
+
+	int T;
+	scanf("%d", &amp;T);
+
+	while (T--) {
+		int nameCount = 1;
+		for (int i = 0; i &lt; MAX; i++) {
+			p[i] = -1;
+			c[i] = 1;
+		}
+
+		int F;
+		scanf("%d", &amp;F);
+
+		while (F--) {
+
+			char* a = (char*)malloc(sizeof(char) * 21);
+			char* b = (char*)malloc(sizeof(char) * 21);
+
+			scanf("%s", a);
+			scanf("%s", b);
+
+			if (isContain(a) == 0) {
+				put(a, nameCount++);
+			}
+			if (isContain(b) == 0) {
+				put(b, nameCount++);
+			}
+
+			int count = uni(get(a), get(b));
+			printf("%d\n", count);
+		}
+
+	}
+
+	return 0;
+}
+</code></pre></div></div>
+
+    <article>
+    <div class="post-more">
+      
+      <a href="/algorithm/2018/12/23/boj-friend-network-4195/#disqus_thread"> <i class="fa fa-comments" aria-hidden="true"></i>Comment</a>&nbsp;
+      
+      <a href="/algorithm/2018/12/23/boj-friend-network-4195/"><i class="fa fa-plus-circle" aria-hidden="true"></i>Read more</a>
+    </div>
+  </div>
   
   <div class="post">
     <h1 class="post-title">
@@ -470,7 +739,7 @@ module.exports.function = function rollDice(numDice, numSides) {
 단순하게 구현했을 때는 Timeout이 발생했습니다. find를 할 떄 부모를 찾아가는 경로가 길어진 경우 시간이 많이 소비되었기 때문입니다. 이를 해결하기 위해 find() 함수에 p[n] = find(p[n]); 를 넣어서 Root 번호를 바로 찾을 수 있게 해서 시간을 단축했습니다. 이를 경로 압축(path compression)이라고 합니다.
 </div>
 
-<h2 id="유니온-파인">유니온 파인</h2>
+<h2 id="유니온-파인드">유니온 파인드</h2>
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>#define MAX 1000001
 int p[MAX];
 
@@ -597,225 +866,6 @@ int main() {
       <a href="/bixby/2018/12/21/basic_tutorial_1/#disqus_thread"> <i class="fa fa-comments" aria-hidden="true"></i>Comment</a>&nbsp;
       
       <a href="/bixby/2018/12/21/basic_tutorial_1/"><i class="fa fa-plus-circle" aria-hidden="true"></i>Read more</a>
-    </div>
-  </div>
-  
-  <div class="post">
-    <h1 class="post-title">
-      <a href="/algorithm/2018/12/18/boj-editor-1406/">
-        BOJ - 에디터(1406)
-      </a>
-    </h1>
-
-    <span class="post-date">18 Dec 2018</span>
-     | 
-    
-    <a href="/blog/tags/#boj" class="post-tag">BOJ</a>
-    
-    <a href="/blog/tags/#백준" class="post-tag">백준</a>
-    
-    <a href="/blog/tags/#알고리즘" class="post-tag">알고리즘</a>
-    
-    <a href="/blog/tags/#자료구조" class="post-tag">자료구조</a>
-    
-    
-
-    <article>
-      <p><strong>이중 링크드 리스트(Double Linked List)</strong>이용하여 해결할 수 있는 문제입니다. 각 노드를 ‘커서’가 가리키고 있는 위치라고 한다면, 노드 안에 데이터는 ‘커서’ 바로 뒤의 문자입니다. 예를 들어서 문자열 ‘ABC’가 있으면 첫 번째 노드는 맨 앞 ‘커서’이고 가지고 있는 데이터는 ‘A’입니다. 즉, 각 노드는 ‘첫 번째 커서[A]’, ‘두 번째 커서[B]’, ‘세 번째 커서[C]’ 를 의미합니다. 그런데 ‘커서’가 문자열의 맨 뒤에도 위치할 수 있기 때문에 임의의 노드를 하나 더 추가해야 합니다.</p>
-
-<div class="message">
-scanf 함수로 문자를 받으니, 다음 scanf 함수에 개행(\n)이 입력으로 들어갔습니다. 이 문제를 해결하기 위해서 scanf로 문자를 받은 다음에 바로 다음에 getchar() 함수를 사용해서 개행(\n)문자를 입력으로 받았습니다.
-</div>
-
-<h2 id="구조체-배열">구조체 배열</h2>
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>struct Node {
-	Node* next;
-	Node* prev;
-	char data;
-} nr[600005];
-int nidx = 0;
-Node* allocNode(char data) {
-	Node* nn = &amp;nr[nidx++];
-	nn-&gt;data = data;
-	return nn;
-}
-</code></pre></div></div>
-
-<h2 id="이중-링크드-리스트">이중 링크드 리스트</h2>
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Node* head = nullptr;
-Node* tail = nullptr;
-
-void add(char data) {
-	Node* nn = allocNode(data);
-
-	if (head == nullptr) {
-		head = nn;
-		tail = nn;
-	} else {
-		tail-&gt;next = nn;
-		nn-&gt;prev = tail;
-		tail = nn;
-	}
-}
-</code></pre></div></div>
-
-<h2 id="편집기-기능">편집기 기능</h2>
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Node* pointer = nullptr;
-void addAtPointer(char data) {
-	Node* nn = allocNode(data);
-	
-	if (pointer == head) {
-		nn-&gt;next = pointer;
-		pointer-&gt;prev = nn;
-
-		head = nn;
-	} else {
-		nn-&gt;next = pointer;
-		nn-&gt;prev = pointer-&gt;prev;
-		pointer-&gt;prev-&gt;next = nn;
-		pointer-&gt;prev = nn;
-	}
-}
-void del() {
-	if (pointer == head) {
-		return;
-	}
-	if (pointer-&gt;prev == head) {
-		head = pointer;
-		pointer-&gt;prev = nullptr;
-	} else {
-		pointer-&gt;prev-&gt;prev-&gt;next = pointer;
-		pointer-&gt;prev = pointer-&gt;prev-&gt;prev;
-	}
-}
-
-void left() {
-	if (pointer != head) {
-		pointer = pointer-&gt;prev;
-	}
-}
-
-void right() {
-	if (pointer != tail) {
-		pointer = pointer-&gt;next;
-	}
-}
-</code></pre></div></div>
-
-<h2 id="메인-함수">메인 함수</h2>
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>int main() {
-
-	// 문자열 입력
-	scanf("%s", str);
-	getchar();
-
-	// 문자열 링크드 리스트에 추가
-	int strIdx = 0;
-	while (str[strIdx] != '\0') {
-		add(str[strIdx]);
-		strIdx++;
-	}
-
-	// 맨 뒤에 커서 추가
-	add('-');
-
-	// 포인터 위치 초기화
-	pointer = tail;
-
-	int N;
-	scanf("%d", &amp;N);
-	getchar();
-
-	while (N--) {
-		char key;
-		scanf("%c", &amp;key);
-		getchar();
-		if (key == 'P') {
-			char nc;
-			scanf("%c", &amp;nc);
-			getchar();
-			addAtPointer(nc);
-		} else if (key == 'L') {
-			left();
-		} else if (key == 'D') {
-			right();
-		} else if (key == 'B') {
-			del();
-		}
-	}
-
-	Node* cur = head;
-	while (cur-&gt;data != '-') {
-		printf("%c", cur-&gt;data);
-		cur = cur-&gt;next;
-	}
-}
-</code></pre></div></div>
-
-    <article>
-    <div class="post-more">
-      
-      <a href="/algorithm/2018/12/18/boj-editor-1406/#disqus_thread"> <i class="fa fa-comments" aria-hidden="true"></i>Comment</a>&nbsp;
-      
-      <a href="/algorithm/2018/12/18/boj-editor-1406/"><i class="fa fa-plus-circle" aria-hidden="true"></i>Read more</a>
-    </div>
-  </div>
-  
-  <div class="post">
-    <h1 class="post-title">
-      <a href="/bixby/2018/12/17/overview_2/">
-        Gettting Started - Overview (2)
-      </a>
-    </h1>
-
-    <span class="post-date">17 Dec 2018</span>
-     | 
-    
-    <a href="/blog/tags/#인공지능" class="post-tag">인공지능</a>
-    
-    <a href="/blog/tags/#빅스비" class="post-tag">빅스비</a>
-    
-    
-
-    <article>
-      <p>이번 포스트에서는 우리가 구현하는 <strong>캡슐(Capsule)</strong>이 플랫폼에서 어떻게 동작하는지 알아보려고 합니다. 내용은 공식 <a href="https://bixbydevelopers.com/dev/docs/get-started/overview">Bixby Developer</a> 페이지를 참고했습니다.</p>
-
-<div class="message">
-빅스비 캡슐(Capsule)은 빅스비 위에서 동작하는 어플리케이션입니다. 스타벅스 캡슐(Startbucks Capsule)이 그중에 하나입니다.
-</div>
-
-<h2 id="플랫폼과-상호-작용는-캡슐">플랫폼과 상호 작용는 캡슐</h2>
-
-<p>개발자는 <strong>‘자연어 학습(Natural Language Traning)’</strong>, <strong>‘모델링(Concept and Action Models)’</strong>, <strong>‘함수 작성(API Function)’</strong> 그리고 사용자에게 보여주는 <strong>화면(Dialog &amp; Layout)</strong> 을 구현해야 한다고 했는데요, 개발자가 구현한 내용들이 플랫폼에서 동작하는 과정을 알아보려고 합니다. 다음은 사용자 발화가 들어왔을 때 빅스비가 실행되는 Flow입니다.</p>
-
-<p><img src="/assets/2018-12-16-overview-2/flow-18218708982895970544.png" alt="image" /></p>
-
-<p><strong>첫 번째</strong>로, 사용자가 발화를 하면 빅스비 플랫폼은 개발자가 학습한 데이터를 기반으로 <strong>intent</strong>로 변환합니다. intent 다음과 같습니다.</p>
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>// Give two values (number of dice and number of sides) with the
-// goal of rolling dice
-intent {
- goal: example.dice.RollResult
- value: example.dice.NumSides (6)
- value: example.dice.NumDice (2)
-}
-</code></pre></div></div>
-
-<p><strong>두 번째</strong>로, 변환된 intent를 실행시킬 수 있도록 개발자가 정의한 모델인 Concept과 Action을 참고하여 실행될 프로그램(그래프)를 생성합니다.
-<!-- ![image](/assets/2018-12-16-overview/1st-execution-graph-11771877356118750247.png) --></p>
-
-<p><strong>세 번째</strong>로, 빅스비가 그래프를 실행하면서 Action에 도달했을 때, 함수(Javascript)가 있다면 같이 실행합니다. 이 함수에는 서버와 통신이나 추가적인 로직들을 넣을 수 있습니다.</p>
-
-<p><strong>마지막</strong>으로 Dialog와 View을 통해 사용자에게 보여줄 화면을 표시합니다.
-<!-- ![image](/assets/2018-12-16-overview/layout-result-16107432446437221263.png) --></p>
-
-<p>이 모든 과정들은 빅스비 캡슐(Bixby Capsule)에서 동작합니다. 다음 포스트에서는 예제 프로젝트를 개발해보면서 자세하게 알아보도록 하겠습니다. 감사합니다.</p>
-
-    <article>
-    <div class="post-more">
-      
-      <a href="/bixby/2018/12/17/overview_2/#disqus_thread"> <i class="fa fa-comments" aria-hidden="true"></i>Comment</a>&nbsp;
-      
-      <a href="/bixby/2018/12/17/overview_2/"><i class="fa fa-plus-circle" aria-hidden="true"></i>Read more</a>
     </div>
   </div>
   
