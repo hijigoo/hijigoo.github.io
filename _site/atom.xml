@@ -4,7 +4,7 @@
  <title>안녕지구</title>
  <link href="http://localhost:4000/atom.xml" rel="self"/>
  <link href="http://localhost:4000/"/>
- <updated>2018-12-23T02:11:58+09:00</updated>
+ <updated>2018-12-23T02:15:56+09:00</updated>
  <id>http://localhost:4000</id>
  <author>
    <name>안녕지구</name>
@@ -65,9 +65,9 @@
    <link href="http://localhost:4000/algorithm/2018/12/23/boj-friend-network-4195/"/>
    <updated>2018-12-23T00:00:00+09:00</updated>
    <id>http://localhost:4000/algorithm/2018/12/23/boj-friend-network-4195</id>
-   <content type="html">&lt;p&gt;&lt;strong&gt;유니온 파인드(Union-Find)&lt;/strong&gt;를 사용해서 해결할 수 있는 문제입니다. 그런데 find 과정에서 단순하게 문자열 비교를 하면 Timeout이 발생합니다. 이를 해결하기 위해서 문자열을 hash 값으로 변환해서 비교해야 합니다. &lt;strong&gt;HashMap&lt;/strong&gt;을 만들 때 hash 값은 겹칠 수 있기 때문에 &lt;strong&gt;Linked List&lt;/strong&gt;를 사용했습니다. 이런 방식을 &lt;a href=&quot;https://en.wikipedia.org/wiki/Hash_table#Separate_chaining&quot;&gt;&lt;strong&gt;Separate chaining&lt;/strong&gt;&lt;/a&gt;이라고 합니다. 기존의 HashMap 라이브러리를 사용하셔도 됩니다.&lt;/p&gt;
+   <content type="html">&lt;p&gt;&lt;strong&gt;유니온 파인드(Union-Find)&lt;/strong&gt;를 사용해서 해결할 수 있는 문제입니다. 그런데 find 과정에서 단순하게 문자열 비교를 하면 Timeout이 발생합니다. 이를 해결하기 위해서 문자열을 &lt;strong&gt;hash code&lt;/strong&gt;로 변환해서 비교해야 합니다. &lt;strong&gt;HashMap&lt;/strong&gt;을 만들 때 hash code는 겹칠 수 있기 때문에 &lt;strong&gt;Linked List&lt;/strong&gt;를 사용했습니다. 이런 방식을 &lt;a href=&quot;https://en.wikipedia.org/wiki/Hash_table#Separate_chaining&quot;&gt;&lt;strong&gt;Separate chaining&lt;/strong&gt;&lt;/a&gt;이라고 합니다. 기존의 HashMap 라이브러리를 사용하셔도 됩니다.&lt;/p&gt;
 
-&lt;p&gt;HashCode를 구하는 식은 &lt;a href=&quot;https://d2.naver.com/helloworld/831311&quot;&gt;Naver D2&lt;/a&gt;를 참고했습니다.&lt;/p&gt;
+&lt;p&gt;hash code 구하는 식은 &lt;a href=&quot;https://d2.naver.com/helloworld/831311&quot;&gt;Naver D2&lt;/a&gt;를 참고했습니다.&lt;/p&gt;
 
 &lt;div class=&quot;message&quot;&gt;
 문자열을 배열로 받으면 주소가 고정되어서, Node에 저장된 name이 다음 입력을 받을 때 변경되는 문제가 있었습니다. 이 문제를 해결하고자 문자열을 동적 할당해서 매번 다른 주소값에 맵핑 되도록 수정했습니다. 문자열을 카피해서 해결하는 방법도 있습니다.

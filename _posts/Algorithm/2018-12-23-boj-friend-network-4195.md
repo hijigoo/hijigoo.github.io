@@ -5,9 +5,9 @@ category: Algorithm
 tag: [BOJ, 백준, 알고리즘, 자료구조]
 ---
 
-**유니온 파인드(Union-Find)**를 사용해서 해결할 수 있는 문제입니다. 그런데 find 과정에서 단순하게 문자열 비교를 하면 Timeout이 발생합니다. 이를 해결하기 위해서 문자열을 hash 값으로 변환해서 비교해야 합니다. **HashMap**을 만들 때 hash 값은 겹칠 수 있기 때문에 **Linked List**를 사용했습니다. 이런 방식을 [**Separate chaining**](https://en.wikipedia.org/wiki/Hash_table#Separate_chaining)이라고 합니다. 기존의 HashMap 라이브러리를 사용하셔도 됩니다. 
+**유니온 파인드(Union-Find)**를 사용해서 해결할 수 있는 문제입니다. 그런데 find 과정에서 단순하게 문자열 비교를 하면 Timeout이 발생합니다. 이를 해결하기 위해서 문자열을 **hash code**로 변환해서 비교해야 합니다. **HashMap**을 만들 때 hash code는 겹칠 수 있기 때문에 **Linked List**를 사용했습니다. 이런 방식을 [**Separate chaining**](https://en.wikipedia.org/wiki/Hash_table#Separate_chaining)이라고 합니다. 기존의 HashMap 라이브러리를 사용하셔도 됩니다. 
 
-HashCode를 구하는 식은 [Naver D2](https://d2.naver.com/helloworld/831311)를 참고했습니다. 
+hash code 구하는 식은 [Naver D2](https://d2.naver.com/helloworld/831311)를 참고했습니다. 
 
 <div class="message">
 문자열을 배열로 받으면 주소가 고정되어서, Node에 저장된 name이 다음 입력을 받을 때 변경되는 문제가 있었습니다. 이 문제를 해결하고자 문자열을 동적 할당해서 매번 다른 주소값에 맵핑 되도록 수정했습니다. 문자열을 카피해서 해결하는 방법도 있습니다.
