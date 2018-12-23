@@ -5,7 +5,7 @@ category: Algorithm
 tag: [BOJ, 백준, 알고리즘, 자료구조]
 ---
 
-**유니온 파인드(Union-Find)**를 사용해서 해결할 수 있는 문제입니다. 그런데 find 과정에서 단순하게 문자열 비교를 하면 Timeout이 발생합니다. 이를 해결하기 위해서 문자열을 **hash code**로 변환해서 비교해야 합니다. **HashMap**을 만들 때 hash code는 겹칠 수 있기 때문에 **Linked List**를 사용했습니다. 이런 방식을 [**Separate chaining**](https://en.wikipedia.org/wiki/Hash_table#Separate_chaining)이라고 합니다. 기존의 HashMap 라이브러리를 사용하셔도 됩니다. 
+**유니온 파인드(Union-Find)**를 사용해서 해결할 수 있는 문제입니다. 그런데 find 과정에서 단순하게 문자열 비교를 하면 Timeout이 발생합니다. 이를 해결하기 위해서 문자열을 **hash code**로 변환해서 비교해야 합니다. **HashMap**을 만들 때 hash code가 겹칠 수 있기 때문에 **Linked List**를 사용했습니다. 이런 방식을 [**Separate chaining**](https://en.wikipedia.org/wiki/Hash_table#Separate_chaining)이라고 합니다. 기존의 HashMap 라이브러리를 사용하셔도 됩니다. 
 
 hash code 구하는 식은 [Naver D2](https://d2.naver.com/helloworld/831311)를 참고했습니다. 
 

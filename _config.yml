@@ -41,11 +41,11 @@ nav:
     - '/'
   Categories: 
     - '/blog/categories/'
-    - { Bixby: '/blog/categories/#Bixby' }
-    - { 강화 학습: '/blog/categories/#RL' }
     - { Algorithm: '/blog/categories/#Algorithm' }
-    - { Android: '/blog/categories/#Android' }
+    - { Bixby: '/blog/categories/#Bixby' }
+    - { RL: '/blog/categories/#RL' }
     - { Daily: '/blog/categories/#Daily' }
+    
   Tags:
     - '/blog/tags/'
   # Blog:           
