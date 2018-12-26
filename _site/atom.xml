@@ -4,13 +4,101 @@
  <title>안녕지구</title>
  <link href="http://localhost:4000/atom.xml" rel="self"/>
  <link href="http://localhost:4000/"/>
- <updated>2018-12-23T13:23:39+09:00</updated>
+ <updated>2018-12-27T02:38:22+09:00</updated>
  <id>http://localhost:4000</id>
  <author>
    <name>안녕지구</name>
    <email></email>
  </author>
 
+ 
+ <entry>
+   <title>BOJ - 네트워크 연결(3789)</title>
+   <link href="http://localhost:4000/algorithm/2018/12/27/boj-corporative_network-3780/"/>
+   <updated>2018-12-27T00:00:00+09:00</updated>
+   <id>http://localhost:4000/algorithm/2018/12/27/boj-corporative_network-3780</id>
+   <content type="html">&lt;p&gt;&lt;strong&gt;Disjoint Set&lt;/strong&gt;문제이며 &lt;strong&gt;유니온 파인드(Union-Find)&lt;/strong&gt;를 사용해서 해결할 수 있는 문제입니다. 중요한 부분은 find를 할 때 기존 경로 압축(path compression)을 하면서 거리도 업데이트 해줘야 합니다. merge 할 때는 최상위 노드를 따로 찾을 필요 없이 입력으로 들어온 두 노드를 바로 연결 해주면 됩니다.&lt;/p&gt;
+
+&lt;div class=&quot;message&quot;&gt;
+경로 압축(path compression)을 하지 않고, 매번 재귀로 거리를 계산하면 Timeout이 발생합니다.
+&lt;/div&gt;
+
+&lt;h2 id=&quot;라인-길이&quot;&gt;라인 길이&lt;/h2&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;// define
+#define MAX 200010
+
+// distance to center
+int dist[MAX];
+
+// get distance
+int distance(int a, int b) {
+	int dist = a &amp;gt; b ? a - b : b - a;
+	return dist % 1000;
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;유니온-파인드&quot;&gt;유니온 파인드&lt;/h2&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;int parent[MAX];
+
+int find(int n) {
+	if (parent[n] == 0) return n;
+	int p = find(parent[n]);
+
+	//// 길이 업데이트 ////
+	dist[n] += dist[parent[n]];
+	
+	parent[n] = p;
+	return p;
+	
+}
+
+void merge(int a, int b) {
+	dist[a] = distance(a, b);
+	parent[a] = b;
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;메인-함수&quot;&gt;메인 함수&lt;/h2&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;#include &amp;lt;stdio.h&amp;gt;
+int main() {
+
+	int T;
+	scanf(&quot;%d&quot;, &amp;amp;T);
+
+	while(T--) {
+		// initialize
+		for (int i = 0; i &amp;lt; MAX; i++) {
+			dist[i] = 0;
+			parent[i] = 0;
+		}
+
+		int N;
+		scanf(&quot;%d&quot;, &amp;amp;N);
+		while(true) {
+
+			char command;
+			scanf(&quot; %c&quot;, &amp;amp;command);
+			if (command == 'O') {
+				break;
+			}
+
+			if (command == 'E') {
+				int i;
+				scanf(&quot;%d&quot;, &amp;amp;i);
+				find(i);
+				printf(&quot;%d\n&quot;, dist[i]);
+			} else {
+				int i, j;
+				scanf(&quot;%d %d&quot;, &amp;amp;i, &amp;amp;j);
+				merge(i, j);
+			};
+		}
+	}
+	return 0;
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+</content>
+ </entry>
  
  <entry>
    <title>주사위 프로젝트 - Capsule 테스트</title>
@@ -972,11 +1060,11 @@ int main() {
  </entry>
  
  <entry>
-   <title>Bixby 포스팅을 시작하면서</title>
+   <title>빅스비 개발 포스팅을 시작하면서</title>
    <link href="http://localhost:4000/bixby/2018/12/13/intro/"/>
    <updated>2018-12-13T00:00:00+09:00</updated>
    <id>http://localhost:4000/bixby/2018/12/13/intro</id>
-   <content type="html">&lt;h2 id=&quot;bixby-포스팅을-시작하면서&quot;&gt;Bixby 포스팅을 시작하면서&lt;/h2&gt;
+   <content type="html">&lt;h2 id=&quot;빅스비-개발-포스팅을-시작하면서&quot;&gt;빅스비 개발 포스팅을 시작하면서&lt;/h2&gt;
 
 &lt;p&gt;안녕하세요. 블로그를 시작하면서 어떤 내용을 정리하면 좋을지 고민해봤습니다. 그러다가 현재 개발하고 있으면서, 동시에 자료가 없어서 고생중인 빅스비 개발에 대해 정리하면 좋겠다는 생각을 했습니다. 공부도 하면서 (개발하는 사람은 적더라도)공유하는 공간을 만들면 의미가 있을 것이라고 생각합니다.&lt;/p&gt;
 

@@ -11,7 +11,7 @@
 
   <title>
     
-      BOJ - 스택(10828) &middot; 안녕지구
+      BOJ - 네트워크 연결(3789) &middot; 안녕지구
     
   </title>
 
@@ -261,8 +261,8 @@ MathJax.Hub.Config({ tex2jax: { inlineMath: [ ['$','$'], ["\\(","\\)"] ], proces
 
       <div class="container content">
         <div class="post">
-  <h1 class="post-title">BOJ - 스택(10828)</h1>
-  <span class="post-date">10 Dec 2018</span>
+  <h1 class="post-title">BOJ - 네트워크 연결(3789)</h1>
+  <span class="post-date">27 Dec 2018</span>
    | 
   
     <a href="/blog/tags/#boj" class="post-tag">BOJ</a>
@@ -275,93 +275,83 @@ MathJax.Hub.Config({ tex2jax: { inlineMath: [ ['$','$'], ["\\(","\\)"] ], proces
   
   
   <article>
-    <p>간단한 <strong>링크드 리스트</strong>를 이용해서 구현한 <strong>스택</strong>입니다. 배열을 사용해서 더 간단하게도 구현 가능하지만 <strong>구조체 배열</strong>을 연습하고자 링크드 리스트를 사용했습니다.</p>
+    <p><strong>Disjoint Set</strong>문제이며 <strong>유니온 파인드(Union-Find)</strong>를 사용해서 해결할 수 있는 문제입니다. 중요한 부분은 find를 할 때 기존 경로 압축(path compression)을 하면서 거리도 업데이트 해줘야 합니다. merge 할 때는 최상위 노드를 따로 찾을 필요 없이 입력으로 들어온 두 노드를 바로 연결 해주면 됩니다.</p>
 
-<h2 id="구조체-배열">구조체 배열</h2>
+<div class="message">
+경로 압축(path compression)을 하지 않고, 매번 재귀로 거리를 계산하면 Timeout이 발생합니다.
+</div>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>// 정적이지만 동적할당처럼 사용하는 구조체 배열
-typedef struct node {
-	int data;
-	node* next;
-} Node;
+<h2 id="라인-길이">라인 길이</h2>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>// define
+#define MAX 200010
 
-int nodeIndex = 0;
-Node nodeArray[10000];
-Node* allocNode() {
-	return &amp;nodeArray[nodeIndex++];
-};
+// distance to center
+int dist[MAX];
 
-// 아래와 같이 사용할 수 있습니다.
-Node* node = allocNode();
+// get distance
+int distance(int a, int b) {
+	int dist = a &gt; b ? a - b : b - a;
+	return dist % 1000;
+}
 </code></pre></div></div>
 
-<h2 id="전체-코드">전체 코드</h2>
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>#include &lt;cstring&gt;
-#include &lt;stdio.h&gt;
+<h2 id="유니온-파인드">유니온 파인드</h2>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>int parent[MAX];
 
-// 구조체 배열
-typedef struct node {
-	int data;
-	node* next;
-} Node;
+int find(int n) {
+	if (parent[n] == 0) return n;
+	int p = find(parent[n]);
 
-int nodeIndex = 0;
-Node nodeArray[10000];
-Node* allocNode() {
-	return &amp;nodeArray[nodeIndex++];
-};
+	//// 길이 업데이트 ////
+	dist[n] += dist[parent[n]];
+	
+	parent[n] = p;
+	return p;
+	
+}
 
-// 메인 함수
+void merge(int a, int b) {
+	dist[a] = distance(a, b);
+	parent[a] = b;
+}
+</code></pre></div></div>
+
+<h2 id="메인-함수">메인 함수</h2>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>#include &lt;stdio.h&gt;
 int main() {
 
-	int N;
-	scanf("%d", &amp;N);
+	int T;
+	scanf("%d", &amp;T);
 
-
-	Node* head = '\0';
-	char order[10];
-	int count = 0;
-	while (N--) {
-		scanf("%s", order);
-
-		if (order[1] == 'u') {
-			int data;
-			scanf("%d", &amp;data);
-			Node* node = allocNode();
-			node-&gt;data = data;
-
-			if (count == 0) {
-				head = node;
-			} else {
-				node-&gt;next = head;
-				head = node;
-			}
-			count++;
-		} else if (order[0] == 'p') {
-			if (head == '\0') {
-				printf("%d\n", -1);
-			} else {
-				printf("%d\n", head-&gt;data);
-				head = head-&gt;next;
-				count--;
-			}
-		} else if (order[0] == 's') {
-			printf("%d\n", count);
-		} else if (order[0] == 'e') {
-			if (count == 0) {
-				printf("%d\n", 1);
-			} else {
-				printf("%d\n", 0);
-			}
-		} else if (order[0] == 't') {
-			if (count == 0) {
-				printf("%d\n", -1);
-			} else {
-				printf("%d\n", head-&gt;data);
-			}
+	while(T--) {
+		// initialize
+		for (int i = 0; i &lt; MAX; i++) {
+			dist[i] = 0;
+			parent[i] = 0;
 		}
-	};
 
+		int N;
+		scanf("%d", &amp;N);
+		while(true) {
+
+			char command;
+			scanf(" %c", &amp;command);
+			if (command == 'O') {
+				break;
+			}
+
+			if (command == 'E') {
+				int i;
+				scanf("%d", &amp;i);
+				find(i);
+				printf("%d\n", dist[i]);
+			} else {
+				int i, j;
+				scanf("%d %d", &amp;i, &amp;j);
+				merge(i, j);
+			};
+		}
+	}
 	return 0;
 }
 </code></pre></div></div>
@@ -372,15 +362,6 @@ int main() {
 <div class="related">
   <h2>Related Posts</h2>
   <ul class="related-posts">
-    
-      <li>
-        <h3>
-          <a href="/algorithm/2018/12/27/boj-corporative_network-3780/">
-            BOJ - 네트워크 연결(3789)
-            <small>27 Dec 2018</small>
-          </a>
-        </h3>
-      </li>
     
       <li>
         <h3>
@@ -400,6 +381,15 @@ int main() {
         </h3>
       </li>
     
+      <li>
+        <h3>
+          <a href="/bixby/2018/12/22/basic_tutorial_2/">
+            주사위 프로젝트 - Concept과 Action 작성
+            <small>22 Dec 2018</small>
+          </a>
+        </h3>
+      </li>
+    
   </ul>
 </div>
 
@@ -409,8 +399,8 @@ int main() {
   <div id="disqus_thread"></div>
   <script>
 var disqus_config = function () {
-  this.page.url = 'http://localhost:4000/algorithm/2018/12/10/boj-stack-10828/'; // Replace PAGE_URL with your page's canonical URL variable
-  this.page.identifier = '/algorithm/2018/12/10/boj-stack-10828'; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+  this.page.url = 'http://localhost:4000/algorithm/2018/12/27/boj-corporative_network-3780/'; // Replace PAGE_URL with your page's canonical URL variable
+  this.page.identifier = '/algorithm/2018/12/27/boj-corporative_network-3780'; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
 };
 (function() {
   var d = document, s = d.createElement('script');
