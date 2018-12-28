@@ -139,7 +139,7 @@ MathJax.Hub.Config({ tex2jax: { inlineMath: [ ['$','$'], ["\\(","\\)"] ], proces
                 (
                   
                   
-                  10
+                  11
                 )
               </a>
           
@@ -156,6 +156,22 @@ MathJax.Hub.Config({ tex2jax: { inlineMath: [ ['$','$'], ["\\(","\\)"] ], proces
                   
                   
                   7
+                )
+              </a>
+          
+        
+          
+            
+            
+            
+              <a class="sidebar-nav-item sidebar-nav-item-sub " href="/blog/categories/#NLP">
+                <!-- NLP -->
+                
+                NLP&nbsp
+                (
+                  
+                  
+                  0
                 )
               </a>
           
@@ -261,6 +277,187 @@ MathJax.Hub.Config({ tex2jax: { inlineMath: [ ['$','$'], ["\\(","\\)"] ], proces
 
       <div class="container content">
         <div class="posts">
+  
+  <div class="post">
+    <h1 class="post-title">
+      <a href="/bixby/2018/12/22/basic_tutorial_2/">
+        주사위 프로젝트 - Concept과 Action 작성
+      </a>
+    </h1>
+
+    <span class="post-date">22 Dec 2018</span>
+     | 
+    
+    <a href="/blog/tags/#인공지능" class="post-tag">인공지능</a>
+    
+    <a href="/blog/tags/#빅스비" class="post-tag">빅스비</a>
+    
+    
+
+    <article>
+      <h2 id="concepts과-actions-작성">Concepts과 Actions 작성</h2>
+
+<p>이번 포스트에서는 Concept과 Action을 만들어서 모델링하는 과정을 설명드리겠습니다. Concept는 우리가 사용 할 변수라고 보시면 되고, Action은 함수라고 생각하면 조금 더 이해하기 편하실 겁니다.</p>
+
+<blockquote>
+  <p>Concepts explain what Bixby knows, while actions determine what Bixby can do.</p>
+</blockquote>
+
+<p>프로젝트에서는 총 다섯개의 Concept과  한개의 Action을 사용합니다. 각 의미는 아래와 같습니다.</p>
+
+<ul>
+  <li><strong>Concept</strong>
+    <ul>
+      <li><strong>NumDice.model.bxb</strong> : 주사위의 개수를 의미하는 primitive concept 입니다.</li>
+      <li><strong>NumSides.model.bxb</strong> : 주사위 면의 개수를 의미하는 primitive concept 입니다.</li>
+      <li><strong>Roll.model.bxb</strong> : 주사위 하나에서 나온 숫자를 의미하는 primitive concept 입니다.</li>
+      <li><strong>Sum.model.bxb</strong> : 모든 주사위에서 나온 숫자의 합을 의미하는 primitive concept 입니다.</li>
+      <li><strong>RollResult.model.bxb</strong> : 최종 결과이며 Roll과 Sum을 포함하는 structure concept 입니다.</li>
+    </ul>
+  </li>
+  <li><strong>Action</strong>
+    <ul>
+      <li><strong>RollDice.model.bxb</strong> : NumDice와 NumSides를 입력으로 받아서 RollResult를 생성하는 action입니다.</li>
+    </ul>
+  </li>
+</ul>
+
+<p>위에서 primitive는 integer나 text 같은 기본 자료형을 의미합니다. 이제 models 폴더 아래에 concepts 폴더를 생성하고 위에 있는 Concept 파일들을 만들어줍니다. RollResult를 제외한 모든 Concept의 데이터 타입은 모두 integer 입니다. 위에서도 설명드렸듯이 RollResult는 Roll과 Sum을 포함하고 있는 strucutre 타입입니다. 아래는 각 파일 경로와 코드입니다.</p>
+
+<hr />
+
+<p><em>/model/concepts/Numdice.model.bxb</em></p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>integer (NumDice) {
+  description (The number of dice.)
+}
+</code></pre></div></div>
+
+<p><em>/model/concepts/NumSides.model.bxb</em></p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>integer (NumSides) {
+  description (The number of sides to the dice.)
+}
+</code></pre></div></div>
+
+<p><em>/model/concepts/Roll.model.bxb</em></p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>integer (Roll) {
+  description (The result of a dice roll.)
+}
+</code></pre></div></div>
+
+<p><em>/model/concepts/Sum.model.bxb</em></p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>integer (Sum) {
+  description (The total sum of all the dice rolled.)
+}
+</code></pre></div></div>
+
+<p><em>/model/concepts/RollResult.model.bxb</em></p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>structure (RollResult) {
+  description (The result object produced by the RollDice action.)
+  property (sum) {
+    type (Sum)
+    min (Required)
+    max (One)
+  }
+  property (roll) {
+    type (Roll)
+    min (Required)
+    max (Many)
+  }      
+}
+</code></pre></div></div>
+
+<hr />
+
+<p>위의 RollResult에서 roll은 주사위의 개수만큼 있기 때문에 리스트로 받아야 합니다. <strong>max값이 Many이면 값을 리스트로 받습니다.</strong> Concept을 정의했으니 이제 Action을 만들어보겠습니다. Action은 models 폴더 아래에 actions 폴더를 생성하고 RollDice.model.bxb 파일을 만듭니다.</p>
+
+<hr />
+
+<p><em>/model/actions/RollDice.model.bxb</em></p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>action (RollDice) {
+  type (Calculation)
+
+  collect{
+    input (numDice) {
+      type (NumDice)
+      min (Required)
+      max (One)
+    }
+
+    input (numSides) {
+      type (NumSides)
+      min (Required)
+      max (One)
+    }
+  } 
+
+  output (RollResult)
+}
+</code></pre></div></div>
+
+<hr />
+
+<p>위의 코드를 보시면 입력(collect)으로는 numDice와 numSides를 각각 하나씩 받고 아웃풋으로는 RollResult가 생성되도록 정의했습니다. type은 선택사항으로 <a href="https://bixbydevelopers.com/dev/docs/reference/type/action.type">링크</a>를 참고하여 넣어주시면 됩니다. 여기까지 기본적인 모델링을 했다고 생각하시면 됩니다. Bixby는 우리가 모델링한 Action과 Concept를 참고해서 실행 될 그래프를 만들어 줄 겁니다.</p>
+
+<p>이제 RollDice의 함수를 만들어야 합니다. 앞서 만든 RollDice의 Action이 interface라면, 이제 만들 함수는 implementation이라고 생각하시면 됩니다. 코드는 다음과 같습니다. code 폴더 아래에 RollDice.js 함수를 생성합니다.</p>
+
+<hr />
+
+<p><em>/model/code/RollDice.js</em></p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>// Main entry point
+module.exports.function = function rollDice(numDice, numSides) {
+
+  var sum = 0;
+  var result = [];
+
+  // Generate random roll number (1~numSides)
+  for (var i = 0; i &lt; numDice; i++) {
+    var roll = Math.ceil(Math.random() * numSides);
+    result.push(roll);
+    sum += roll;
+  }
+
+  // RollResult
+  return {
+    sum: sum, // required Sum
+    roll: result // required list Roll
+  }
+}
+</code></pre></div></div>
+
+<hr />
+
+<p>위의 함수를 보시면 RollDice.model.bxb 에 정의한 내용과 같게 numDice와 numSides를 입력으로 받고 RollResult를 리턴합니다. 마찬가지로 반환되는 JSON도 RollResult.model.bxb 와 같은 구조입니다.</p>
+
+<p>이제 Bixby가 실행될 때 Javascript 함수에도 접근할 수 있도록 endpoint를 정의 해주어야 합니다. resources 폴더 아래에 다시 ko 폴더를 만들고 endpoints.bxb 파일을 추가합니다.</p>
+
+<hr />
+
+<p><em>/resources/ko/endpoints.bxb</em></p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>endpoints {
+   authorization {
+     none
+   }
+   action-endpoints {
+     action-endpoint (RollDice) {
+       accepted-inputs (numDice, numSides)
+       local-endpoint ("RollDice.js")
+     }
+   }
+}
+</code></pre></div></div>
+
+<hr />
+
+<p>여기까지 진행하셨으면, Capsule에 intent를 날리고 실행 그래프가 어떻게 만들어지는지 확인할 수 있습니다. 이 내용은 다음 포스트에서 다루도록 하겠습니다. 감사합니다.</p>
+
+    <article>
+    <div class="post-more">
+      
+      <a href="/bixby/2018/12/22/basic_tutorial_2/#disqus_thread"> <i class="fa fa-comments" aria-hidden="true"></i>Comment</a>&nbsp;
+      
+      <a href="/bixby/2018/12/22/basic_tutorial_2/"><i class="fa fa-plus-circle" aria-hidden="true"></i>Read more</a>
+    </div>
+  </div>
   
   <div class="post">
     <h1 class="post-title">
@@ -635,98 +832,6 @@ intent {
       <a href="/bixby/2018/12/17/overview_2/#disqus_thread"> <i class="fa fa-comments" aria-hidden="true"></i>Comment</a>&nbsp;
       
       <a href="/bixby/2018/12/17/overview_2/"><i class="fa fa-plus-circle" aria-hidden="true"></i>Read more</a>
-    </div>
-  </div>
-  
-  <div class="post">
-    <h1 class="post-title">
-      <a href="/bixby/2018/12/16/overview_1/">
-        Gettting Started - Overview (1)
-      </a>
-    </h1>
-
-    <span class="post-date">16 Dec 2018</span>
-     | 
-    
-    <a href="/blog/tags/#인공지능" class="post-tag">인공지능</a>
-    
-    <a href="/blog/tags/#빅스비" class="post-tag">빅스비</a>
-    
-    
-
-    <article>
-      <p>빅스비 개발을 시작하기 전에 전체적으로 어떻게 동작하는지 간략하게 소개드리려고 합니다. 내용은 공식 <a href="https://bixbydevelopers.com/dev/docs/get-started/overview">Bixby Developer</a> 페이지를 참고했습니다.</p>
-
-<h2 id="무엇을-개발해야-하나요">무엇을 개발해야 하나요</h2>
-
-<p><a href="/bixby/2018/12/13/intro/">이전 포스팅</a>에서도 설명 드렸듯이 빅스비는 전통적인 프로그래밍 방식과 다른 개발 방식을 보입니다. 개발자는 빅스비가 사용자의 발화를 이해할 수 있도록 IDE에서 자연어를 학습시켜야 합니다. 또한 빅스비가 <strong>실행 그래프</strong> 를 구성할 수 있게 <strong>모델링</strong>을 해주고, 필요하다면 서버와 통신과 같은 추가적인 함수를 작성해야 합니다. 마지막으로 사용자에게 보여줄 Dialog와 Layout을 작성합니다.</p>
-
-<p>다음은 빅스비가 사용자의 발화를 이해하고 그래프를 구성한 예제입니다.</p>
-
-<blockquote>
-  <p><em>“<strong>면이 여섯 개</strong>인 <strong>두 개</strong>의 주사위를 굴렸을 때 나온 숫자의 총 합을 구해줘”</em></p>
-</blockquote>
-
-<p><img src="/assets/2018-12-16-overview_1/1st-execution-graph-11771877356118750247.png" alt="image" /></p>
-
-<p>개발자는 그림과 같이 그래프를 구성하기 위해서 아래의 작업을 해줘야 합니다.</p>
-
-<ul>
-  <li>사용자 발화에서 NumDice(2)와 NumSides(6)를 추출할 수 있도록 <strong>자연어를 학습</strong>합니다.</li>
-  <li>그래프가 만들어 질 수 있도록 NumDice, NumSides 그리고 RollDice를 <strong>모델링</strong>을 합니다.</li>
-  <li>RollDice로 입력된 두 값을 사용하여 RollResult를 계산하는 <strong>함수</strong>를 넣습니다.</li>
-</ul>
-
-<!-- 
-**모델링(Modeling)**은 **Concept**과 **Action**을 정의하는 작업이라고 생각하시면 됩니다. 우리가 보고 있는 예제에서는 NumDice, NumSides, RollResult가 Concept이고 RollDice가 Action입니다. 나중에 조금 더 자세하게 다루겠습니다. 아래는 공식 홈페이지에 나와있는 Concept과 Action에 대한 설명입니다.
->A **concept** describes any "thing." It could represent a concrete object, such as coffee, flowers, or an airport.
-
->An **action** defines an operation that Bixby can perform, directly or indirectly, on behalf of a user. If concepts are nouns, actions are verbs. 
--->
-
-<p>다음은 RollDice 함수입니다. 서버와의 통신이나 추가로 필요한 함수는 Javascript로 작성합니다.</p>
-
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>// RollDice
-// Rolls a dice given a number of sides and a number of dice
-
-// Main entry point
-function rollDice(numDice, numSides) {
-
-  var sum = 0;
-  var result = [];
-
-  for (var i = 0; i &lt; numDice; i++) {
-    var roll = Math.ceil(Math.random() * numSides);
-    result.push(roll);
-    sum += roll;
-  }
-
-  // RollResult
-  return {
-    sum: sum, // required Sum
-    roll: result // required list Roll
-  }
-}
-
-// Exports
-module.exports = {
-  function: rollDice
-}
-</code></pre></div></div>
-
-<p>그리고 RollResult가 사용자에게 보여지도록 <strong>Dialog</strong>와 <strong>Layout</strong>을 작성하면 아래처럼 결과를 볼 수 있습니다. 아래 그림에서 빅스비가 얘기하는 부분(‘Here’s what I found’)이 Dialog이고 추가 정보를 보여주는 부분이 Layout 입니다.</p>
-
-<p><img src="/assets/2018-12-16-overview/layout-result-16107432446437221263.png" alt="image" /></p>
-
-<p>이번 포스트에서는 설명을 위해서 많은 부분을 생략했는데요, 자연어 학습 및 모델링 하는 부분은 나중에 예제를 프로젝트를 통해서 알아보도록 하겠습니다.
-다음 포스트에서는 빅스비 플랫폼이 어떻게 동작하는지 설명드리겠습니다. 감사합니다.</p>
-
-    <article>
-    <div class="post-more">
-      
-      <a href="/bixby/2018/12/16/overview_1/#disqus_thread"> <i class="fa fa-comments" aria-hidden="true"></i>Comment</a>&nbsp;
-      
-      <a href="/bixby/2018/12/16/overview_1/"><i class="fa fa-plus-circle" aria-hidden="true"></i>Read more</a>
     </div>
   </div>
   

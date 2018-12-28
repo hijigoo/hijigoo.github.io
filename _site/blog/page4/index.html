@@ -139,7 +139,7 @@ MathJax.Hub.Config({ tex2jax: { inlineMath: [ ['$','$'], ["\\(","\\)"] ], proces
                 (
                   
                   
-                  10
+                  11
                 )
               </a>
           
@@ -156,6 +156,22 @@ MathJax.Hub.Config({ tex2jax: { inlineMath: [ ['$','$'], ["\\(","\\)"] ], proces
                   
                   
                   7
+                )
+              </a>
+          
+        
+          
+            
+            
+            
+              <a class="sidebar-nav-item sidebar-nav-item-sub " href="/blog/categories/#NLP">
+                <!-- NLP -->
+                
+                NLP&nbsp
+                (
+                  
+                  
+                  0
                 )
               </a>
           
@@ -261,6 +277,98 @@ MathJax.Hub.Config({ tex2jax: { inlineMath: [ ['$','$'], ["\\(","\\)"] ], proces
 
       <div class="container content">
         <div class="posts">
+  
+  <div class="post">
+    <h1 class="post-title">
+      <a href="/algorithm/2018/12/10/boj-stack-series-1874/">
+        BOJ - 스택 수열(1874)
+      </a>
+    </h1>
+
+    <span class="post-date">10 Dec 2018</span>
+     | 
+    
+    <a href="/blog/tags/#boj" class="post-tag">BOJ</a>
+    
+    <a href="/blog/tags/#백준" class="post-tag">백준</a>
+    
+    <a href="/blog/tags/#알고리즘" class="post-tag">알고리즘</a>
+    
+    <a href="/blog/tags/#자료구조" class="post-tag">자료구조</a>
+    
+    
+
+    <article>
+      <p>구조체 배열이 아닌 단순 <strong>배열</strong>을 사용해서 구현한 스택 수열 알고리즘 코드입니다.</p>
+
+<h2 id="배열과-헤드위치-선언">배열과 헤드위치 선언</h2>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>int stack[100005];
+int head = 0;
+</code></pre></div></div>
+
+<h2 id="전체-코드">전체 코드</h2>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>#include &lt;stdio.h&gt;
+
+int stack[100005];
+int head = 0;
+
+int main() {
+
+	int n;
+	scanf("%d", &amp;n);
+
+	int inc = 1;
+
+	int outputIdx = 0;
+	char output[500005];
+	bool isFailed = false;
+
+	while(n--) {
+
+		int number;
+		scanf("%d", &amp;number);
+
+		// 수열이 형성되지 못하는 경우 체크
+		if (head &lt; 0 || number &lt; stack[head]) {
+			isFailed = true;
+			break;;
+		}
+
+		// 출력(POP)되어야 할 숫자(number)가 스택에 들어갈 때까지 PUSH
+		while (stack[head] &lt; number) {
+			output[outputIdx++] = '+';
+			stack[++head] = inc;
+			inc++;
+		}
+		
+		// 숫자(number)를 출력(POP)
+		while (stack[head] &gt;= number) {
+			output[outputIdx++] = '-';
+			head--;
+		}
+
+	}
+
+	if (isFailed) {
+		printf("NO\n");
+	} else {
+		for (int i = 0; i &lt; outputIdx; i++ ) {
+			printf("%c\n", output[i]);
+		}
+	}
+	return 0;
+}
+</code></pre></div></div>
+
+    <article>
+    <div class="post-more">
+      
+      <a href="/algorithm/2018/12/10/boj-stack-series-1874/#disqus_thread"> <i class="fa fa-comments" aria-hidden="true"></i>Comment</a>&nbsp;
+      
+      <a href="/algorithm/2018/12/10/boj-stack-series-1874/"><i class="fa fa-plus-circle" aria-hidden="true"></i>Read more</a>
+    </div>
+  </div>
   
   <div class="post">
     <h1 class="post-title">
