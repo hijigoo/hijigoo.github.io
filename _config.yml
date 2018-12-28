@@ -43,6 +43,7 @@ nav:
     - '/blog/categories/'
     - { Algorithm: '/blog/categories/#Algorithm' }
     - { Bixby: '/blog/categories/#Bixby' }
+    - { NLP: '/blog/categories/#NLP' }
     - { Reinforcement Learning: '/blog/categories/#RL' }
     - { Daily: '/blog/categories/#Daily' }
     
