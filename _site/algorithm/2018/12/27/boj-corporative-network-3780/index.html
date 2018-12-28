@@ -11,7 +11,7 @@
 
   <title>
     
-      안녕지구 &middot; #developer #bompapa
+      BOJ - 네트워크 연결(3789) &middot; 안녕지구
     
   </title>
 
@@ -108,7 +108,7 @@ MathJax.Hub.Config({ tex2jax: { inlineMath: [ ['$','$'], ["\\(","\\)"] ], proces
       
 
       <span class="">
-        <a class="sidebar-nav-item active" href="/">
+        <a class="sidebar-nav-item " href="/">
           Home
         </a>
 
@@ -260,10 +260,158 @@ MathJax.Hub.Config({ tex2jax: { inlineMath: [ ['$','$'], ["\\(","\\)"] ], proces
       </div>
 
       <div class="container content">
-        <div class="hero">
-  <img src="/public/img/bom_family.jpg" />
-  <p><b>Bom</b>'s <i>Family</i></p>
+        <div class="post">
+  <h1 class="post-title">BOJ - 네트워크 연결(3789)</h1>
+  <span class="post-date">27 Dec 2018</span>
+   | 
+  
+    <a href="/blog/tags/#boj" class="post-tag">BOJ</a>
+  
+    <a href="/blog/tags/#백준" class="post-tag">백준</a>
+  
+    <a href="/blog/tags/#알고리즘" class="post-tag">알고리즘</a>
+  
+    <a href="/blog/tags/#자료구조" class="post-tag">자료구조</a>
+  
+  
+  <article>
+    <p><strong>Disjoint Set</strong> 문제이며 <strong>유니온 파인드(Union-Find)</strong>를 사용해서 해결할 수 있는 문제입니다. 중요한 부분은 find를 할 때 기존 경로 압축(path compression)을 하면서 거리도 업데이트 해줘야 합니다. merge 할 때는 최상위 노드를 따로 찾을 필요 없이 입력으로 들어온 두 노드를 바로 연결 해주면 됩니다.</p>
+
+<div class="message">
+경로 압축(path compression)을 하지 않고, 매번 재귀로 거리를 계산하면 Timeout이 발생합니다.
 </div>
+
+<h2 id="라인-길이">라인 길이</h2>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>// define
+#define MAX 200010
+
+// distance to center
+int dist[MAX];
+
+// get distance
+int distance(int a, int b) {
+	int dist = a &gt; b ? a - b : b - a;
+	return dist % 1000;
+}
+</code></pre></div></div>
+
+<h2 id="유니온-파인드">유니온 파인드</h2>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>int parent[MAX];
+
+int find(int n) {
+	if (parent[n] == 0) return n;
+	int p = find(parent[n]);
+
+	//// 길이 업데이트 ////
+	dist[n] += dist[parent[n]];
+	
+	parent[n] = p;
+	return p;
+	
+}
+
+void merge(int a, int b) {
+	dist[a] = distance(a, b);
+	parent[a] = b;
+}
+</code></pre></div></div>
+
+<h2 id="메인-함수">메인 함수</h2>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>#include &lt;stdio.h&gt;
+int main() {
+
+	int T;
+	scanf("%d", &amp;T);
+
+	while(T--) {
+		// initialize
+		for (int i = 0; i &lt; MAX; i++) {
+			dist[i] = 0;
+			parent[i] = 0;
+		}
+
+		int N;
+		scanf("%d", &amp;N);
+		while(true) {
+
+			char command;
+			scanf(" %c", &amp;command);
+			if (command == 'O') {
+				break;
+			}
+
+			if (command == 'E') {
+				int i;
+				scanf("%d", &amp;i);
+				find(i);
+				printf("%d\n", dist[i]);
+			} else {
+				int i, j;
+				scanf("%d %d", &amp;i, &amp;j);
+				merge(i, j);
+			};
+		}
+	}
+	return 0;
+}
+</code></pre></div></div>
+
+  </article>
+</div>
+
+<div class="related">
+  <h2>Related Posts</h2>
+  <ul class="related-posts">
+    
+      <li>
+        <h3>
+          <a href="/bixby/2018/12/28/basic_tutorial_4/">
+            주사위 프로젝트 - View 및 Dialog 작성
+            <small>28 Dec 2018</small>
+          </a>
+        </h3>
+      </li>
+    
+      <li>
+        <h3>
+          <a href="/bixby/2018/12/23/basic_tutorial_3/">
+            주사위 프로젝트 - Capsule 테스트
+            <small>23 Dec 2018</small>
+          </a>
+        </h3>
+      </li>
+    
+      <li>
+        <h3>
+          <a href="/algorithm/2018/12/23/boj-friend-network-4195/">
+            BOJ - 친구 네트워크(4195)
+            <small>23 Dec 2018</small>
+          </a>
+        </h3>
+      </li>
+    
+  </ul>
+</div>
+
+
+<div class="comments">
+  <h2>Comments</h2>
+  <div id="disqus_thread"></div>
+  <script>
+var disqus_config = function () {
+  this.page.url = 'http://localhost:4000/algorithm/2018/12/27/boj-corporative-network-3780/'; // Replace PAGE_URL with your page's canonical URL variable
+  this.page.identifier = '/algorithm/2018/12/27/boj-corporative-network-3780'; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+};
+(function() {
+  var d = document, s = d.createElement('script');
+  s.src = '//hijigoo.disqus.com/embed.js';
+  s.setAttribute('data-timestamp', +new Date());
+  (d.head || d.body).appendChild(s);
+})();
+  </script>
+  <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+</div>
+
 
       </div>
     </div>

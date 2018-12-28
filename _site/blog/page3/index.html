@@ -155,7 +155,7 @@ MathJax.Hub.Config({ tex2jax: { inlineMath: [ ['$','$'], ["\\(","\\)"] ], proces
                 (
                   
                   
-                  6
+                  7
                 )
               </a>
           
@@ -165,9 +165,9 @@ MathJax.Hub.Config({ tex2jax: { inlineMath: [ ['$','$'], ["\\(","\\)"] ], proces
             
             
               <a class="sidebar-nav-item sidebar-nav-item-sub " href="/blog/categories/#RL">
-                <!-- RL -->
+                <!-- Reinforcement Learning -->
                 
-                RL&nbsp
+                Reinforcement Learning&nbsp
                 (
                   
                   
@@ -261,6 +261,106 @@ MathJax.Hub.Config({ tex2jax: { inlineMath: [ ['$','$'], ["\\(","\\)"] ], proces
 
       <div class="container content">
         <div class="posts">
+  
+  <div class="post">
+    <h1 class="post-title">
+      <a href="/algorithm/2018/12/16/boj-josephus-1158/">
+        BOJ - 조세퍼스 문제(1158)
+      </a>
+    </h1>
+
+    <span class="post-date">16 Dec 2018</span>
+     | 
+    
+    <a href="/blog/tags/#boj" class="post-tag">BOJ</a>
+    
+    <a href="/blog/tags/#백준" class="post-tag">백준</a>
+    
+    <a href="/blog/tags/#알고리즘" class="post-tag">알고리즘</a>
+    
+    <a href="/blog/tags/#자료구조" class="post-tag">자료구조</a>
+    
+    
+
+    <article>
+      <p><strong>이중 연결 리스트(Double Linked List)</strong>를 연습하기 위해 풀어본 문제입니다. 문제를 풀기 위해서 <strong>원형 링크드 리스트(Circular Liked List)</strong>를 구현해야 하는데 이중 연결 리스트를 이용해서 구현했습니다.</p>
+
+<h2 id="구조체-배열">구조체 배열</h2>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>struct Node {
+	Node* next;
+	Node* prev;
+	int data;
+}narr[5005];
+
+int nidx = 0;
+Node* allocNode() {
+	return &amp;narr[nidx++];
+}
+</code></pre></div></div>
+
+<h2 id="원형-링크드-리스트">원형 링크드 리스트</h2>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Node* head = NULL;
+Node* tail = NULL;
+
+void addNode(int data) {
+	Node* nn = allocNode();
+	nn-&gt;data = data;
+	if (head == NULL) {
+		head = nn;
+		tail = nn;
+		nn-&gt;prev = tail;
+		nn-&gt;next = head;
+	} else {
+		head-&gt;prev = nn;
+		tail-&gt;next = nn;
+		nn-&gt;prev = tail;
+		nn-&gt;next = head;
+		tail = nn;
+	}
+}
+
+int delNode(int idx) {
+	Node* cn = head;
+	if (head == NULL) return 0;
+	while (--idx) {
+		cn = cn-&gt;next;
+	}
+	head = cn-&gt;next;
+
+	cn-&gt;prev-&gt;next = cn-&gt;next;
+	cn-&gt;next-&gt;prev = cn-&gt;prev;
+	return cn-&gt;data;
+}
+</code></pre></div></div>
+
+<h2 id="메인-함수">메인 함수</h2>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>#include &lt;stdio.h&gt;
+
+int main() {
+	int N, M;
+	scanf("%d %d", &amp;N, &amp;M);
+
+	for (int i = 1; i &lt;= N; i++) {
+		addNode(i);
+	}
+
+	printf("&lt;");
+	for (int i = 1; i &lt; N; i++) {
+		printf("%d, ", delNode(M));
+	}
+	printf("%d", delNode(M));
+	printf("&gt;");
+}
+</code></pre></div></div>
+
+    <article>
+    <div class="post-more">
+      
+      <a href="/algorithm/2018/12/16/boj-josephus-1158/#disqus_thread"> <i class="fa fa-comments" aria-hidden="true"></i>Comment</a>&nbsp;
+      
+      <a href="/algorithm/2018/12/16/boj-josephus-1158/"><i class="fa fa-plus-circle" aria-hidden="true"></i>Read more</a>
+    </div>
+  </div>
   
   <div class="post">
     <h1 class="post-title">
@@ -712,127 +812,6 @@ int main() {
       <a href="/algorithm/2018/12/10/boj-stack-series-1874/#disqus_thread"> <i class="fa fa-comments" aria-hidden="true"></i>Comment</a>&nbsp;
       
       <a href="/algorithm/2018/12/10/boj-stack-series-1874/"><i class="fa fa-plus-circle" aria-hidden="true"></i>Read more</a>
-    </div>
-  </div>
-  
-  <div class="post">
-    <h1 class="post-title">
-      <a href="/algorithm/2018/12/10/boj-stack-10828/">
-        BOJ - 스택(10828)
-      </a>
-    </h1>
-
-    <span class="post-date">10 Dec 2018</span>
-     | 
-    
-    <a href="/blog/tags/#boj" class="post-tag">BOJ</a>
-    
-    <a href="/blog/tags/#백준" class="post-tag">백준</a>
-    
-    <a href="/blog/tags/#알고리즘" class="post-tag">알고리즘</a>
-    
-    <a href="/blog/tags/#자료구조" class="post-tag">자료구조</a>
-    
-    
-
-    <article>
-      <p>간단한 <strong>링크드 리스트</strong>를 이용해서 구현한 <strong>스택</strong>입니다. 배열을 사용해서 더 간단하게도 구현 가능하지만 <strong>구조체 배열</strong>을 연습하고자 링크드 리스트를 사용했습니다.</p>
-
-<h2 id="구조체-배열">구조체 배열</h2>
-
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>// 정적이지만 동적할당처럼 사용하는 구조체 배열
-typedef struct node {
-	int data;
-	node* next;
-} Node;
-
-int nodeIndex = 0;
-Node nodeArray[10000];
-Node* allocNode() {
-	return &amp;nodeArray[nodeIndex++];
-};
-
-// 아래와 같이 사용할 수 있습니다.
-Node* node = allocNode();
-</code></pre></div></div>
-
-<h2 id="전체-코드">전체 코드</h2>
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>#include &lt;cstring&gt;
-#include &lt;stdio.h&gt;
-
-// 구조체 배열
-typedef struct node {
-	int data;
-	node* next;
-} Node;
-
-int nodeIndex = 0;
-Node nodeArray[10000];
-Node* allocNode() {
-	return &amp;nodeArray[nodeIndex++];
-};
-
-// 메인 함수
-int main() {
-
-	int N;
-	scanf("%d", &amp;N);
-
-
-	Node* head = '\0';
-	char order[10];
-	int count = 0;
-	while (N--) {
-		scanf("%s", order);
-
-		if (order[1] == 'u') {
-			int data;
-			scanf("%d", &amp;data);
-			Node* node = allocNode();
-			node-&gt;data = data;
-
-			if (count == 0) {
-				head = node;
-			} else {
-				node-&gt;next = head;
-				head = node;
-			}
-			count++;
-		} else if (order[0] == 'p') {
-			if (head == '\0') {
-				printf("%d\n", -1);
-			} else {
-				printf("%d\n", head-&gt;data);
-				head = head-&gt;next;
-				count--;
-			}
-		} else if (order[0] == 's') {
-			printf("%d\n", count);
-		} else if (order[0] == 'e') {
-			if (count == 0) {
-				printf("%d\n", 1);
-			} else {
-				printf("%d\n", 0);
-			}
-		} else if (order[0] == 't') {
-			if (count == 0) {
-				printf("%d\n", -1);
-			} else {
-				printf("%d\n", head-&gt;data);
-			}
-		}
-	};
-
-	return 0;
-}
-</code></pre></div></div>
-
-    <article>
-    <div class="post-more">
-      
-      <a href="/algorithm/2018/12/10/boj-stack-10828/#disqus_thread"> <i class="fa fa-comments" aria-hidden="true"></i>Comment</a>&nbsp;
-      
-      <a href="/algorithm/2018/12/10/boj-stack-10828/"><i class="fa fa-plus-circle" aria-hidden="true"></i>Read more</a>
     </div>
   </div>
   
