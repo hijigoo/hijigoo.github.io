@@ -74,4 +74,7 @@ google_analytics_token: 'UA-130716162-1' # leave blank if you don't want google 
 disqus_short_name: 'hijigoo' # leave blank if you don't want disqus
 
 # Highlighter
-highlighter: none
+markdown: kramdown
+kramdown:
+   syntax_highlighter_opts:
+      disable : true
