@@ -187,7 +187,7 @@ MathJax.Hub.Config({ tex2jax: { inlineMath: [ ['$','$'], ["\\(","\\)"] ], proces
                 (
                   
                   
-                  0
+                  1
                 )
               </a>
           
@@ -247,7 +247,7 @@ MathJax.Hub.Config({ tex2jax: { inlineMath: [ ['$','$'], ["\\(","\\)"] ], proces
 
   <div class="sidebar-item">
     <p>
-    &copy; 2018 안녕지구. This work is liscensed under <a href="http://creativecommons.org/licenses/by-nc/4.0/">CC BY-NC 4.0</a>.
+    &copy; 2019 안녕지구. This work is liscensed under <a href="http://creativecommons.org/licenses/by-nc/4.0/">CC BY-NC 4.0</a>.
     </p>
   </div>
 
@@ -294,7 +294,7 @@ MathJax.Hub.Config({ tex2jax: { inlineMath: [ ['$','$'], ["\\(","\\)"] ], proces
     <p><strong>이중 연결 리스트(Double Linked List)</strong>를 연습하기 위해 풀어본 문제입니다. 문제를 풀기 위해서 <strong>원형 링크드 리스트(Circular Liked List)</strong>를 구현해야 하는데 이중 연결 리스트를 이용해서 구현했습니다.</p>
 
 <h2 id="구조체-배열">구조체 배열</h2>
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>struct Node {
+<pre><code>struct Node {
 	Node* next;
 	Node* prev;
 	int data;
@@ -304,10 +304,10 @@ int nidx = 0;
 Node* allocNode() {
 	return &amp;narr[nidx++];
 }
-</code></pre></div></div>
+</code></pre>
 
 <h2 id="원형-링크드-리스트">원형 링크드 리스트</h2>
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Node* head = NULL;
+<pre><code>Node* head = NULL;
 Node* tail = NULL;
 
 void addNode(int data) {
@@ -339,10 +339,10 @@ int delNode(int idx) {
 	cn-&gt;next-&gt;prev = cn-&gt;prev;
 	return cn-&gt;data;
 }
-</code></pre></div></div>
+</code></pre>
 
 <h2 id="메인-함수">메인 함수</h2>
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>#include &lt;stdio.h&gt;
+<pre><code>#include &lt;stdio.h&gt;
 
 int main() {
 	int N, M;
@@ -359,7 +359,7 @@ int main() {
 	printf("%d", delNode(M));
 	printf("&gt;");
 }
-</code></pre></div></div>
+</code></pre>
 
   </article>
 </div>
@@ -367,6 +367,15 @@ int main() {
 <div class="related">
   <h2>Related Posts</h2>
   <ul class="related-posts">
+    
+      <li>
+        <h3>
+          <a href="/reinforcement%20learning/2019/01/01/rl-introduction/">
+            강화학습 정리 - Introduction
+            <small>01 Jan 2019</small>
+          </a>
+        </h3>
+      </li>
     
       <li>
         <h3>
@@ -382,15 +391,6 @@ int main() {
           <a href="/bixby/2018/12/28/basic_tutorial_4/">
             주사위 프로젝트 - View 및 Dialog 작성
             <small>28 Dec 2018</small>
-          </a>
-        </h3>
-      </li>
-    
-      <li>
-        <h3>
-          <a href="/algorithm/2018/12/27/boj-corporative-network-3780/">
-            BOJ - 네트워크 연결(3789)
-            <small>27 Dec 2018</small>
           </a>
         </h3>
       </li>

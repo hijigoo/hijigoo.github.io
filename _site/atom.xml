@@ -4,13 +4,76 @@
  <title>안녕지구</title>
  <link href="http://localhost:4000/atom.xml" rel="self"/>
  <link href="http://localhost:4000/"/>
- <updated>2018-12-29T02:34:42+09:00</updated>
+ <updated>2019-01-01T03:15:43+09:00</updated>
  <id>http://localhost:4000</id>
  <author>
    <name>안녕지구</name>
    <email></email>
  </author>
 
+ 
+ <entry>
+   <title>강화학습 정리 - Introduction</title>
+   <link href="http://localhost:4000/reinforcement%20learning/2019/01/01/rl-introduction/"/>
+   <updated>2019-01-01T00:00:00+09:00</updated>
+   <id>http://localhost:4000/reinforcement%20learning/2019/01/01/rl-introduction</id>
+   <content type="html">&lt;h2 id=&quot;1-introduction&quot;&gt;1. Introduction&lt;/h2&gt;
+
+&lt;p&gt;우리가 배움의 본질에 대해 생각할 때 가장 먼저 떠올리는 것 중 하나는 &lt;strong&gt;환경(environment)&lt;/strong&gt;과 상호작용 하면서 배우는 것이다. 예를 들어서 아기들은 가르쳐주는 사람이 없더라도 스스로 팔을 흔들고, 노는 행동을 하고, 주위를 바라보는 방법 등을 터득한다. 아기는 자신과 연결된 환경(environment)과 상호작용하며 배우는데 필요한 정보를 습득하는 것이다.&lt;/p&gt;
+
+&lt;hr /&gt;
+&lt;h3 id=&quot;reinforcement-learning&quot;&gt;Reinforcement Learning&lt;/h3&gt;
+
+&lt;p&gt;Reinforcement learning은 현재 자신에게 주어진 환경에서 어떤 &lt;strong&gt;행동(action)&lt;/strong&gt;을 해야 하는지 배우는 것이다. 그리고 이 행동(action)은 &lt;strong&gt;보상(reward)&lt;/strong&gt;을 최대로 얻을 수 있는 방법을 따른다.&lt;/p&gt;
+
+&lt;p&gt;여기서 흥미로운 점은 내가 선택하는 행동(action)이 당장 받을 보상(immediate reward)뿐 아니라 다음 상황(state)과 나중에 받을 보상(subsequent rewards)에도 영향을 미친다는 것이다. 즉, 행동(action)을 선택할 때 나중에 받을 보상도 고려를 해야 하는 것이다.&lt;/p&gt;
+
+&lt;p&gt;또한, reinfocement learning이 받는 challenge 중 하나는 &lt;strong&gt;exploitation&lt;/strong&gt; 과 &lt;strong&gt;exploration&lt;/strong&gt;의 trade-off 이다. 행동(action)을 선택할 때 두 가지 접근 방법 중에서 하나를 선택해야 하기 때문이다.&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;strong&gt;exploitation&lt;/strong&gt;: 이미 학습한 정보를 토대로 최대 reward를 얻는 action을 선택한다.&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;exploration&lt;/strong&gt;: 새로운 정보를 학습하기 위해서 여러가지 action을 선택해본다.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;아래는 교재에서 설명된 내용이다.&lt;/p&gt;
+&lt;blockquote&gt;
+  &lt;p&gt;The agent has to &lt;em&gt;exploit&lt;/em&gt; what it has already experienced in order to obtain reward, but it also has to &lt;em&gt;explore&lt;/em&gt; in order to make better action selections in the future.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;마지막으로, reinforcement learning에서 &lt;strong&gt;학습하는 대상(agent)&lt;/strong&gt;은 &lt;strong&gt;목표 지향적(goal-directed)&lt;/strong&gt;이며 불확실한 환경(uncertain environment)에서도 모든 문제를 고려해야 한다.&lt;/p&gt;
+
+&lt;hr /&gt;
+&lt;h3 id=&quot;elements-of-reinforcement-learning&quot;&gt;Elements of Reinforcement Learning&lt;/h3&gt;
+
+&lt;p&gt;위에서 설명 했듯이 reinforcement learning에서는 &lt;strong&gt;agent&lt;/strong&gt;는 &lt;strong&gt;environment&lt;/strong&gt;와 상호작용 하면서 학습하는데, 이 시스템에서 중요한 네가지 요소를 아래와 같이 정의할 수 있다.&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;strong&gt;Policy&lt;/strong&gt;: 주어진 environment의 state에서 agent가 선택해야 할 action을 정의&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Reward signal&lt;/strong&gt;: agent가 action을 선택했을 때 environment로 부터 받는 값&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Value function&lt;/strong&gt;: agent가 특정 state에서 앞으로 받을 모든 rewards의 합에 대한 기댓값을 정의&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Model&lt;/strong&gt;: environment의 동작(behavior)에 대해 정의&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;strong&gt;Policy&lt;/strong&gt;는 현재의 내 상태(states of the environment)에서 취해야 할 action을 정의 하는데, 간단한 function이나 lookup table 일 수도 있다. 일반적으로 확률론(stochastic)적 이며 각 action에 대한 확률(probabilities)를 가지고 있다.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Reward signal&lt;/strong&gt;은 agent가 action을 선택 했을 때 즉각적으로 environment로 부터 받는 보상 값으로, reinforcement learning에서 agent의 유일한 목표는 이 reward의 총 합을 최대화하는 것이다. reward는 policy를 정의하기 위한 기본 요소다.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Value function&lt;/strong&gt;은 길게 보았을 때 agent가 특정 state에서 받을 reward의 총 합에 대한 기댓값을 정의한다. agent가 주어진 state에서 특정 action을 선택했을 때 당장 받을 reward는 다른 action을 취했을 때 보다 상대적으로 낮더라도 최종적으로 누적될 reward는 가장 높을 수도 있다.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Model&lt;/strong&gt;은 environment의 동작(behavior)에 대해 정의한다. 즉, model을 알고 있으면 state와 action이 주어졌을 때의 가능한 결과를 미리 예상할 수 있다. model은 agent가 직접 경험해 보기도 전에 &lt;em&gt;계획(planning)&lt;/em&gt;을 세우는데 사용된다. 문제를 해결하기 위해서 model과 planning을 사용하는 방법을 &lt;em&gt;model-based&lt;/em&gt;라고 한다. 반대로 agent가 model을 모르는 상태에서 &lt;em&gt;경험을 하면서(trial-and-error)&lt;/em&gt; 문제를 해결하는 방법을 &lt;em&gt;model-free&lt;/em&gt;라고 한다.&lt;/p&gt;
+
+&lt;hr /&gt;
+&lt;h3 id=&quot;summary&quot;&gt;Summary&lt;/h3&gt;
+
+&lt;p&gt;Reinforcement learning은 agent가 environment와 상호작용 하면서 학습한다는 점에서 다른 학습 방법과는 구분된다. 그리고 states, actions, rewards를 포함한 environment와 agent의 관계를 정의하기 위해서 &lt;strong&gt;&lt;a href=&quot;https://en.wikipedia.org/wiki/Markov_decision_process&quot;&gt;Markov decision processes(MDP)&lt;/a&gt;&lt;/strong&gt;라는 framework 를 사용한다. &lt;strong&gt;value&lt;/strong&gt; 와 &lt;strong&gt;value function&lt;/strong&gt; 컨셉은 reinforcement learning에서 매우 중요한 요소다. agent는 policy에 따라서 action을 취하는데, value는 policy를 정의하는 기본 요소이기 때문이다.&lt;/p&gt;
+
+&lt;hr /&gt;
+&lt;h3 id=&quot;reference&quot;&gt;Reference&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;http://incompleteideas.net/book/the-book.html&quot;&gt;Reinforcement Learning: An Introduction - Richard S. Sutton and Andrew G. Barto&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</content>
+ </entry>
  
  <entry>
    <title>BOJ - 여행 가자(1976)</title>
@@ -24,7 +87,7 @@
 &lt;/blockquote&gt;
 
 &lt;h2 id=&quot;유니온-파인드&quot;&gt;유니온 파인드&lt;/h2&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;#define MAX 
+&lt;pre&gt;&lt;code&gt;#define MAX 
 int parent[201];
 int find(int n) {
 	if (parent[n] == 0) return n;
@@ -41,10 +104,10 @@ void merge(int a, int b) {
 	if (ap == bp) return;
 	parent[bp] = ap;
 }
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;
 
 &lt;h2 id=&quot;메인-함수&quot;&gt;메인 함수&lt;/h2&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;#include &amp;lt;stdio.h&amp;gt;
+&lt;pre&gt;&lt;code&gt;#include &amp;lt;stdio.h&amp;gt;
 int main() {
 
 	int N, M;
@@ -85,7 +148,7 @@ int main() {
 	}
 	return 0;
 }
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;
 </content>
  </entry>
  
@@ -101,7 +164,7 @@ int main() {
 &lt;hr /&gt;
 
 &lt;p&gt;&lt;em&gt;/resources/ko/RollResult.view.bxb&lt;/em&gt;&lt;/p&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;result-view {
+&lt;pre&gt;&lt;code&gt;result-view {
  match {
    RollResult (rollResult)
  }
@@ -127,7 +190,7 @@ int main() {
    }
  }
 }
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;
 
 &lt;hr /&gt;
 
@@ -143,12 +206,12 @@ int main() {
 
 &lt;p&gt;이제 아래와 같이 intent를 보내서 화면에 어떻게 나오는지 확인할 수 있습니다.&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;intent {
+&lt;pre&gt;&lt;code&gt;intent {
   goal: RollResult
   value: NumSides (6)
   value: NumDice (2)
 }
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;다음은 결과 화면입니다.
 &lt;img src=&quot;/assets/2018-12-28-basic_tutorial_4/result.png&quot; alt=&quot;image&quot; width=&quot;50%&quot; height=&quot;50%&quot; /&gt;&lt;/p&gt;
@@ -162,7 +225,7 @@ int main() {
 &lt;hr /&gt;
 
 &lt;p&gt;&lt;em&gt;/resources/ko/NumSides.dialog.bxb&lt;/em&gt;&lt;/p&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;dialog (Concept) {
+&lt;pre&gt;&lt;code&gt;dialog (Concept) {
  match {
    // Look for this type
    NumSides
@@ -170,10 +233,10 @@ int main() {
  // Use the following template text with this type
  template(&quot;면의 수&quot;)
 }
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;&lt;em&gt;/resources/ko/NumDice.dialog.bxb&lt;/em&gt;&lt;/p&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;dialog (Concept) {
+&lt;pre&gt;&lt;code&gt;dialog (Concept) {
  match {
    // Look for this type
    NumDice
@@ -181,7 +244,7 @@ int main() {
  // Use this template text with this type
  template(&quot;주사위 수&quot;)
 }
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;
 
 &lt;hr /&gt;
 
@@ -193,18 +256,18 @@ int main() {
 
 &lt;p&gt;다음과 같이 NumDice를 제외한채 intent를 보내다보면 확인하실 수 있습니다.&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;intent {
+&lt;pre&gt;&lt;code&gt;intent {
   goal: RollResult
   value: NumSides (6)
 }
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;자, 이제 최종 결과물을 보여주는 Dialog를 작성합시다. 아래와 같이 파일을 만들면 됩니다.&lt;/p&gt;
 
 &lt;hr /&gt;
 
 &lt;p&gt;&lt;em&gt;/resources/ko/RollResult.dialog.bxb&lt;/em&gt;&lt;/p&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;dialog (Result) {
+&lt;pre&gt;&lt;code&gt;dialog (Result) {
  // bind the variable &quot;rollResult&quot; to the result and &quot;rollOutput&quot; to
  // the action of which it was output
  match {
@@ -224,7 +287,7 @@ int main() {
    }
  }
 }
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;
 
 &lt;hr /&gt;
 
@@ -236,12 +299,12 @@ int main() {
 
 &lt;p&gt;이제 다시 아래 intent를 보내면 최종 결과물을 확인할 수 있습니다.&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;intent {
+&lt;pre&gt;&lt;code&gt;intent {
   goal: RollResult
   value: NumSides (6)
   value: NumDice (2)
 }
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;다음은 View와 Dialog가 적용된 화면입니다.
 &lt;img src=&quot;/assets/2018-12-28-basic_tutorial_4/result2.png&quot; alt=&quot;image&quot; width=&quot;50%&quot; height=&quot;50%&quot; /&gt;&lt;/p&gt;
@@ -262,7 +325,7 @@ int main() {
 &lt;/div&gt;
 
 &lt;h2 id=&quot;라인-길이&quot;&gt;라인 길이&lt;/h2&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;// define
+&lt;pre&gt;&lt;code&gt;// define
 #define MAX 200010
 
 // distance to center
@@ -273,10 +336,10 @@ int distance(int a, int b) {
 	int dist = a &amp;gt; b ? a - b : b - a;
 	return dist % 1000;
 }
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;
 
 &lt;h2 id=&quot;유니온-파인드&quot;&gt;유니온 파인드&lt;/h2&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;int parent[MAX];
+&lt;pre&gt;&lt;code&gt;int parent[MAX];
 
 int find(int n) {
 	if (parent[n] == 0) return n;
@@ -294,10 +357,10 @@ void merge(int a, int b) {
 	dist[a] = distance(a, b);
 	parent[a] = b;
 }
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;
 
 &lt;h2 id=&quot;메인-함수&quot;&gt;메인 함수&lt;/h2&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;#include &amp;lt;stdio.h&amp;gt;
+&lt;pre&gt;&lt;code&gt;#include &amp;lt;stdio.h&amp;gt;
 int main() {
 
 	int T;
@@ -334,7 +397,7 @@ int main() {
 	}
 	return 0;
 }
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;
 </content>
  </entry>
  
@@ -351,12 +414,12 @@ int main() {
   &lt;li&gt;&lt;strong&gt;View &amp;gt; Open Simulator&lt;/strong&gt; 로 가서 Simulator를 실행합니다.&lt;/li&gt;
   &lt;li&gt;팝업창이 뜨면 &lt;strong&gt;Confirm&lt;/strong&gt;을 눌러서 컴파일 하고 학습된 데이터를 준비합니다.&lt;/li&gt;
   &lt;li&gt;아직 자연어 학습을 하지 않았기 때문에 아래의 intent를 직접 입력합니다.
-    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;intent {
+    &lt;pre&gt;&lt;code&gt;intent {
   goal: RollResult
   value: NumSides (6)
   value: NumDice (2)
 }
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;
   &lt;/li&gt;
   &lt;li&gt;&lt;strong&gt;Run NL&lt;/strong&gt; 을 선택하여 실행합니다.&lt;/li&gt;
 &lt;/ol&gt;
@@ -400,7 +463,7 @@ int main() {
 &lt;/div&gt;
 
 &lt;h2 id=&quot;노드&quot;&gt;노드&lt;/h2&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;// define
+&lt;pre&gt;&lt;code&gt;// define
 #define MAX 200010
 
 // node
@@ -417,20 +480,20 @@ Node* allocnode(char* name, int idx) {
 	node-&amp;gt;idx = idx;
 	return node;
 }
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;
 
 &lt;h2 id=&quot;hash-code&quot;&gt;Hash Code&lt;/h2&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;int hashCode(char* str) {
+&lt;pre&gt;&lt;code class=&quot;language-cpp&quot;&gt;int hashCode(char* str) {
 	int hash = 0;
 	for (int i = 0; str[i] != '\0'; i++) {
 		hash = (hash * 31 + str[i]) % MAX;
 	}
 	return hash;
 }
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;
 
 &lt;h2 id=&quot;hash-map&quot;&gt;Hash Map&lt;/h2&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Node* h[MAX];
+&lt;pre&gt;&lt;code&gt;Node* h[MAX];
 
 int get(char* name) {
 	int hash = hashCode(name);
@@ -478,10 +541,10 @@ int isContain(char* name) {
 		return 0;
 	}
 }
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;
 
 &lt;h2 id=&quot;유니온-파인드&quot;&gt;유니온 파인드&lt;/h2&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;int find(int n) {
+&lt;pre&gt;&lt;code&gt;int find(int n) {
 	if (p[n] &amp;lt; 0) return n;
 	else {
 		// path compression
@@ -502,10 +565,10 @@ int uni(int a, int b) {
 
 	return c[ap];
 }
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;
 
 &lt;h2 id=&quot;메인-함수&quot;&gt;메인 함수&lt;/h2&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;#include &amp;lt;stdio.h&amp;gt;
+&lt;pre&gt;&lt;code&gt;#include &amp;lt;stdio.h&amp;gt;
 #include &amp;lt;stdlib.h&amp;gt;
 int main() {
 
@@ -545,7 +608,7 @@ int main() {
 
 	return 0;
 }
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;
 </content>
  </entry>
  
@@ -586,31 +649,31 @@ int main() {
 &lt;hr /&gt;
 
 &lt;p&gt;&lt;em&gt;/model/concepts/Numdice.model.bxb&lt;/em&gt;&lt;/p&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;integer (NumDice) {
+&lt;pre&gt;&lt;code&gt;integer (NumDice) {
   description (The number of dice.)
 }
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;&lt;em&gt;/model/concepts/NumSides.model.bxb&lt;/em&gt;&lt;/p&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;integer (NumSides) {
+&lt;pre&gt;&lt;code&gt;integer (NumSides) {
   description (The number of sides to the dice.)
 }
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;&lt;em&gt;/model/concepts/Roll.model.bxb&lt;/em&gt;&lt;/p&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;integer (Roll) {
+&lt;pre&gt;&lt;code&gt;integer (Roll) {
   description (The result of a dice roll.)
 }
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;&lt;em&gt;/model/concepts/Sum.model.bxb&lt;/em&gt;&lt;/p&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;integer (Sum) {
+&lt;pre&gt;&lt;code&gt;integer (Sum) {
   description (The total sum of all the dice rolled.)
 }
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;&lt;em&gt;/model/concepts/RollResult.model.bxb&lt;/em&gt;&lt;/p&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;structure (RollResult) {
+&lt;pre&gt;&lt;code&gt;structure (RollResult) {
   description (The result object produced by the RollDice action.)
   property (sum) {
     type (Sum)
@@ -623,7 +686,7 @@ int main() {
     max (Many)
   }      
 }
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;
 
 &lt;hr /&gt;
 
@@ -632,7 +695,7 @@ int main() {
 &lt;hr /&gt;
 
 &lt;p&gt;&lt;em&gt;/model/actions/RollDice.model.bxb&lt;/em&gt;&lt;/p&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;action (RollDice) {
+&lt;pre&gt;&lt;code&gt;action (RollDice) {
   type (Calculation)
 
   collect{
@@ -651,7 +714,7 @@ int main() {
 
   output (RollResult)
 }
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;
 
 &lt;hr /&gt;
 
@@ -662,7 +725,7 @@ int main() {
 &lt;hr /&gt;
 
 &lt;p&gt;&lt;em&gt;/model/code/RollDice.js&lt;/em&gt;&lt;/p&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;// Main entry point
+&lt;pre&gt;&lt;code&gt;// Main entry point
 module.exports.function = function rollDice(numDice, numSides) {
 
   var sum = 0;
@@ -681,7 +744,7 @@ module.exports.function = function rollDice(numDice, numSides) {
     roll: result // required list Roll
   }
 }
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;
 
 &lt;hr /&gt;
 
@@ -692,7 +755,7 @@ module.exports.function = function rollDice(numDice, numSides) {
 &lt;hr /&gt;
 
 &lt;p&gt;&lt;em&gt;/resources/ko/endpoints.bxb&lt;/em&gt;&lt;/p&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;endpoints {
+&lt;pre&gt;&lt;code&gt;endpoints {
    authorization {
      none
    }
@@ -703,7 +766,7 @@ module.exports.function = function rollDice(numDice, numSides) {
      }
    }
 }
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;
 
 &lt;hr /&gt;
 
@@ -723,7 +786,7 @@ module.exports.function = function rollDice(numDice, numSides) {
 &lt;/div&gt;
 
 &lt;h2 id=&quot;유니온-파인드&quot;&gt;유니온 파인드&lt;/h2&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;#define MAX 1000001
+&lt;pre&gt;&lt;code&gt;#define MAX 1000001
 int p[MAX];
 
 int find(int n) {
@@ -742,10 +805,10 @@ void uni(int a, int b) {
 		p[bp] = ap;
 	}
 }
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;
 
 &lt;h2 id=&quot;메인-함수&quot;&gt;메인 함수&lt;/h2&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;#include &amp;lt;stdio.h&amp;gt;
+&lt;pre&gt;&lt;code&gt;#include &amp;lt;stdio.h&amp;gt;
 
 int main() {
 
@@ -774,7 +837,7 @@ int main() {
 
 	return 0;
 }
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;
 </content>
  </entry>
  
@@ -812,7 +875,7 @@ int main() {
 
 &lt;p&gt;그리고 &lt;strong&gt;capsule.bxb&lt;/strong&gt; 파일을 보시면 아래와 같이 나와있는데요, 캡슐의 기본 설정 값을 입력한다고 생각하시면 됩니다. 저희는 한국어를 기본으로 할 것이기 때문에 &lt;strong&gt;targets&lt;/strong&gt; 값을 &lt;strong&gt;bixby-mobile-ko-KR&lt;/strong&gt; 로 변경합니다.&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;capsule {
+&lt;pre&gt;&lt;code&gt;capsule {
   id (study.dice)
   version (0.1.0)
   format (3)
@@ -820,7 +883,7 @@ int main() {
     target (bixby-mobile-ko-KR)
   }
 }
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;다음에는 Concept과 Actions를 추가하여 모델링을 해보겠습니다.&lt;/p&gt;
 </content>
@@ -838,7 +901,7 @@ scanf 함수로 문자를 받으니, 다음 scanf 함수에 개행(\n)이 입력
 &lt;/div&gt;
 
 &lt;h2 id=&quot;구조체-배열&quot;&gt;구조체 배열&lt;/h2&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;struct Node {
+&lt;pre&gt;&lt;code&gt;struct Node {
 	Node* next;
 	Node* prev;
 	char data;
@@ -849,10 +912,10 @@ Node* allocNode(char data) {
 	nn-&amp;gt;data = data;
 	return nn;
 }
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;
 
 &lt;h2 id=&quot;이중-링크드-리스트&quot;&gt;이중 링크드 리스트&lt;/h2&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Node* head = nullptr;
+&lt;pre&gt;&lt;code&gt;Node* head = nullptr;
 Node* tail = nullptr;
 
 void add(char data) {
@@ -867,10 +930,10 @@ void add(char data) {
 		tail = nn;
 	}
 }
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;
 
 &lt;h2 id=&quot;편집기-기능&quot;&gt;편집기 기능&lt;/h2&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Node* pointer = nullptr;
+&lt;pre&gt;&lt;code class=&quot;language-cpp&quot;&gt;Node* pointer = nullptr;
 void addAtPointer(char data) {
 	Node* nn = allocNode(data);
 	
@@ -910,10 +973,10 @@ void right() {
 		pointer = pointer-&amp;gt;next;
 	}
 }
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;
 
 &lt;h2 id=&quot;메인-함수&quot;&gt;메인 함수&lt;/h2&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;int main() {
+&lt;pre&gt;&lt;code&gt;int main() {
 
 	// 문자열 입력
 	scanf(&quot;%s&quot;, str);
@@ -960,7 +1023,7 @@ void right() {
 		cur = cur-&amp;gt;next;
 	}
 }
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;
 </content>
  </entry>
  
@@ -982,14 +1045,14 @@ void right() {
 &lt;p&gt;&lt;img src=&quot;/assets/2018-12-16-overview-2/flow-18218708982895970544.png&quot; alt=&quot;image&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;&lt;strong&gt;첫 번째&lt;/strong&gt;로, 사용자가 발화를 하면 빅스비 플랫폼은 개발자가 학습한 데이터를 기반으로 &lt;strong&gt;intent&lt;/strong&gt;로 변환합니다. intent 다음과 같습니다.&lt;/p&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;// Give two values (number of dice and number of sides) with the
+&lt;pre&gt;&lt;code&gt;// Give two values (number of dice and number of sides) with the
 // goal of rolling dice
 intent {
  goal: example.dice.RollResult
  value: example.dice.NumSides (6)
  value: example.dice.NumDice (2)
 }
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;&lt;strong&gt;두 번째&lt;/strong&gt;로, 변환된 intent를 실행시킬 수 있도록 개발자가 정의한 모델인 Concept과 Action을 참고하여 실행될 프로그램(그래프)를 생성합니다.
 &lt;!-- ![image](/assets/2018-12-16-overview/1st-execution-graph-11771877356118750247.png) --&gt;&lt;/p&gt;
@@ -1039,7 +1102,7 @@ intent {
 
 &lt;p&gt;다음은 RollDice 함수입니다. 서버와의 통신이나 추가로 필요한 함수는 Javascript로 작성합니다.&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;// RollDice
+&lt;pre&gt;&lt;code&gt;// RollDice
 // Rolls a dice given a number of sides and a number of dice
 
 // Main entry point
@@ -1065,7 +1128,7 @@ function rollDice(numDice, numSides) {
 module.exports = {
   function: rollDice
 }
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;그리고 RollResult가 사용자에게 보여지도록 &lt;strong&gt;Dialog&lt;/strong&gt;와 &lt;strong&gt;Layout&lt;/strong&gt;을 작성하면 아래처럼 결과를 볼 수 있습니다. 아래 그림에서 빅스비가 얘기하는 부분(‘Here’s what I found’)이 Dialog이고 추가 정보를 보여주는 부분이 Layout 입니다.&lt;/p&gt;
 
@@ -1084,7 +1147,7 @@ module.exports = {
    <content type="html">&lt;p&gt;&lt;strong&gt;이중 연결 리스트(Double Linked List)&lt;/strong&gt;를 연습하기 위해 풀어본 문제입니다. 문제를 풀기 위해서 &lt;strong&gt;원형 링크드 리스트(Circular Liked List)&lt;/strong&gt;를 구현해야 하는데 이중 연결 리스트를 이용해서 구현했습니다.&lt;/p&gt;
 
 &lt;h2 id=&quot;구조체-배열&quot;&gt;구조체 배열&lt;/h2&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;struct Node {
+&lt;pre&gt;&lt;code&gt;struct Node {
 	Node* next;
 	Node* prev;
 	int data;
@@ -1094,10 +1157,10 @@ int nidx = 0;
 Node* allocNode() {
 	return &amp;amp;narr[nidx++];
 }
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;
 
 &lt;h2 id=&quot;원형-링크드-리스트&quot;&gt;원형 링크드 리스트&lt;/h2&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Node* head = NULL;
+&lt;pre&gt;&lt;code&gt;Node* head = NULL;
 Node* tail = NULL;
 
 void addNode(int data) {
@@ -1129,10 +1192,10 @@ int delNode(int idx) {
 	cn-&amp;gt;next-&amp;gt;prev = cn-&amp;gt;prev;
 	return cn-&amp;gt;data;
 }
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;
 
 &lt;h2 id=&quot;메인-함수&quot;&gt;메인 함수&lt;/h2&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;#include &amp;lt;stdio.h&amp;gt;
+&lt;pre&gt;&lt;code&gt;#include &amp;lt;stdio.h&amp;gt;
 
 int main() {
 	int N, M;
@@ -1149,7 +1212,7 @@ int main() {
 	printf(&quot;%d&quot;, delNode(M));
 	printf(&quot;&amp;gt;&quot;);
 }
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;
 </content>
  </entry>
  
@@ -1165,7 +1228,7 @@ int main() {
 &lt;/div&gt;
 
 &lt;h2 id=&quot;최소-힙minheap&quot;&gt;최소 힙(MinHeap)&lt;/h2&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;// 초기화
+&lt;pre&gt;&lt;code&gt;// 초기화
 int minHeap[200005];
 int lastIdx = 0;
 
@@ -1261,10 +1324,10 @@ void enqueue(int val) {
 		}
 	}
 }
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;
 
 &lt;h2 id=&quot;메인-함수&quot;&gt;메인 함수&lt;/h2&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;#include &amp;lt;stdio.h&amp;gt;
+&lt;pre&gt;&lt;code&gt;#include &amp;lt;stdio.h&amp;gt;
 
 int main() {
 
@@ -1293,7 +1356,7 @@ int main() {
 	printf(&quot;%d&quot;, ans);
 
 }
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;
 </content>
  </entry>
  
@@ -1340,7 +1403,7 @@ int main() {
 &lt;/div&gt;
 
 &lt;h2 id=&quot;최대-힙&quot;&gt;최대 힙&lt;/h2&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;// 최대힙 초기화
+&lt;pre&gt;&lt;code&gt;// 최대힙 초기화
 int maxHeap[200005];
 int lastIdx = 0;
 
@@ -1421,10 +1484,10 @@ void enqueue(int val) {
 		}
 	}
 }
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;
 
 &lt;h2 id=&quot;메인-함수&quot;&gt;메인 함수&lt;/h2&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;#include &amp;lt;stdio.h&amp;gt;
+&lt;pre&gt;&lt;code&gt;#include &amp;lt;stdio.h&amp;gt;
 
 int main() {
 	
@@ -1445,7 +1508,7 @@ int main() {
 
 	return 0;
 }
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;
 </content>
  </entry>
  
@@ -1457,13 +1520,13 @@ int main() {
    <content type="html">&lt;p&gt;구조체 배열이 아닌 단순 &lt;strong&gt;배열&lt;/strong&gt;을 사용해서 구현한 스택 수열 알고리즘 코드입니다.&lt;/p&gt;
 
 &lt;h2 id=&quot;배열과-헤드위치-선언&quot;&gt;배열과 헤드위치 선언&lt;/h2&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;int stack[100005];
+&lt;pre&gt;&lt;code&gt;int stack[100005];
 int head = 0;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;
 
 &lt;h2 id=&quot;전체-코드&quot;&gt;전체 코드&lt;/h2&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;#include &amp;lt;stdio.h&amp;gt;
+&lt;pre&gt;&lt;code&gt;#include &amp;lt;stdio.h&amp;gt;
 
 int stack[100005];
 int head = 0;
@@ -1514,7 +1577,7 @@ int main() {
 	}
 	return 0;
 }
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;
 </content>
  </entry>
  
@@ -1527,7 +1590,7 @@ int main() {
 
 &lt;h2 id=&quot;구조체-배열&quot;&gt;구조체 배열&lt;/h2&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;// 정적이지만 동적할당처럼 사용하는 구조체 배열
+&lt;pre&gt;&lt;code&gt;// 정적이지만 동적할당처럼 사용하는 구조체 배열
 typedef struct node {
 	int data;
 	node* next;
@@ -1541,10 +1604,10 @@ Node* allocNode() {
 
 // 아래와 같이 사용할 수 있습니다.
 Node* node = allocNode();
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;
 
 &lt;h2 id=&quot;전체-코드&quot;&gt;전체 코드&lt;/h2&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;#include &amp;lt;cstring&amp;gt;
+&lt;pre&gt;&lt;code&gt;#include &amp;lt;cstring&amp;gt;
 #include &amp;lt;stdio.h&amp;gt;
 
 // 구조체 배열
@@ -1612,7 +1675,7 @@ int main() {
 
 	return 0;
 }
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;
 </content>
  </entry>
  
@@ -1625,7 +1688,7 @@ int main() {
 
 &lt;h2 id=&quot;구조체-배열&quot;&gt;구조체 배열&lt;/h2&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;// 정적이지만 동적할당처럼 사용하는 구조체 배열
+&lt;pre&gt;&lt;code&gt;// 정적이지만 동적할당처럼 사용하는 구조체 배열
 typedef struct node {
 	int data;
 	node* next;
@@ -1639,10 +1702,10 @@ Node* allocNode() {
 
 // 아래와 같이 사용할 수 있습니다.
 Node* node = allocNode();
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;
 
 &lt;h2 id=&quot;전체-코드&quot;&gt;전체 코드&lt;/h2&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;#include &amp;lt;stdio.h&amp;gt;
+&lt;pre&gt;&lt;code&gt;#include &amp;lt;stdio.h&amp;gt;
 
 // 구조체 배열
 typedef struct node {
@@ -1720,7 +1783,7 @@ int main() {
 	};
 	return 0;
 }
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;
 </content>
  </entry>
  
@@ -1746,12 +1809,12 @@ int main() {
 &lt;p&gt;HTML defines a long list of available inline tags, a complete list of which can be found on the &lt;a href=&quot;https://developer.mozilla.org/en-US/docs/Web/HTML/Element&quot;&gt;Mozilla Developer Network&lt;/a&gt;.&lt;/p&gt;
 
 &lt;ul&gt;
-  &lt;li&gt;&lt;strong&gt;To bold text&lt;/strong&gt;, use &lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;lt;strong&amp;gt;&lt;/code&gt;.&lt;/li&gt;
-  &lt;li&gt;&lt;em&gt;To italicize text&lt;/em&gt;, use &lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;lt;em&amp;gt;&lt;/code&gt;.&lt;/li&gt;
-  &lt;li&gt;Abbreviations, like &lt;abbr title=&quot;HyperText Markup Langage&quot;&gt;HTML&lt;/abbr&gt; should use &lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;lt;abbr&amp;gt;&lt;/code&gt;, with an optional &lt;code class=&quot;highlighter-rouge&quot;&gt;title&lt;/code&gt; attribute for the full phrase.&lt;/li&gt;
-  &lt;li&gt;Citations, like &lt;cite&gt;— Mark otto&lt;/cite&gt;, should use &lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;lt;cite&amp;gt;&lt;/code&gt;.&lt;/li&gt;
-  &lt;li&gt;&lt;del&gt;Deleted&lt;/del&gt; text should use &lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;lt;del&amp;gt;&lt;/code&gt; and &lt;ins&gt;inserted&lt;/ins&gt; text should use &lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;lt;ins&amp;gt;&lt;/code&gt;.&lt;/li&gt;
-  &lt;li&gt;Superscript &lt;sup&gt;text&lt;/sup&gt; uses &lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;lt;sup&amp;gt;&lt;/code&gt; and subscript &lt;sub&gt;text&lt;/sub&gt; uses &lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;lt;sub&amp;gt;&lt;/code&gt;.&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;To bold text&lt;/strong&gt;, use &lt;code&gt;&amp;lt;strong&amp;gt;&lt;/code&gt;.&lt;/li&gt;
+  &lt;li&gt;&lt;em&gt;To italicize text&lt;/em&gt;, use &lt;code&gt;&amp;lt;em&amp;gt;&lt;/code&gt;.&lt;/li&gt;
+  &lt;li&gt;Abbreviations, like &lt;abbr title=&quot;HyperText Markup Langage&quot;&gt;HTML&lt;/abbr&gt; should use &lt;code&gt;&amp;lt;abbr&amp;gt;&lt;/code&gt;, with an optional &lt;code&gt;title&lt;/code&gt; attribute for the full phrase.&lt;/li&gt;
+  &lt;li&gt;Citations, like &lt;cite&gt;— Mark otto&lt;/cite&gt;, should use &lt;code&gt;&amp;lt;cite&amp;gt;&lt;/code&gt;.&lt;/li&gt;
+  &lt;li&gt;&lt;del&gt;Deleted&lt;/del&gt; text should use &lt;code&gt;&amp;lt;del&amp;gt;&lt;/code&gt; and &lt;ins&gt;inserted&lt;/ins&gt; text should use &lt;code&gt;&amp;lt;ins&amp;gt;&lt;/code&gt;.&lt;/li&gt;
+  &lt;li&gt;Superscript &lt;sup&gt;text&lt;/sup&gt; uses &lt;code&gt;&amp;lt;sup&amp;gt;&lt;/code&gt; and subscript &lt;sub&gt;text&lt;/sub&gt; uses &lt;code&gt;&amp;lt;sub&amp;gt;&lt;/code&gt;.&lt;/li&gt;
 &lt;/ul&gt;
 
 &lt;p&gt;Most of these elements are styled by browsers with few modifications on our part.&lt;/p&gt;
@@ -1762,9 +1825,9 @@ int main() {
 
 &lt;h3 id=&quot;code&quot;&gt;Code&lt;/h3&gt;
 
-&lt;p&gt;Cum sociis natoque penatibus et magnis dis &lt;code class=&quot;highlighter-rouge&quot;&gt;code element&lt;/code&gt; montes, nascetur ridiculus mus.&lt;/p&gt;
+&lt;p&gt;Cum sociis natoque penatibus et magnis dis &lt;code&gt;code element&lt;/code&gt; montes, nascetur ridiculus mus.&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;// Example can be run directly in your JavaScript console
+&lt;pre&gt;&lt;code&gt;// Example can be run directly in your JavaScript console
 
 // Create a function that takes two arguments and returns the sum of those arguments
 var adder = new Function(&quot;a&quot;, &quot;b&quot;, &quot;return a + b&quot;);
@@ -1772,7 +1835,7 @@ var adder = new Function(&quot;a&quot;, &quot;b&quot;, &quot;return a + b&quot;)
 // Call the function
 adder(2, 6);
 // &amp;gt; 8
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;Aenean lacinia bibendum nulla sed consectetur. Etiam porta sem malesuada magna mollis euismod. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa.&lt;/p&gt;
 

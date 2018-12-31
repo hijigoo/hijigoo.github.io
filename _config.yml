@@ -41,11 +41,11 @@ nav:
     - '/'
   Categories: 
     - '/blog/categories/'
-    - { Algorithm: '/blog/categories/#Algorithm' }
-    - { Bixby: '/blog/categories/#Bixby' }
+    - { Algorithm: '/blog/categories/#algorithm' }
+    - { Bixby: '/blog/categories/#bixby' }
     - { NLP: '/blog/categories/#NLP' }
-    - { Reinforcement Learning: '/blog/categories/#RL' }
-    - { Daily: '/blog/categories/#Daily' }
+    - { Reinforcement Learning: '/blog/categories/#reinforcement-learning' }
+    - { Daily: '/blog/categories/#daily' }
     
   Tags:
     - '/blog/tags/'
@@ -74,4 +74,4 @@ google_analytics_token: 'UA-130716162-1' # leave blank if you don't want google 
 disqus_short_name: 'hijigoo' # leave blank if you don't want disqus
 
 # Highlighter
-# highlighter: rouge
+highlighter: none

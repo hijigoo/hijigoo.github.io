@@ -187,7 +187,7 @@ MathJax.Hub.Config({ tex2jax: { inlineMath: [ ['$','$'], ["\\(","\\)"] ], proces
                 (
                   
                   
-                  0
+                  1
                 )
               </a>
           
@@ -247,7 +247,7 @@ MathJax.Hub.Config({ tex2jax: { inlineMath: [ ['$','$'], ["\\(","\\)"] ], proces
 
   <div class="sidebar-item">
     <p>
-    &copy; 2018 안녕지구. This work is liscensed under <a href="http://creativecommons.org/licenses/by-nc/4.0/">CC BY-NC 4.0</a>.
+    &copy; 2019 안녕지구. This work is liscensed under <a href="http://creativecommons.org/licenses/by-nc/4.0/">CC BY-NC 4.0</a>.
     </p>
   </div>
 
@@ -319,31 +319,31 @@ MathJax.Hub.Config({ tex2jax: { inlineMath: [ ['$','$'], ["\\(","\\)"] ], proces
 <hr />
 
 <p><em>/model/concepts/Numdice.model.bxb</em></p>
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>integer (NumDice) {
+<pre><code>integer (NumDice) {
   description (The number of dice.)
 }
-</code></pre></div></div>
+</code></pre>
 
 <p><em>/model/concepts/NumSides.model.bxb</em></p>
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>integer (NumSides) {
+<pre><code>integer (NumSides) {
   description (The number of sides to the dice.)
 }
-</code></pre></div></div>
+</code></pre>
 
 <p><em>/model/concepts/Roll.model.bxb</em></p>
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>integer (Roll) {
+<pre><code>integer (Roll) {
   description (The result of a dice roll.)
 }
-</code></pre></div></div>
+</code></pre>
 
 <p><em>/model/concepts/Sum.model.bxb</em></p>
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>integer (Sum) {
+<pre><code>integer (Sum) {
   description (The total sum of all the dice rolled.)
 }
-</code></pre></div></div>
+</code></pre>
 
 <p><em>/model/concepts/RollResult.model.bxb</em></p>
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>structure (RollResult) {
+<pre><code>structure (RollResult) {
   description (The result object produced by the RollDice action.)
   property (sum) {
     type (Sum)
@@ -356,7 +356,7 @@ MathJax.Hub.Config({ tex2jax: { inlineMath: [ ['$','$'], ["\\(","\\)"] ], proces
     max (Many)
   }      
 }
-</code></pre></div></div>
+</code></pre>
 
 <hr />
 
@@ -365,7 +365,7 @@ MathJax.Hub.Config({ tex2jax: { inlineMath: [ ['$','$'], ["\\(","\\)"] ], proces
 <hr />
 
 <p><em>/model/actions/RollDice.model.bxb</em></p>
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>action (RollDice) {
+<pre><code>action (RollDice) {
   type (Calculation)
 
   collect{
@@ -384,7 +384,7 @@ MathJax.Hub.Config({ tex2jax: { inlineMath: [ ['$','$'], ["\\(","\\)"] ], proces
 
   output (RollResult)
 }
-</code></pre></div></div>
+</code></pre>
 
 <hr />
 
@@ -395,7 +395,7 @@ MathJax.Hub.Config({ tex2jax: { inlineMath: [ ['$','$'], ["\\(","\\)"] ], proces
 <hr />
 
 <p><em>/model/code/RollDice.js</em></p>
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>// Main entry point
+<pre><code>// Main entry point
 module.exports.function = function rollDice(numDice, numSides) {
 
   var sum = 0;
@@ -414,7 +414,7 @@ module.exports.function = function rollDice(numDice, numSides) {
     roll: result // required list Roll
   }
 }
-</code></pre></div></div>
+</code></pre>
 
 <hr />
 
@@ -425,7 +425,7 @@ module.exports.function = function rollDice(numDice, numSides) {
 <hr />
 
 <p><em>/resources/ko/endpoints.bxb</em></p>
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>endpoints {
+<pre><code>endpoints {
    authorization {
      none
    }
@@ -436,7 +436,7 @@ module.exports.function = function rollDice(numDice, numSides) {
      }
    }
 }
-</code></pre></div></div>
+</code></pre>
 
 <hr />
 
@@ -448,6 +448,15 @@ module.exports.function = function rollDice(numDice, numSides) {
 <div class="related">
   <h2>Related Posts</h2>
   <ul class="related-posts">
+    
+      <li>
+        <h3>
+          <a href="/reinforcement%20learning/2019/01/01/rl-introduction/">
+            강화학습 정리 - Introduction
+            <small>01 Jan 2019</small>
+          </a>
+        </h3>
+      </li>
     
       <li>
         <h3>
@@ -463,15 +472,6 @@ module.exports.function = function rollDice(numDice, numSides) {
           <a href="/bixby/2018/12/28/basic_tutorial_4/">
             주사위 프로젝트 - View 및 Dialog 작성
             <small>28 Dec 2018</small>
-          </a>
-        </h3>
-      </li>
-    
-      <li>
-        <h3>
-          <a href="/algorithm/2018/12/27/boj-corporative-network-3780/">
-            BOJ - 네트워크 연결(3789)
-            <small>27 Dec 2018</small>
           </a>
         </h3>
       </li>

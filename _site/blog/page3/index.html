@@ -187,7 +187,7 @@ MathJax.Hub.Config({ tex2jax: { inlineMath: [ ['$','$'], ["\\(","\\)"] ], proces
                 (
                   
                   
-                  0
+                  1
                 )
               </a>
           
@@ -247,7 +247,7 @@ MathJax.Hub.Config({ tex2jax: { inlineMath: [ ['$','$'], ["\\(","\\)"] ], proces
 
   <div class="sidebar-item">
     <p>
-    &copy; 2018 안녕지구. This work is liscensed under <a href="http://creativecommons.org/licenses/by-nc/4.0/">CC BY-NC 4.0</a>.
+    &copy; 2019 안녕지구. This work is liscensed under <a href="http://creativecommons.org/licenses/by-nc/4.0/">CC BY-NC 4.0</a>.
     </p>
   </div>
 
@@ -277,6 +277,64 @@ MathJax.Hub.Config({ tex2jax: { inlineMath: [ ['$','$'], ["\\(","\\)"] ], proces
 
       <div class="container content">
         <div class="posts">
+  
+  <div class="post">
+    <h1 class="post-title">
+      <a href="/bixby/2018/12/17/overview_2/">
+        Gettting Started - Overview (2)
+      </a>
+    </h1>
+
+    <span class="post-date">17 Dec 2018</span>
+     | 
+    
+    <a href="/blog/tags/#인공지능" class="post-tag">인공지능</a>
+    
+    <a href="/blog/tags/#빅스비" class="post-tag">빅스비</a>
+    
+    
+
+    <article>
+      <p>이번 포스트에서는 우리가 구현하는 <strong>캡슐(Capsule)</strong>이 플랫폼에서 어떻게 동작하는지 알아보려고 합니다. 내용은 공식 <a href="https://bixbydevelopers.com/dev/docs/get-started/overview">Bixby Developer</a> 페이지를 참고했습니다.</p>
+
+<div class="message">
+빅스비 캡슐(Capsule)은 빅스비 위에서 동작하는 어플리케이션입니다. 스타벅스 캡슐(Startbucks Capsule)이 그중에 하나입니다.
+</div>
+
+<h2 id="플랫폼과-상호-작용는-캡슐">플랫폼과 상호 작용는 캡슐</h2>
+
+<p>개발자는 <strong>‘자연어 학습(Natural Language Traning)’</strong>, <strong>‘모델링(Concept and Action Models)’</strong>, <strong>‘함수 작성(API Function)’</strong> 그리고 사용자에게 보여주는 <strong>화면(Dialog &amp; Layout)</strong> 을 구현해야 한다고 했는데요, 개발자가 구현한 내용들이 플랫폼에서 동작하는 과정을 알아보려고 합니다. 다음은 사용자 발화가 들어왔을 때 빅스비가 실행되는 Flow입니다.</p>
+
+<p><img src="/assets/2018-12-16-overview-2/flow-18218708982895970544.png" alt="image" /></p>
+
+<p><strong>첫 번째</strong>로, 사용자가 발화를 하면 빅스비 플랫폼은 개발자가 학습한 데이터를 기반으로 <strong>intent</strong>로 변환합니다. intent 다음과 같습니다.</p>
+<pre><code>// Give two values (number of dice and number of sides) with the
+// goal of rolling dice
+intent {
+ goal: example.dice.RollResult
+ value: example.dice.NumSides (6)
+ value: example.dice.NumDice (2)
+}
+</code></pre>
+
+<p><strong>두 번째</strong>로, 변환된 intent를 실행시킬 수 있도록 개발자가 정의한 모델인 Concept과 Action을 참고하여 실행될 프로그램(그래프)를 생성합니다.
+<!-- ![image](/assets/2018-12-16-overview/1st-execution-graph-11771877356118750247.png) --></p>
+
+<p><strong>세 번째</strong>로, 빅스비가 그래프를 실행하면서 Action에 도달했을 때, 함수(Javascript)가 있다면 같이 실행합니다. 이 함수에는 서버와 통신이나 추가적인 로직들을 넣을 수 있습니다.</p>
+
+<p><strong>마지막</strong>으로 Dialog와 View을 통해 사용자에게 보여줄 화면을 표시합니다.
+<!-- ![image](/assets/2018-12-16-overview/layout-result-16107432446437221263.png) --></p>
+
+<p>이 모든 과정들은 빅스비 캡슐(Bixby Capsule)에서 동작합니다. 다음 포스트에서는 예제 프로젝트를 개발해보면서 자세하게 알아보도록 하겠습니다. 감사합니다.</p>
+
+    <article>
+    <div class="post-more">
+      
+      <a href="/bixby/2018/12/17/overview_2/#disqus_thread"> <i class="fa fa-comments" aria-hidden="true"></i>Comment</a>&nbsp;
+      
+      <a href="/bixby/2018/12/17/overview_2/"><i class="fa fa-plus-circle" aria-hidden="true"></i>Read more</a>
+    </div>
+  </div>
   
   <div class="post">
     <h1 class="post-title">
@@ -326,7 +384,7 @@ MathJax.Hub.Config({ tex2jax: { inlineMath: [ ['$','$'], ["\\(","\\)"] ], proces
 
 <p>다음은 RollDice 함수입니다. 서버와의 통신이나 추가로 필요한 함수는 Javascript로 작성합니다.</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>// RollDice
+<pre><code>// RollDice
 // Rolls a dice given a number of sides and a number of dice
 
 // Main entry point
@@ -352,7 +410,7 @@ function rollDice(numDice, numSides) {
 module.exports = {
   function: rollDice
 }
-</code></pre></div></div>
+</code></pre>
 
 <p>그리고 RollResult가 사용자에게 보여지도록 <strong>Dialog</strong>와 <strong>Layout</strong>을 작성하면 아래처럼 결과를 볼 수 있습니다. 아래 그림에서 빅스비가 얘기하는 부분(‘Here’s what I found’)이 Dialog이고 추가 정보를 보여주는 부분이 Layout 입니다.</p>
 
@@ -394,7 +452,7 @@ module.exports = {
       <p><strong>이중 연결 리스트(Double Linked List)</strong>를 연습하기 위해 풀어본 문제입니다. 문제를 풀기 위해서 <strong>원형 링크드 리스트(Circular Liked List)</strong>를 구현해야 하는데 이중 연결 리스트를 이용해서 구현했습니다.</p>
 
 <h2 id="구조체-배열">구조체 배열</h2>
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>struct Node {
+<pre><code>struct Node {
 	Node* next;
 	Node* prev;
 	int data;
@@ -404,10 +462,10 @@ int nidx = 0;
 Node* allocNode() {
 	return &amp;narr[nidx++];
 }
-</code></pre></div></div>
+</code></pre>
 
 <h2 id="원형-링크드-리스트">원형 링크드 리스트</h2>
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Node* head = NULL;
+<pre><code>Node* head = NULL;
 Node* tail = NULL;
 
 void addNode(int data) {
@@ -439,10 +497,10 @@ int delNode(int idx) {
 	cn-&gt;next-&gt;prev = cn-&gt;prev;
 	return cn-&gt;data;
 }
-</code></pre></div></div>
+</code></pre>
 
 <h2 id="메인-함수">메인 함수</h2>
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>#include &lt;stdio.h&gt;
+<pre><code>#include &lt;stdio.h&gt;
 
 int main() {
 	int N, M;
@@ -459,7 +517,7 @@ int main() {
 	printf("%d", delNode(M));
 	printf("&gt;");
 }
-</code></pre></div></div>
+</code></pre>
 
     <article>
     <div class="post-more">
@@ -498,7 +556,7 @@ int main() {
 </div>
 
 <h2 id="최소-힙minheap">최소 힙(MinHeap)</h2>
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>// 초기화
+<pre><code>// 초기화
 int minHeap[200005];
 int lastIdx = 0;
 
@@ -594,10 +652,10 @@ void enqueue(int val) {
 		}
 	}
 }
-</code></pre></div></div>
+</code></pre>
 
 <h2 id="메인-함수">메인 함수</h2>
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>#include &lt;stdio.h&gt;
+<pre><code>#include &lt;stdio.h&gt;
 
 int main() {
 
@@ -626,7 +684,7 @@ int main() {
 	printf("%d", ans);
 
 }
-</code></pre></div></div>
+</code></pre>
 
     <article>
     <div class="post-more">
@@ -684,150 +742,6 @@ int main() {
       <a href="/bixby/2018/12/13/intro/#disqus_thread"> <i class="fa fa-comments" aria-hidden="true"></i>Comment</a>&nbsp;
       
       <a href="/bixby/2018/12/13/intro/"><i class="fa fa-plus-circle" aria-hidden="true"></i>Read more</a>
-    </div>
-  </div>
-  
-  <div class="post">
-    <h1 class="post-title">
-      <a href="/algorithm/2018/12/11/boj-max-heap-11279/">
-        BOJ - 최대 힙(11279)
-      </a>
-    </h1>
-
-    <span class="post-date">11 Dec 2018</span>
-     | 
-    
-    <a href="/blog/tags/#boj" class="post-tag">BOJ</a>
-    
-    <a href="/blog/tags/#백준" class="post-tag">백준</a>
-    
-    <a href="/blog/tags/#알고리즘" class="post-tag">알고리즘</a>
-    
-    <a href="/blog/tags/#자료구조" class="post-tag">자료구조</a>
-    
-    
-
-    <article>
-      <p><strong>배열</strong>을 사용해서 간단하게 구현한 <strong>최대 힙(MaxHeap)</strong>입니다. 코드의 길이를 줄이기 보다는 가독성을 높이는 방향으로 작성했습니다.</p>
-
-<div class="message">
-힙이 가득찬 상태에서 자식 노드의 위치를 가져올 때 배열의 Index를 넘어서 런타임 에러가 발생했습니다. 따로 로직을 추가해서 처리해도 되지만 메모리가 충분하기 때문에 배열의 크기를 (최대 힙 크기 * 2 + 1) 이상으로 잡았습니다.
-</div>
-
-<h2 id="최대-힙">최대 힙</h2>
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>// 최대힙 초기화
-int maxHeap[200005];
-int lastIdx = 0;
-
-// 자식 노드 Index 
-int getLeftChild(int idx) {
-	return idx * 2;
-}
-
-int getRightChild(int idx) {
-	return idx * 2 + 1;
-}
-
-// 부모 노드 Index 
-int getParent(int idx) {
-	return idx / 2;
-}
-
-// 교환하는 함수
-void swap(int idx1, int idx2, int* arr) {
-	int tmp = arr[idx1];
-	arr[idx1] = arr[idx2];
-	arr[idx2] = tmp;
-}
-
-// dequeue 함수
-int dequeue() {
-	
-	if (lastIdx == 0) return 0;
-
-	int head = maxHeap[1];
-	maxHeap[1] = maxHeap[lastIdx];
-	maxHeap[lastIdx] = 0;
-	lastIdx--;
-
-	int curIdx = 1;
-	while (true) {
-		int rIdx = getRightChild(curIdx);
-		int lIdx = getLeftChild(curIdx);
-
-		int curVal = maxHeap[curIdx];
-		int rVal = maxHeap[rIdx];
-		int lVal = maxHeap[lIdx];
-		
-		int nextIdx = rVal &gt; lVal ? rIdx : lIdx;
-		int nextVal = maxHeap[nextIdx];
-		if (curVal &lt; nextVal) {
-			swap(curIdx, nextIdx, maxHeap);
-			curIdx = nextIdx;
-		} else {
-			break;
-		}
-	}
-
-	return head;
-}
-
-// enqueue 함수
-void enqueue(int val) {
-	lastIdx++;
-	maxHeap[lastIdx] = val;
-
-	int curIdx = lastIdx;
-	while (true) {
-		if (curIdx == 1) break;
-
-		int pIdx = getParent(curIdx);
-		
-		int curVal = maxHeap[curIdx];
-		int pVal = maxHeap[pIdx];
-
-		int nextIdx = pIdx;
-		int nextVal = maxHeap[nextIdx];
-		if (curVal &gt; nextVal) {
-			swap(curIdx, nextIdx, maxHeap);
-			curIdx = nextIdx;
-		} else {
-			break;
-		}
-	}
-}
-</code></pre></div></div>
-
-<h2 id="메인-함수">메인 함수</h2>
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>#include &lt;stdio.h&gt;
-
-int main() {
-	
-	int N;
-	scanf("%d", &amp;N);
-
-	while (N--) {
-		int x;
-		scanf("%d", &amp;x);
-
-		if (x &gt; 0) {
-			enqueue(x);
-		} else if (x == 0) {
-			int val = dequeue();
-			printf("%d\n", val);
-		}
-	}
-
-	return 0;
-}
-</code></pre></div></div>
-
-    <article>
-    <div class="post-more">
-      
-      <a href="/algorithm/2018/12/11/boj-max-heap-11279/#disqus_thread"> <i class="fa fa-comments" aria-hidden="true"></i>Comment</a>&nbsp;
-      
-      <a href="/algorithm/2018/12/11/boj-max-heap-11279/"><i class="fa fa-plus-circle" aria-hidden="true"></i>Read more</a>
     </div>
   </div>
   

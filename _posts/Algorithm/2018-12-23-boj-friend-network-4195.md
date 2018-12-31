@@ -37,7 +37,7 @@ Node* allocnode(char* name, int idx) {
 ```
 
 ## Hash Code 
-```
+```cpp
 int hashCode(char* str) {
 	int hash = 0;
 	for (int i = 0; str[i] != '\0'; i++) {

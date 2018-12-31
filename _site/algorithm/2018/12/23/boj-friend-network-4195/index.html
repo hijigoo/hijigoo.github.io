@@ -187,7 +187,7 @@ MathJax.Hub.Config({ tex2jax: { inlineMath: [ ['$','$'], ["\\(","\\)"] ], proces
                 (
                   
                   
-                  0
+                  1
                 )
               </a>
           
@@ -247,7 +247,7 @@ MathJax.Hub.Config({ tex2jax: { inlineMath: [ ['$','$'], ["\\(","\\)"] ], proces
 
   <div class="sidebar-item">
     <p>
-    &copy; 2018 안녕지구. This work is liscensed under <a href="http://creativecommons.org/licenses/by-nc/4.0/">CC BY-NC 4.0</a>.
+    &copy; 2019 안녕지구. This work is liscensed under <a href="http://creativecommons.org/licenses/by-nc/4.0/">CC BY-NC 4.0</a>.
     </p>
   </div>
 
@@ -300,7 +300,7 @@ MathJax.Hub.Config({ tex2jax: { inlineMath: [ ['$','$'], ["\\(","\\)"] ], proces
 </div>
 
 <h2 id="노드">노드</h2>
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>// define
+<pre><code>// define
 #define MAX 200010
 
 // node
@@ -317,20 +317,20 @@ Node* allocnode(char* name, int idx) {
 	node-&gt;idx = idx;
 	return node;
 }
-</code></pre></div></div>
+</code></pre>
 
 <h2 id="hash-code">Hash Code</h2>
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>int hashCode(char* str) {
+<pre><code class="language-cpp">int hashCode(char* str) {
 	int hash = 0;
 	for (int i = 0; str[i] != '\0'; i++) {
 		hash = (hash * 31 + str[i]) % MAX;
 	}
 	return hash;
 }
-</code></pre></div></div>
+</code></pre>
 
 <h2 id="hash-map">Hash Map</h2>
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Node* h[MAX];
+<pre><code>Node* h[MAX];
 
 int get(char* name) {
 	int hash = hashCode(name);
@@ -378,10 +378,10 @@ int isContain(char* name) {
 		return 0;
 	}
 }
-</code></pre></div></div>
+</code></pre>
 
 <h2 id="유니온-파인드">유니온 파인드</h2>
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>int find(int n) {
+<pre><code>int find(int n) {
 	if (p[n] &lt; 0) return n;
 	else {
 		// path compression
@@ -402,10 +402,10 @@ int uni(int a, int b) {
 
 	return c[ap];
 }
-</code></pre></div></div>
+</code></pre>
 
 <h2 id="메인-함수">메인 함수</h2>
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>#include &lt;stdio.h&gt;
+<pre><code>#include &lt;stdio.h&gt;
 #include &lt;stdlib.h&gt;
 int main() {
 
@@ -445,7 +445,7 @@ int main() {
 
 	return 0;
 }
-</code></pre></div></div>
+</code></pre>
 
   </article>
 </div>
@@ -453,6 +453,15 @@ int main() {
 <div class="related">
   <h2>Related Posts</h2>
   <ul class="related-posts">
+    
+      <li>
+        <h3>
+          <a href="/reinforcement%20learning/2019/01/01/rl-introduction/">
+            강화학습 정리 - Introduction
+            <small>01 Jan 2019</small>
+          </a>
+        </h3>
+      </li>
     
       <li>
         <h3>
@@ -468,15 +477,6 @@ int main() {
           <a href="/bixby/2018/12/28/basic_tutorial_4/">
             주사위 프로젝트 - View 및 Dialog 작성
             <small>28 Dec 2018</small>
-          </a>
-        </h3>
-      </li>
-    
-      <li>
-        <h3>
-          <a href="/algorithm/2018/12/27/boj-corporative-network-3780/">
-            BOJ - 네트워크 연결(3789)
-            <small>27 Dec 2018</small>
           </a>
         </h3>
       </li>

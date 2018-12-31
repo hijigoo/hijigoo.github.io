@@ -187,7 +187,7 @@ MathJax.Hub.Config({ tex2jax: { inlineMath: [ ['$','$'], ["\\(","\\)"] ], proces
                 (
                   
                   
-                  0
+                  1
                 )
               </a>
           
@@ -247,7 +247,7 @@ MathJax.Hub.Config({ tex2jax: { inlineMath: [ ['$','$'], ["\\(","\\)"] ], proces
 
   <div class="sidebar-item">
     <p>
-    &copy; 2018 안녕지구. This work is liscensed under <a href="http://creativecommons.org/licenses/by-nc/4.0/">CC BY-NC 4.0</a>.
+    &copy; 2019 안녕지구. This work is liscensed under <a href="http://creativecommons.org/licenses/by-nc/4.0/">CC BY-NC 4.0</a>.
     </p>
   </div>
 
@@ -277,6 +277,192 @@ MathJax.Hub.Config({ tex2jax: { inlineMath: [ ['$','$'], ["\\(","\\)"] ], proces
 
       <div class="container content">
         <div class="posts">
+  
+  <div class="post">
+    <h1 class="post-title">
+      <a href="/algorithm/2018/12/23/boj-friend-network-4195/">
+        BOJ - 친구 네트워크(4195)
+      </a>
+    </h1>
+
+    <span class="post-date">23 Dec 2018</span>
+     | 
+    
+    <a href="/blog/tags/#boj" class="post-tag">BOJ</a>
+    
+    <a href="/blog/tags/#백준" class="post-tag">백준</a>
+    
+    <a href="/blog/tags/#알고리즘" class="post-tag">알고리즘</a>
+    
+    <a href="/blog/tags/#자료구조" class="post-tag">자료구조</a>
+    
+    
+
+    <article>
+      <p><strong>유니온 파인드(Union-Find)</strong>를 사용해서 해결할 수 있는 문제입니다. 그런데 find 과정에서 단순하게 문자열 비교를 하면 Timeout이 발생합니다. 이를 해결하기 위해서 문자열을 <strong>hash code</strong>로 변환해서 비교해야 합니다. <strong>HashMap</strong>을 만들 때 hash code가 겹칠 수 있기 때문에 <strong>Linked List</strong>를 사용했습니다. 이런 방식을 <a href="https://en.wikipedia.org/wiki/Hash_table#Separate_chaining"><strong>Separate chaining</strong></a>이라고 합니다. 기존의 HashMap 라이브러리를 사용하셔도 됩니다.</p>
+
+<p>hash code 구하는 식은 <a href="https://d2.naver.com/helloworld/831311">Naver D2</a>를 참고했습니다.</p>
+
+<div class="message">
+문자열을 배열로 받으면 주소가 고정되어서, Node에 저장된 name이 다음 입력을 받을 때 변경되는 문제가 있었습니다. 이 문제를 해결하고자 문자열을 동적 할당해서 매번 다른 주소값에 맵핑 되도록 수정했습니다. 문자열을 카피해서 해결하는 방법도 있습니다.
+</div>
+
+<h2 id="노드">노드</h2>
+<pre><code>// define
+#define MAX 200010
+
+// node
+struct Node {
+	Node* next;
+	int idx;
+	char* name;
+}nodearr[MAX];
+
+int nodeidx = 0;
+Node* allocnode(char* name, int idx) {
+	Node* node = &amp;nodearr[nodeidx++];
+	node-&gt;name = name;
+	node-&gt;idx = idx;
+	return node;
+}
+</code></pre>
+
+<h2 id="hash-code">Hash Code</h2>
+<pre><code class="language-cpp">int hashCode(char* str) {
+	int hash = 0;
+	for (int i = 0; str[i] != '\0'; i++) {
+		hash = (hash * 31 + str[i]) % MAX;
+	}
+	return hash;
+}
+</code></pre>
+
+<h2 id="hash-map">Hash Map</h2>
+<pre><code>Node* h[MAX];
+
+int get(char* name) {
+	int hash = hashCode(name);
+
+	Node* cur = h[hash];
+	while (cur != '\0') {
+		int isSame = 1;
+		for (int i = 0; i &lt; 21; i++) {
+			if (name[i] != cur-&gt;name[i]) {
+				isSame = 0;
+				break;
+			}
+		}
+		if (isSame) return cur-&gt;idx;
+		cur = cur-&gt;next;
+	}
+}
+
+void put(char* name, int idx) {
+	int hash = hashCode(name);
+	Node* node = allocnode(name, idx);
+	if (h[hash] == '\0') h[hash] = node;
+	else {
+		node-&gt;next = h[hash];
+		h[hash] = node;
+	}
+}
+
+int isContain(char* name) {
+	int hash = hashCode(name);
+	if (h[hash] == '\0') return 0;
+	else {
+		Node* cur = h[hash];
+		while (cur != '\0') {
+			int isSame = 1;
+			for (int i = 0; i &lt; 21; i++) {
+				if (name[i] != cur-&gt;name[i]) {
+					isSame = 0;
+					break;
+				}
+			}
+			if (isSame) return 1;
+			cur = cur-&gt;next;
+		}
+		return 0;
+	}
+}
+</code></pre>
+
+<h2 id="유니온-파인드">유니온 파인드</h2>
+<pre><code>int find(int n) {
+	if (p[n] &lt; 0) return n;
+	else {
+		// path compression
+		p[n] = find(p[n]);
+		return p[n];
+	}
+}
+
+int uni(int a, int b) {
+
+	int ap = find(a);
+	int bp = find(b);
+
+	if (ap != bp) {
+		p[bp] = ap;
+		c[ap] += c[bp];
+	}
+
+	return c[ap];
+}
+</code></pre>
+
+<h2 id="메인-함수">메인 함수</h2>
+<pre><code>#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+int main() {
+
+	int T;
+	scanf("%d", &amp;T);
+
+	while (T--) {
+		int nameCount = 1;
+		for (int i = 0; i &lt; MAX; i++) {
+			p[i] = -1;
+			c[i] = 1;
+		}
+
+		int F;
+		scanf("%d", &amp;F);
+
+		while (F--) {
+
+			char* a = (char*)malloc(sizeof(char) * 21);
+			char* b = (char*)malloc(sizeof(char) * 21);
+
+			scanf("%s", a);
+			scanf("%s", b);
+
+			if (isContain(a) == 0) {
+				put(a, nameCount++);
+			}
+			if (isContain(b) == 0) {
+				put(b, nameCount++);
+			}
+
+			int count = uni(get(a), get(b));
+			printf("%d\n", count);
+		}
+
+	}
+
+	return 0;
+}
+</code></pre>
+
+    <article>
+    <div class="post-more">
+      
+      <a href="/algorithm/2018/12/23/boj-friend-network-4195/#disqus_thread"> <i class="fa fa-comments" aria-hidden="true"></i>Comment</a>&nbsp;
+      
+      <a href="/algorithm/2018/12/23/boj-friend-network-4195/"><i class="fa fa-plus-circle" aria-hidden="true"></i>Read more</a>
+    </div>
+  </div>
   
   <div class="post">
     <h1 class="post-title">
@@ -327,31 +513,31 @@ MathJax.Hub.Config({ tex2jax: { inlineMath: [ ['$','$'], ["\\(","\\)"] ], proces
 <hr />
 
 <p><em>/model/concepts/Numdice.model.bxb</em></p>
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>integer (NumDice) {
+<pre><code>integer (NumDice) {
   description (The number of dice.)
 }
-</code></pre></div></div>
+</code></pre>
 
 <p><em>/model/concepts/NumSides.model.bxb</em></p>
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>integer (NumSides) {
+<pre><code>integer (NumSides) {
   description (The number of sides to the dice.)
 }
-</code></pre></div></div>
+</code></pre>
 
 <p><em>/model/concepts/Roll.model.bxb</em></p>
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>integer (Roll) {
+<pre><code>integer (Roll) {
   description (The result of a dice roll.)
 }
-</code></pre></div></div>
+</code></pre>
 
 <p><em>/model/concepts/Sum.model.bxb</em></p>
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>integer (Sum) {
+<pre><code>integer (Sum) {
   description (The total sum of all the dice rolled.)
 }
-</code></pre></div></div>
+</code></pre>
 
 <p><em>/model/concepts/RollResult.model.bxb</em></p>
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>structure (RollResult) {
+<pre><code>structure (RollResult) {
   description (The result object produced by the RollDice action.)
   property (sum) {
     type (Sum)
@@ -364,7 +550,7 @@ MathJax.Hub.Config({ tex2jax: { inlineMath: [ ['$','$'], ["\\(","\\)"] ], proces
     max (Many)
   }      
 }
-</code></pre></div></div>
+</code></pre>
 
 <hr />
 
@@ -373,7 +559,7 @@ MathJax.Hub.Config({ tex2jax: { inlineMath: [ ['$','$'], ["\\(","\\)"] ], proces
 <hr />
 
 <p><em>/model/actions/RollDice.model.bxb</em></p>
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>action (RollDice) {
+<pre><code>action (RollDice) {
   type (Calculation)
 
   collect{
@@ -392,7 +578,7 @@ MathJax.Hub.Config({ tex2jax: { inlineMath: [ ['$','$'], ["\\(","\\)"] ], proces
 
   output (RollResult)
 }
-</code></pre></div></div>
+</code></pre>
 
 <hr />
 
@@ -403,7 +589,7 @@ MathJax.Hub.Config({ tex2jax: { inlineMath: [ ['$','$'], ["\\(","\\)"] ], proces
 <hr />
 
 <p><em>/model/code/RollDice.js</em></p>
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>// Main entry point
+<pre><code>// Main entry point
 module.exports.function = function rollDice(numDice, numSides) {
 
   var sum = 0;
@@ -422,7 +608,7 @@ module.exports.function = function rollDice(numDice, numSides) {
     roll: result // required list Roll
   }
 }
-</code></pre></div></div>
+</code></pre>
 
 <hr />
 
@@ -433,7 +619,7 @@ module.exports.function = function rollDice(numDice, numSides) {
 <hr />
 
 <p><em>/resources/ko/endpoints.bxb</em></p>
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>endpoints {
+<pre><code>endpoints {
    authorization {
      none
    }
@@ -444,7 +630,7 @@ module.exports.function = function rollDice(numDice, numSides) {
      }
    }
 }
-</code></pre></div></div>
+</code></pre>
 
 <hr />
 
@@ -487,7 +673,7 @@ module.exports.function = function rollDice(numDice, numSides) {
 </div>
 
 <h2 id="유니온-파인드">유니온 파인드</h2>
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>#define MAX 1000001
+<pre><code>#define MAX 1000001
 int p[MAX];
 
 int find(int n) {
@@ -506,10 +692,10 @@ void uni(int a, int b) {
 		p[bp] = ap;
 	}
 }
-</code></pre></div></div>
+</code></pre>
 
 <h2 id="메인-함수">메인 함수</h2>
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>#include &lt;stdio.h&gt;
+<pre><code>#include &lt;stdio.h&gt;
 
 int main() {
 
@@ -538,7 +724,7 @@ int main() {
 
 	return 0;
 }
-</code></pre></div></div>
+</code></pre>
 
     <article>
     <div class="post-more">
@@ -595,7 +781,7 @@ int main() {
 
 <p>그리고 <strong>capsule.bxb</strong> 파일을 보시면 아래와 같이 나와있는데요, 캡슐의 기본 설정 값을 입력한다고 생각하시면 됩니다. 저희는 한국어를 기본으로 할 것이기 때문에 <strong>targets</strong> 값을 <strong>bixby-mobile-ko-KR</strong> 로 변경합니다.</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>capsule {
+<pre><code>capsule {
   id (study.dice)
   version (0.1.0)
   format (3)
@@ -603,7 +789,7 @@ int main() {
     target (bixby-mobile-ko-KR)
   }
 }
-</code></pre></div></div>
+</code></pre>
 
 <p>다음에는 Concept과 Actions를 추가하여 모델링을 해보겠습니다.</p>
 
@@ -644,7 +830,7 @@ scanf 함수로 문자를 받으니, 다음 scanf 함수에 개행(\n)이 입력
 </div>
 
 <h2 id="구조체-배열">구조체 배열</h2>
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>struct Node {
+<pre><code>struct Node {
 	Node* next;
 	Node* prev;
 	char data;
@@ -655,10 +841,10 @@ Node* allocNode(char data) {
 	nn-&gt;data = data;
 	return nn;
 }
-</code></pre></div></div>
+</code></pre>
 
 <h2 id="이중-링크드-리스트">이중 링크드 리스트</h2>
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Node* head = nullptr;
+<pre><code>Node* head = nullptr;
 Node* tail = nullptr;
 
 void add(char data) {
@@ -673,10 +859,10 @@ void add(char data) {
 		tail = nn;
 	}
 }
-</code></pre></div></div>
+</code></pre>
 
 <h2 id="편집기-기능">편집기 기능</h2>
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Node* pointer = nullptr;
+<pre><code class="language-cpp">Node* pointer = nullptr;
 void addAtPointer(char data) {
 	Node* nn = allocNode(data);
 	
@@ -716,10 +902,10 @@ void right() {
 		pointer = pointer-&gt;next;
 	}
 }
-</code></pre></div></div>
+</code></pre>
 
 <h2 id="메인-함수">메인 함수</h2>
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>int main() {
+<pre><code>int main() {
 
 	// 문자열 입력
 	scanf("%s", str);
@@ -766,7 +952,7 @@ void right() {
 		cur = cur-&gt;next;
 	}
 }
-</code></pre></div></div>
+</code></pre>
 
     <article>
     <div class="post-more">
@@ -774,64 +960,6 @@ void right() {
       <a href="/algorithm/2018/12/18/boj-editor-1406/#disqus_thread"> <i class="fa fa-comments" aria-hidden="true"></i>Comment</a>&nbsp;
       
       <a href="/algorithm/2018/12/18/boj-editor-1406/"><i class="fa fa-plus-circle" aria-hidden="true"></i>Read more</a>
-    </div>
-  </div>
-  
-  <div class="post">
-    <h1 class="post-title">
-      <a href="/bixby/2018/12/17/overview_2/">
-        Gettting Started - Overview (2)
-      </a>
-    </h1>
-
-    <span class="post-date">17 Dec 2018</span>
-     | 
-    
-    <a href="/blog/tags/#인공지능" class="post-tag">인공지능</a>
-    
-    <a href="/blog/tags/#빅스비" class="post-tag">빅스비</a>
-    
-    
-
-    <article>
-      <p>이번 포스트에서는 우리가 구현하는 <strong>캡슐(Capsule)</strong>이 플랫폼에서 어떻게 동작하는지 알아보려고 합니다. 내용은 공식 <a href="https://bixbydevelopers.com/dev/docs/get-started/overview">Bixby Developer</a> 페이지를 참고했습니다.</p>
-
-<div class="message">
-빅스비 캡슐(Capsule)은 빅스비 위에서 동작하는 어플리케이션입니다. 스타벅스 캡슐(Startbucks Capsule)이 그중에 하나입니다.
-</div>
-
-<h2 id="플랫폼과-상호-작용는-캡슐">플랫폼과 상호 작용는 캡슐</h2>
-
-<p>개발자는 <strong>‘자연어 학습(Natural Language Traning)’</strong>, <strong>‘모델링(Concept and Action Models)’</strong>, <strong>‘함수 작성(API Function)’</strong> 그리고 사용자에게 보여주는 <strong>화면(Dialog &amp; Layout)</strong> 을 구현해야 한다고 했는데요, 개발자가 구현한 내용들이 플랫폼에서 동작하는 과정을 알아보려고 합니다. 다음은 사용자 발화가 들어왔을 때 빅스비가 실행되는 Flow입니다.</p>
-
-<p><img src="/assets/2018-12-16-overview-2/flow-18218708982895970544.png" alt="image" /></p>
-
-<p><strong>첫 번째</strong>로, 사용자가 발화를 하면 빅스비 플랫폼은 개발자가 학습한 데이터를 기반으로 <strong>intent</strong>로 변환합니다. intent 다음과 같습니다.</p>
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>// Give two values (number of dice and number of sides) with the
-// goal of rolling dice
-intent {
- goal: example.dice.RollResult
- value: example.dice.NumSides (6)
- value: example.dice.NumDice (2)
-}
-</code></pre></div></div>
-
-<p><strong>두 번째</strong>로, 변환된 intent를 실행시킬 수 있도록 개발자가 정의한 모델인 Concept과 Action을 참고하여 실행될 프로그램(그래프)를 생성합니다.
-<!-- ![image](/assets/2018-12-16-overview/1st-execution-graph-11771877356118750247.png) --></p>
-
-<p><strong>세 번째</strong>로, 빅스비가 그래프를 실행하면서 Action에 도달했을 때, 함수(Javascript)가 있다면 같이 실행합니다. 이 함수에는 서버와 통신이나 추가적인 로직들을 넣을 수 있습니다.</p>
-
-<p><strong>마지막</strong>으로 Dialog와 View을 통해 사용자에게 보여줄 화면을 표시합니다.
-<!-- ![image](/assets/2018-12-16-overview/layout-result-16107432446437221263.png) --></p>
-
-<p>이 모든 과정들은 빅스비 캡슐(Bixby Capsule)에서 동작합니다. 다음 포스트에서는 예제 프로젝트를 개발해보면서 자세하게 알아보도록 하겠습니다. 감사합니다.</p>
-
-    <article>
-    <div class="post-more">
-      
-      <a href="/bixby/2018/12/17/overview_2/#disqus_thread"> <i class="fa fa-comments" aria-hidden="true"></i>Comment</a>&nbsp;
-      
-      <a href="/bixby/2018/12/17/overview_2/"><i class="fa fa-plus-circle" aria-hidden="true"></i>Read more</a>
     </div>
   </div>
   

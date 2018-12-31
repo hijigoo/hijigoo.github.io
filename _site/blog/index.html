@@ -187,7 +187,7 @@ MathJax.Hub.Config({ tex2jax: { inlineMath: [ ['$','$'], ["\\(","\\)"] ], proces
                 (
                   
                   
-                  0
+                  1
                 )
               </a>
           
@@ -247,7 +247,7 @@ MathJax.Hub.Config({ tex2jax: { inlineMath: [ ['$','$'], ["\\(","\\)"] ], proces
 
   <div class="sidebar-item">
     <p>
-    &copy; 2018 안녕지구. This work is liscensed under <a href="http://creativecommons.org/licenses/by-nc/4.0/">CC BY-NC 4.0</a>.
+    &copy; 2019 안녕지구. This work is liscensed under <a href="http://creativecommons.org/licenses/by-nc/4.0/">CC BY-NC 4.0</a>.
     </p>
   </div>
 
@@ -280,6 +280,92 @@ MathJax.Hub.Config({ tex2jax: { inlineMath: [ ['$','$'], ["\\(","\\)"] ], proces
   
   <div class="post">
     <h1 class="post-title">
+      <a href="/reinforcement%20learning/2019/01/01/rl-introduction/">
+        강화학습 정리 - Introduction
+      </a>
+    </h1>
+
+    <span class="post-date">01 Jan 2019</span>
+     | 
+    
+    <a href="/blog/tags/#강화학습" class="post-tag">강화학습</a>
+    
+    <a href="/blog/tags/#rl" class="post-tag">RL</a>
+    
+    
+
+    <article>
+      <h2 id="1-introduction">1. Introduction</h2>
+
+<p>우리가 배움의 본질에 대해 생각할 때 가장 먼저 떠올리는 것 중 하나는 <strong>환경(environment)</strong>과 상호작용 하면서 배우는 것이다. 예를 들어서 아기들은 가르쳐주는 사람이 없더라도 스스로 팔을 흔들고, 노는 행동을 하고, 주위를 바라보는 방법 등을 터득한다. 아기는 자신과 연결된 환경(environment)과 상호작용하며 배우는데 필요한 정보를 습득하는 것이다.</p>
+
+<hr />
+
+<h3 id="reinforcement-learning">Reinforcement Learning</h3>
+
+<p>Reinforcement learning은 현재 자신에게 주어진 환경에서 어떤 <strong>행동(action)</strong>을 해야 하는지 배우는 것이다. 그리고 이 행동(action)은 <strong>보상(reward)</strong>을 최대로 얻을 수 있는 방법을 따른다.</p>
+
+<p>여기서 흥미로운 점은 내가 선택하는 행동(action)이 당장 받을 보상(immediate reward)뿐 아니라 다음 상황(state)과 나중에 받을 보상(subsequent rewards)에도 영향을 미친다는 것이다. 즉, 행동(action)을 선택할 때 나중에 받을 보상도 고려를 해야 하는 것이다.</p>
+
+<p>또한, reinfocement learning이 받는 challenge 중 하나는 <strong>exploitation</strong> 과 <strong>exploration</strong>의 trade-off 이다. 행동(action)을 선택할 때 두 가지 접근 방법 중에서 하나를 선택해야 하기 때문이다.</p>
+
+<ul>
+  <li><strong>exploitation</strong>: 이미 학습한 정보를 토대로 최대 reward를 얻는 action을 선택한다.</li>
+  <li><strong>exploration</strong>: 새로운 정보를 학습하기 위해서 여러가지 action을 선택해본다.</li>
+</ul>
+
+<p>아래는 교재에서 설명된 내용이다.</p>
+<blockquote>
+  <p>The agent has to <em>exploit</em> what it has already experienced in order to obtain reward, but it also has to <em>explore</em> in order to make better action selections in the future.</p>
+</blockquote>
+
+<p>마지막으로, reinforcement learning에서 <strong>학습하는 대상(agent)</strong>은 <strong>목표 지향적(goal-directed)</strong>이며 불확실한 환경(uncertain environment)에서도 모든 문제를 고려해야 한다.</p>
+
+<hr />
+
+<h3 id="elements-of-reinforcement-learning">Elements of Reinforcement Learning</h3>
+
+<p>위에서 설명 했듯이 reinforcement learning에서는 <strong>agent</strong>는 <strong>environment</strong>와 상호작용 하면서 학습하는데, 이 시스템에서 중요한 네가지 요소를 아래와 같이 정의할 수 있다.</p>
+
+<ul>
+  <li><strong>Policy</strong>: 주어진 environment의 state에서 agent가 선택해야 할 action을 정의</li>
+  <li><strong>Reward signal</strong>: agent가 action을 선택했을 때 environment로 부터 받는 값</li>
+  <li><strong>Value function</strong>: agent가 특정 state에서 앞으로 받을 모든 rewards의 합에 대한 기댓값을 정의</li>
+  <li><strong>Model</strong>: environment의 동작(behavior)에 대해 정의</li>
+</ul>
+
+<p><strong>Policy</strong>는 현재의 내 상태(states of the environment)에서 취해야 할 action을 정의 하는데, 간단한 function이나 lookup table 일 수도 있다. 일반적으로 확률론(stochastic)적 이며 각 action에 대한 확률(probabilities)를 가지고 있다.</p>
+
+<p><strong>Reward signal</strong>은 agent가 action을 선택 했을 때 즉각적으로 environment로 부터 받는 보상 값으로, reinforcement learning에서 agent의 유일한 목표는 이 reward의 총 합을 최대화하는 것이다. reward는 policy를 정의하기 위한 기본 요소다.</p>
+
+<p><strong>Value function</strong>은 길게 보았을 때 agent가 특정 state에서 받을 reward의 총 합에 대한 기댓값을 정의한다. agent가 주어진 state에서 특정 action을 선택했을 때 당장 받을 reward는 다른 action을 취했을 때 보다 상대적으로 낮더라도 최종적으로 누적될 reward는 가장 높을 수도 있다.</p>
+
+<p><strong>Model</strong>은 environment의 동작(behavior)에 대해 정의한다. 즉, model을 알고 있으면 state와 action이 주어졌을 때의 가능한 결과를 미리 예상할 수 있다. model은 agent가 직접 경험해 보기도 전에 <em>계획(planning)</em>을 세우는데 사용된다. 문제를 해결하기 위해서 model과 planning을 사용하는 방법을 <em>model-based</em>라고 한다. 반대로 agent가 model을 모르는 상태에서 <em>경험을 하면서(trial-and-error)</em> 문제를 해결하는 방법을 <em>model-free</em>라고 한다.</p>
+
+<hr />
+
+<h3 id="summary">Summary</h3>
+
+<p>Reinforcement learning은 agent가 environment와 상호작용 하면서 학습한다는 점에서 다른 학습 방법과는 구분된다. 그리고 states, actions, rewards를 포함한 environment와 agent의 관계를 정의하기 위해서 <strong><a href="https://en.wikipedia.org/wiki/Markov_decision_process">Markov decision processes(MDP)</a></strong>라는 framework 를 사용한다. <strong>value</strong> 와 <strong>value function</strong> 컨셉은 reinforcement learning에서 매우 중요한 요소다. agent는 policy에 따라서 action을 취하는데, value는 policy를 정의하는 기본 요소이기 때문이다.</p>
+
+<hr />
+
+<h3 id="reference">Reference</h3>
+<ul>
+  <li><a href="http://incompleteideas.net/book/the-book.html">Reinforcement Learning: An Introduction - Richard S. Sutton and Andrew G. Barto</a></li>
+</ul>
+
+    <article>
+    <div class="post-more">
+      
+      <a href="/reinforcement%20learning/2019/01/01/rl-introduction/#disqus_thread"> <i class="fa fa-comments" aria-hidden="true"></i>Comment</a>&nbsp;
+      
+      <a href="/reinforcement%20learning/2019/01/01/rl-introduction/"><i class="fa fa-plus-circle" aria-hidden="true"></i>Read more</a>
+    </div>
+  </div>
+  
+  <div class="post">
+    <h1 class="post-title">
       <a href="/algorithm/2018/12/29/boj-go-trip-1976/">
         BOJ - 여행 가자(1976)
       </a>
@@ -306,7 +392,7 @@ MathJax.Hub.Config({ tex2jax: { inlineMath: [ ['$','$'], ["\\(","\\)"] ], proces
 </blockquote>
 
 <h2 id="유니온-파인드">유니온 파인드</h2>
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>#define MAX 
+<pre><code>#define MAX 
 int parent[201];
 int find(int n) {
 	if (parent[n] == 0) return n;
@@ -323,10 +409,10 @@ void merge(int a, int b) {
 	if (ap == bp) return;
 	parent[bp] = ap;
 }
-</code></pre></div></div>
+</code></pre>
 
 <h2 id="메인-함수">메인 함수</h2>
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>#include &lt;stdio.h&gt;
+<pre><code>#include &lt;stdio.h&gt;
 int main() {
 
 	int N, M;
@@ -367,7 +453,7 @@ int main() {
 	}
 	return 0;
 }
-</code></pre></div></div>
+</code></pre>
 
     <article>
     <div class="post-more">
@@ -402,7 +488,7 @@ int main() {
 <hr />
 
 <p><em>/resources/ko/RollResult.view.bxb</em></p>
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>result-view {
+<pre><code>result-view {
  match {
    RollResult (rollResult)
  }
@@ -428,7 +514,7 @@ int main() {
    }
  }
 }
-</code></pre></div></div>
+</code></pre>
 
 <hr />
 
@@ -444,12 +530,12 @@ int main() {
 
 <p>이제 아래와 같이 intent를 보내서 화면에 어떻게 나오는지 확인할 수 있습니다.</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>intent {
+<pre><code>intent {
   goal: RollResult
   value: NumSides (6)
   value: NumDice (2)
 }
-</code></pre></div></div>
+</code></pre>
 
 <p>다음은 결과 화면입니다.
 <img src="/assets/2018-12-28-basic_tutorial_4/result.png" alt="image" width="50%" height="50%" /></p>
@@ -463,7 +549,7 @@ int main() {
 <hr />
 
 <p><em>/resources/ko/NumSides.dialog.bxb</em></p>
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>dialog (Concept) {
+<pre><code>dialog (Concept) {
  match {
    // Look for this type
    NumSides
@@ -471,10 +557,10 @@ int main() {
  // Use the following template text with this type
  template("면의 수")
 }
-</code></pre></div></div>
+</code></pre>
 
 <p><em>/resources/ko/NumDice.dialog.bxb</em></p>
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>dialog (Concept) {
+<pre><code>dialog (Concept) {
  match {
    // Look for this type
    NumDice
@@ -482,7 +568,7 @@ int main() {
  // Use this template text with this type
  template("주사위 수")
 }
-</code></pre></div></div>
+</code></pre>
 
 <hr />
 
@@ -494,18 +580,18 @@ int main() {
 
 <p>다음과 같이 NumDice를 제외한채 intent를 보내다보면 확인하실 수 있습니다.</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>intent {
+<pre><code>intent {
   goal: RollResult
   value: NumSides (6)
 }
-</code></pre></div></div>
+</code></pre>
 
 <p>자, 이제 최종 결과물을 보여주는 Dialog를 작성합시다. 아래와 같이 파일을 만들면 됩니다.</p>
 
 <hr />
 
 <p><em>/resources/ko/RollResult.dialog.bxb</em></p>
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>dialog (Result) {
+<pre><code>dialog (Result) {
  // bind the variable "rollResult" to the result and "rollOutput" to
  // the action of which it was output
  match {
@@ -525,7 +611,7 @@ int main() {
    }
  }
 }
-</code></pre></div></div>
+</code></pre>
 
 <hr />
 
@@ -537,12 +623,12 @@ int main() {
 
 <p>이제 다시 아래 intent를 보내면 최종 결과물을 확인할 수 있습니다.</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>intent {
+<pre><code>intent {
   goal: RollResult
   value: NumSides (6)
   value: NumDice (2)
 }
-</code></pre></div></div>
+</code></pre>
 
 <p>다음은 View와 Dialog가 적용된 화면입니다.
 <img src="/assets/2018-12-28-basic_tutorial_4/result2.png" alt="image" width="50%" height="50%" /></p>
@@ -586,7 +672,7 @@ int main() {
 </div>
 
 <h2 id="라인-길이">라인 길이</h2>
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>// define
+<pre><code>// define
 #define MAX 200010
 
 // distance to center
@@ -597,10 +683,10 @@ int distance(int a, int b) {
 	int dist = a &gt; b ? a - b : b - a;
 	return dist % 1000;
 }
-</code></pre></div></div>
+</code></pre>
 
 <h2 id="유니온-파인드">유니온 파인드</h2>
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>int parent[MAX];
+<pre><code>int parent[MAX];
 
 int find(int n) {
 	if (parent[n] == 0) return n;
@@ -618,10 +704,10 @@ void merge(int a, int b) {
 	dist[a] = distance(a, b);
 	parent[a] = b;
 }
-</code></pre></div></div>
+</code></pre>
 
 <h2 id="메인-함수">메인 함수</h2>
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>#include &lt;stdio.h&gt;
+<pre><code>#include &lt;stdio.h&gt;
 int main() {
 
 	int T;
@@ -658,7 +744,7 @@ int main() {
 	}
 	return 0;
 }
-</code></pre></div></div>
+</code></pre>
 
     <article>
     <div class="post-more">
@@ -694,12 +780,12 @@ int main() {
   <li><strong>View &gt; Open Simulator</strong> 로 가서 Simulator를 실행합니다.</li>
   <li>팝업창이 뜨면 <strong>Confirm</strong>을 눌러서 컴파일 하고 학습된 데이터를 준비합니다.</li>
   <li>아직 자연어 학습을 하지 않았기 때문에 아래의 intent를 직접 입력합니다.
-    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>intent {
+    <pre><code>intent {
   goal: RollResult
   value: NumSides (6)
   value: NumDice (2)
 }
-</code></pre></div>    </div>
+</code></pre>
   </li>
   <li><strong>Run NL</strong> 을 선택하여 실행합니다.</li>
 </ol>
@@ -733,192 +819,6 @@ int main() {
       <a href="/bixby/2018/12/23/basic_tutorial_3/#disqus_thread"> <i class="fa fa-comments" aria-hidden="true"></i>Comment</a>&nbsp;
       
       <a href="/bixby/2018/12/23/basic_tutorial_3/"><i class="fa fa-plus-circle" aria-hidden="true"></i>Read more</a>
-    </div>
-  </div>
-  
-  <div class="post">
-    <h1 class="post-title">
-      <a href="/algorithm/2018/12/23/boj-friend-network-4195/">
-        BOJ - 친구 네트워크(4195)
-      </a>
-    </h1>
-
-    <span class="post-date">23 Dec 2018</span>
-     | 
-    
-    <a href="/blog/tags/#boj" class="post-tag">BOJ</a>
-    
-    <a href="/blog/tags/#백준" class="post-tag">백준</a>
-    
-    <a href="/blog/tags/#알고리즘" class="post-tag">알고리즘</a>
-    
-    <a href="/blog/tags/#자료구조" class="post-tag">자료구조</a>
-    
-    
-
-    <article>
-      <p><strong>유니온 파인드(Union-Find)</strong>를 사용해서 해결할 수 있는 문제입니다. 그런데 find 과정에서 단순하게 문자열 비교를 하면 Timeout이 발생합니다. 이를 해결하기 위해서 문자열을 <strong>hash code</strong>로 변환해서 비교해야 합니다. <strong>HashMap</strong>을 만들 때 hash code가 겹칠 수 있기 때문에 <strong>Linked List</strong>를 사용했습니다. 이런 방식을 <a href="https://en.wikipedia.org/wiki/Hash_table#Separate_chaining"><strong>Separate chaining</strong></a>이라고 합니다. 기존의 HashMap 라이브러리를 사용하셔도 됩니다.</p>
-
-<p>hash code 구하는 식은 <a href="https://d2.naver.com/helloworld/831311">Naver D2</a>를 참고했습니다.</p>
-
-<div class="message">
-문자열을 배열로 받으면 주소가 고정되어서, Node에 저장된 name이 다음 입력을 받을 때 변경되는 문제가 있었습니다. 이 문제를 해결하고자 문자열을 동적 할당해서 매번 다른 주소값에 맵핑 되도록 수정했습니다. 문자열을 카피해서 해결하는 방법도 있습니다.
-</div>
-
-<h2 id="노드">노드</h2>
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>// define
-#define MAX 200010
-
-// node
-struct Node {
-	Node* next;
-	int idx;
-	char* name;
-}nodearr[MAX];
-
-int nodeidx = 0;
-Node* allocnode(char* name, int idx) {
-	Node* node = &amp;nodearr[nodeidx++];
-	node-&gt;name = name;
-	node-&gt;idx = idx;
-	return node;
-}
-</code></pre></div></div>
-
-<h2 id="hash-code">Hash Code</h2>
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>int hashCode(char* str) {
-	int hash = 0;
-	for (int i = 0; str[i] != '\0'; i++) {
-		hash = (hash * 31 + str[i]) % MAX;
-	}
-	return hash;
-}
-</code></pre></div></div>
-
-<h2 id="hash-map">Hash Map</h2>
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Node* h[MAX];
-
-int get(char* name) {
-	int hash = hashCode(name);
-
-	Node* cur = h[hash];
-	while (cur != '\0') {
-		int isSame = 1;
-		for (int i = 0; i &lt; 21; i++) {
-			if (name[i] != cur-&gt;name[i]) {
-				isSame = 0;
-				break;
-			}
-		}
-		if (isSame) return cur-&gt;idx;
-		cur = cur-&gt;next;
-	}
-}
-
-void put(char* name, int idx) {
-	int hash = hashCode(name);
-	Node* node = allocnode(name, idx);
-	if (h[hash] == '\0') h[hash] = node;
-	else {
-		node-&gt;next = h[hash];
-		h[hash] = node;
-	}
-}
-
-int isContain(char* name) {
-	int hash = hashCode(name);
-	if (h[hash] == '\0') return 0;
-	else {
-		Node* cur = h[hash];
-		while (cur != '\0') {
-			int isSame = 1;
-			for (int i = 0; i &lt; 21; i++) {
-				if (name[i] != cur-&gt;name[i]) {
-					isSame = 0;
-					break;
-				}
-			}
-			if (isSame) return 1;
-			cur = cur-&gt;next;
-		}
-		return 0;
-	}
-}
-</code></pre></div></div>
-
-<h2 id="유니온-파인드">유니온 파인드</h2>
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>int find(int n) {
-	if (p[n] &lt; 0) return n;
-	else {
-		// path compression
-		p[n] = find(p[n]);
-		return p[n];
-	}
-}
-
-int uni(int a, int b) {
-
-	int ap = find(a);
-	int bp = find(b);
-
-	if (ap != bp) {
-		p[bp] = ap;
-		c[ap] += c[bp];
-	}
-
-	return c[ap];
-}
-</code></pre></div></div>
-
-<h2 id="메인-함수">메인 함수</h2>
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>#include &lt;stdio.h&gt;
-#include &lt;stdlib.h&gt;
-int main() {
-
-	int T;
-	scanf("%d", &amp;T);
-
-	while (T--) {
-		int nameCount = 1;
-		for (int i = 0; i &lt; MAX; i++) {
-			p[i] = -1;
-			c[i] = 1;
-		}
-
-		int F;
-		scanf("%d", &amp;F);
-
-		while (F--) {
-
-			char* a = (char*)malloc(sizeof(char) * 21);
-			char* b = (char*)malloc(sizeof(char) * 21);
-
-			scanf("%s", a);
-			scanf("%s", b);
-
-			if (isContain(a) == 0) {
-				put(a, nameCount++);
-			}
-			if (isContain(b) == 0) {
-				put(b, nameCount++);
-			}
-
-			int count = uni(get(a), get(b));
-			printf("%d\n", count);
-		}
-
-	}
-
-	return 0;
-}
-</code></pre></div></div>
-
-    <article>
-    <div class="post-more">
-      
-      <a href="/algorithm/2018/12/23/boj-friend-network-4195/#disqus_thread"> <i class="fa fa-comments" aria-hidden="true"></i>Comment</a>&nbsp;
-      
-      <a href="/algorithm/2018/12/23/boj-friend-network-4195/"><i class="fa fa-plus-circle" aria-hidden="true"></i>Read more</a>
     </div>
   </div>
   
