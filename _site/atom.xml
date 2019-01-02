@@ -4,13 +4,63 @@
  <title>안녕지구</title>
  <link href="http://localhost:4000/atom.xml" rel="self"/>
  <link href="http://localhost:4000/"/>
- <updated>2019-01-01T03:22:58+09:00</updated>
+ <updated>2019-01-03T01:14:56+09:00</updated>
  <id>http://localhost:4000</id>
  <author>
    <name>안녕지구</name>
    <email></email>
  </author>
 
+ 
+ <entry>
+   <title>강화학습 정리 - Multi-armed Bandits (업데이트중)</title>
+   <link href="http://localhost:4000/reinforcement%20learning/2019/01/02/rl-multi-armed-bandits/"/>
+   <updated>2019-01-02T00:00:00+09:00</updated>
+   <id>http://localhost:4000/reinforcement%20learning/2019/01/02/rl-multi-armed-bandits</id>
+   <content type="html">&lt;h2 id=&quot;2-multi-armed-bandits&quot;&gt;2. Multi-armed Bandits&lt;/h2&gt;
+
+&lt;p&gt;강화학습이 다른 딥러닝과 구분되는 가장 중요한 특징은 선택한 action에 대해 &lt;strong&gt;평가(evaluate)&lt;/strong&gt;를 한다는 것이다. 이런 피드백은 얼마나 좋은지에 대한 평가이지 정답인지 아닌지를 알려주는 것은 아니다. 이번 챕터에서는 단순화된 환경에서 강화학습의 평가(evaluate)에 중점을 두고 공부할 것이다. 우리가 다룰 문제는 &lt;strong&gt;k-armed bandit problem&lt;/strong&gt;인데 이를 소개하면서 강화학습의 주요한 요소 몇가지도 함께 공부할 것이다.&lt;/p&gt;
+
+&lt;hr /&gt;
+&lt;h3 id=&quot;a-k-armed-bandit-problem&quot;&gt;A k-armed Bandit Problem&lt;/h3&gt;
+
+&lt;p&gt;A k-armed Bandit Problem은 k개의 레버가 있는 슬롯머신에서 최대의 reward를 받기 위한 문제다. 내용은 아래와 같다.&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;k개의 다른 option이나 action중에서 하나를 선택한다.&lt;/li&gt;
+  &lt;li&gt;&lt;em&gt;stationary probability distribution&lt;/em&gt;으로 부터 하나의 reward를 받는다.&lt;/li&gt;
+  &lt;li&gt;최종 목표는 일정 기간 동안 전체 reward를 최대화 하는 것이다.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;위 k-armed bandit problem에서 k action을 선택할 때마다 reward를 받는데, 이때 rewards의 기댓값(expectation)을 선택된 action의 &lt;strong&gt;value&lt;/strong&gt;라고 한다. 식으로 나타내면 아래와 같다.&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;q_*(a)\doteq \mathbb{E}[R_t | A_t=a]&lt;/script&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;$A_t$: time step가 $t$ 일 때 선택된 action&lt;/li&gt;
+  &lt;li&gt;$R_t$: time step가 $t$ 일 때 $A_t$에 대한 reward&lt;/li&gt;
+  &lt;li&gt;$q_*(a)$: action $a$ 가 선택됐을 때 받는 reward의 기댓값&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;만약 우리가 각 action에 대한 value를 알고 있다면 k-armed bandit problem을 해결하는 것은 매우 쉬울 것이다. 매번 value가 가장 높은 action을 선택하면 되기 때문이다. 그런데 처음에는 value을 알 수 없기 때문에 계속해서 &lt;strong&gt;estimate&lt;/strong&gt;해야 한다. 이렇게 time step $t$에서 선택된 action $a$의 value를 $Q_t(a)$라고 한다. 우리는 $Q_t(a)$가  $q_*(a)$에 가까워 지도록 계속해서 estimate 해야 한다.&lt;/p&gt;
+
+&lt;p&gt;action value를 계속해서 estimate 한다면, time step 마다 적어도 한 개 이상의 가장 높은 value를 갖는 action이 있을 것이다. 그 action을 &lt;em&gt;greedy&lt;/em&gt; action 이라고 한다. 만약 이 action들 중 하나를 선택한다면 이를 &lt;strong&gt;&lt;em&gt;exploiting&lt;/em&gt;&lt;/strong&gt; 한다고 얘기한다. 반대로 &lt;em&gt;greedy&lt;/em&gt; action이 아닌 다른 action들 중 하나를 선택한다면 &lt;strong&gt;&lt;em&gt;exploring&lt;/em&gt;&lt;/strong&gt;한다고 얘기한다. 당장 한 스텝만 바라봤을 때는 &lt;strong&gt;&lt;em&gt;exploitation&lt;/em&gt;&lt;/strong&gt;이 value를 최대화 하는 방법일지 몰라도, 장기적인 관점에서 바라봤을 때 &lt;strong&gt;&lt;em&gt;exploration&lt;/em&gt;&lt;/strong&gt;의 total reward가 더 높을 수 있다.&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;exploration&lt;/em&gt; 와 &lt;em&gt;exploitation&lt;/em&gt; 의 균형을 맞춰 나가기 위해서 복잡한 수학적인 방법들이 존재하지만, 많은 가정들이 전제해야 하기 때문에 사실상 full reinforcment learning 문제에 적용하기는 불가능하다. 하지만, 이를 해결하기 위한 간단한 방법들이 존재하고 나중에 다룰 것이다.&lt;/p&gt;
+
+&lt;hr /&gt;
+&lt;h3 id=&quot;action-value-methods&quot;&gt;Action-value Methods&lt;/h3&gt;
+
+&lt;hr /&gt;
+&lt;h3 id=&quot;summary&quot;&gt;Summary&lt;/h3&gt;
+
+&lt;hr /&gt;
+&lt;h3 id=&quot;reference&quot;&gt;Reference&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;http://incompleteideas.net/book/the-book.html&quot;&gt;Reinforcement Learning: An Introduction - Richard S. Sutton and Andrew G. Barto&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</content>
+ </entry>
  
  <entry>
    <title>강화학습 정리 - Introduction</title>
@@ -24,11 +74,11 @@
 &lt;hr /&gt;
 &lt;h3 id=&quot;reinforcement-learning&quot;&gt;Reinforcement Learning&lt;/h3&gt;
 
-&lt;p&gt;Reinforcement learning은 현재 자신에게 주어진 환경에서 어떤 &lt;strong&gt;행동(action)&lt;/strong&gt;을 해야 하는지 배우는 것이다. 그리고 이 행동(action)은 &lt;strong&gt;보상(reward)&lt;/strong&gt;을 최대로 얻을 수 있는 방법을 따른다.&lt;/p&gt;
+&lt;p&gt;강화학습(Reinforcement Learning)은 현재 자신에게 주어진 환경에서 어떤 &lt;strong&gt;행동(action)&lt;/strong&gt;을 해야 하는지 배우는 것이다. 그리고 이 행동(action)은 &lt;strong&gt;보상(reward)&lt;/strong&gt;을 최대로 얻을 수 있는 방법을 따른다.&lt;/p&gt;
 
 &lt;p&gt;여기서 흥미로운 점은 내가 선택하는 행동(action)이 당장 받을 보상(immediate reward)뿐 아니라 다음 상황(state)과 나중에 받을 보상(subsequent rewards)에도 영향을 미친다는 것이다. 즉, 행동(action)을 선택할 때 나중에 받을 보상도 고려를 해야 하는 것이다.&lt;/p&gt;
 
-&lt;p&gt;또한, reinfocement learning이 받는 challenge 중 하나는 &lt;strong&gt;exploitation&lt;/strong&gt; 과 &lt;strong&gt;exploration&lt;/strong&gt;의 trade-off 이다. 행동(action)을 선택할 때 두 가지 접근 방법 중에서 하나를 선택해야 하기 때문이다.&lt;/p&gt;
+&lt;p&gt;또한, 강화학습이 받는 challenge 중 하나는 &lt;strong&gt;exploitation&lt;/strong&gt; 과 &lt;strong&gt;exploration&lt;/strong&gt;의 trade-off 이다. 행동(action)을 선택할 때 두 가지 접근 방법 중에서 하나를 선택해야 하기 때문이다.&lt;/p&gt;
 
 &lt;ul&gt;
   &lt;li&gt;&lt;strong&gt;exploitation&lt;/strong&gt;: 이미 학습한 정보를 토대로 최대 reward를 얻는 action을 선택한다.&lt;/li&gt;
@@ -40,12 +90,12 @@
   &lt;p&gt;The agent has to &lt;em&gt;exploit&lt;/em&gt; what it has already experienced in order to obtain reward, but it also has to &lt;em&gt;explore&lt;/em&gt; in order to make better action selections in the future.&lt;/p&gt;
 &lt;/blockquote&gt;
 
-&lt;p&gt;마지막으로, reinforcement learning에서 &lt;strong&gt;학습하는 대상(agent)&lt;/strong&gt;은 &lt;strong&gt;목표 지향적(goal-directed)&lt;/strong&gt;이며 불확실한 환경(uncertain environment)에서도 모든 문제를 고려해야 한다.&lt;/p&gt;
+&lt;p&gt;마지막으로, 강화학습에서 &lt;strong&gt;학습하는 대상(agent)&lt;/strong&gt;은 &lt;strong&gt;목표 지향적(goal-directed)&lt;/strong&gt;이며 불확실한 환경(uncertain environment)에서도 모든 문제를 고려해야 한다.&lt;/p&gt;
 
 &lt;hr /&gt;
 &lt;h3 id=&quot;elements-of-reinforcement-learning&quot;&gt;Elements of Reinforcement Learning&lt;/h3&gt;
 
-&lt;p&gt;위에서 설명 했듯이 reinforcement learning에서는 &lt;strong&gt;agent&lt;/strong&gt;는 &lt;strong&gt;environment&lt;/strong&gt;와 상호작용 하면서 학습하는데, 이 시스템에서 중요한 네가지 요소를 아래와 같이 정의할 수 있다.&lt;/p&gt;
+&lt;p&gt;위에서 설명 했듯이 강화학습에서는 &lt;strong&gt;agent&lt;/strong&gt;는 &lt;strong&gt;environment&lt;/strong&gt;와 상호작용 하면서 학습하는데, 이 시스템에서 중요한 네가지 요소를 아래와 같이 정의할 수 있다.&lt;/p&gt;
 
 &lt;ul&gt;
   &lt;li&gt;&lt;strong&gt;Policy&lt;/strong&gt;: 주어진 environment의 state에서 agent가 선택해야 할 action을 정의&lt;/li&gt;
@@ -56,7 +106,7 @@
 
 &lt;p&gt;&lt;strong&gt;Policy&lt;/strong&gt;는 현재의 내 상태(states of the environment)에서 취해야 할 action을 정의 하는데, 간단한 function이나 lookup table 일 수도 있다. 일반적으로 확률론(stochastic)적 이며 각 action에 대한 확률(probabilities)를 가지고 있다.&lt;/p&gt;
 
-&lt;p&gt;&lt;strong&gt;Reward signal&lt;/strong&gt;은 agent가 action을 선택 했을 때 즉각적으로 environment로 부터 받는 보상 값으로, reinforcement learning에서 agent의 유일한 목표는 이 reward의 총 합을 최대화하는 것이다. reward는 policy를 정의하기 위한 기본 요소다.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Reward signal&lt;/strong&gt;은 agent가 action을 선택 했을 때 즉각적으로 environment로 부터 받는 보상 값으로, 강화학습에서 agent의 유일한 목표는 이 reward의 총 합을 최대화하는 것이다. reward는 policy를 정의하기 위한 기본 요소다.&lt;/p&gt;
 
 &lt;p&gt;&lt;strong&gt;Value function&lt;/strong&gt;은 길게 보았을 때 agent가 특정 state에서 받을 reward의 총 합에 대한 기댓값을 정의한다. agent가 주어진 state에서 특정 action을 선택했을 때 당장 받을 reward는 다른 action을 취했을 때 보다 상대적으로 낮더라도 최종적으로 누적될 reward는 가장 높을 수도 있다.&lt;/p&gt;
 
@@ -65,7 +115,7 @@
 &lt;hr /&gt;
 &lt;h3 id=&quot;summary&quot;&gt;Summary&lt;/h3&gt;
 
-&lt;p&gt;Reinforcement learning은 agent가 environment와 상호작용 하면서 학습한다는 점에서 다른 학습 방법과는 구분된다. 그리고 states, actions, rewards를 포함한 environment와 agent의 관계를 정의하기 위해서 &lt;strong&gt;&lt;a href=&quot;https://en.wikipedia.org/wiki/Markov_decision_process&quot;&gt;Markov decision processes(MDP)&lt;/a&gt;&lt;/strong&gt;라는 framework 를 사용한다. &lt;strong&gt;value&lt;/strong&gt; 와 &lt;strong&gt;value function&lt;/strong&gt; 컨셉은 reinforcement learning에서 매우 중요한 요소다. agent는 policy에 따라서 action을 취하는데, value는 policy를 정의하는 기본 요소이기 때문이다.&lt;/p&gt;
+&lt;p&gt;강화학습은 agent가 environment와 상호작용 하면서 학습한다는 점에서 다른 학습 방법과는 구분된다. 그리고 states, actions, rewards를 포함한 environment와 agent의 관계를 정의하기 위해서 &lt;strong&gt;&lt;a href=&quot;https://en.wikipedia.org/wiki/Markov_decision_process&quot;&gt;Markov decision processes(MDP)&lt;/a&gt;&lt;/strong&gt;라는 framework 를 사용한다. &lt;strong&gt;value&lt;/strong&gt; 와 &lt;strong&gt;value function&lt;/strong&gt; 컨셉은 강화학습에서 매우 중요하다. agent는 policy에 따라서 action을 취하는데, value는 policy를 정의하는데 근간이 되기 때문이다.&lt;/p&gt;
 
 &lt;hr /&gt;
 &lt;h3 id=&quot;reference&quot;&gt;Reference&lt;/h3&gt;

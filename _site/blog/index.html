@@ -48,6 +48,10 @@ MathJax.Hub.Config({ tex2jax: { inlineMath: [ ['$','$'], ["\\(","\\)"] ], proces
 
   <!-- Custom -->
   <link rel="stylesheet" href="/public/css/custom.css">
+
+  <!-- MathJax -->
+  
+
 </head>
 
 
@@ -187,7 +191,7 @@ MathJax.Hub.Config({ tex2jax: { inlineMath: [ ['$','$'], ["\\(","\\)"] ], proces
                 (
                   
                   
-                  1
+                  2
                 )
               </a>
           
@@ -280,6 +284,79 @@ MathJax.Hub.Config({ tex2jax: { inlineMath: [ ['$','$'], ["\\(","\\)"] ], proces
   
   <div class="post">
     <h1 class="post-title">
+      <a href="/reinforcement%20learning/2019/01/02/rl-multi-armed-bandits/">
+        강화학습 정리 - Multi-armed Bandits (업데이트중)
+      </a>
+    </h1>
+
+    <span class="post-date">02 Jan 2019</span>
+     | 
+    
+    <a href="/blog/tags/#강화학습" class="post-tag">강화학습</a>
+    
+    <a href="/blog/tags/#rl" class="post-tag">RL</a>
+    
+    
+
+    <article>
+      <h2 id="2-multi-armed-bandits">2. Multi-armed Bandits</h2>
+
+<p>강화학습이 다른 딥러닝과 구분되는 가장 중요한 특징은 선택한 action에 대해 <strong>평가(evaluate)</strong>를 한다는 것이다. 이런 피드백은 얼마나 좋은지에 대한 평가이지 정답인지 아닌지를 알려주는 것은 아니다. 이번 챕터에서는 단순화된 환경에서 강화학습의 평가(evaluate)에 중점을 두고 공부할 것이다. 우리가 다룰 문제는 <strong>k-armed bandit problem</strong>인데 이를 소개하면서 강화학습의 주요한 요소 몇가지도 함께 공부할 것이다.</p>
+
+<hr />
+
+<h3 id="a-k-armed-bandit-problem">A k-armed Bandit Problem</h3>
+
+<p>A k-armed Bandit Problem은 k개의 레버가 있는 슬롯머신에서 최대의 reward를 받기 위한 문제다. 내용은 아래와 같다.</p>
+
+<ol>
+  <li>k개의 다른 option이나 action중에서 하나를 선택한다.</li>
+  <li><em>stationary probability distribution</em>으로 부터 하나의 reward를 받는다.</li>
+  <li>최종 목표는 일정 기간 동안 전체 reward를 최대화 하는 것이다.</li>
+</ol>
+
+<p>위 k-armed bandit problem에서 k action을 선택할 때마다 reward를 받는데, 이때 rewards의 기댓값(expectation)을 선택된 action의 <strong>value</strong>라고 한다. 식으로 나타내면 아래와 같다.</p>
+
+<script type="math/tex; mode=display">q_*(a)\doteq \mathbb{E}[R_t | A_t=a]</script>
+
+<ul>
+  <li>$A_t$: time step가 $t$ 일 때 선택된 action</li>
+  <li>$R_t$: time step가 $t$ 일 때 $A_t$에 대한 reward</li>
+  <li>$q_*(a)$: action $a$ 가 선택됐을 때 받는 reward의 기댓값</li>
+</ul>
+
+<p>만약 우리가 각 action에 대한 value를 알고 있다면 k-armed bandit problem을 해결하는 것은 매우 쉬울 것이다. 매번 value가 가장 높은 action을 선택하면 되기 때문이다. 그런데 처음에는 value을 알 수 없기 때문에 계속해서 <strong>estimate</strong>해야 한다. 이렇게 time step $t$에서 선택된 action $a$의 value를 $Q_t(a)$라고 한다. 우리는 $Q_t(a)$가  $q_*(a)$에 가까워 지도록 계속해서 estimate 해야 한다.</p>
+
+<p>action value를 계속해서 estimate 한다면, time step 마다 적어도 한 개 이상의 가장 높은 value를 갖는 action이 있을 것이다. 그 action을 <em>greedy</em> action 이라고 한다. 만약 이 action들 중 하나를 선택한다면 이를 <strong><em>exploiting</em></strong> 한다고 얘기한다. 반대로 <em>greedy</em> action이 아닌 다른 action들 중 하나를 선택한다면 <strong><em>exploring</em></strong>한다고 얘기한다. 당장 한 스텝만 바라봤을 때는 <strong><em>exploitation</em></strong>이 value를 최대화 하는 방법일지 몰라도, 장기적인 관점에서 바라봤을 때 <strong><em>exploration</em></strong>의 total reward가 더 높을 수 있다.</p>
+
+<p><em>exploration</em> 와 <em>exploitation</em> 의 균형을 맞춰 나가기 위해서 복잡한 수학적인 방법들이 존재하지만, 많은 가정들이 전제해야 하기 때문에 사실상 full reinforcment learning 문제에 적용하기는 불가능하다. 하지만, 이를 해결하기 위한 간단한 방법들이 존재하고 나중에 다룰 것이다.</p>
+
+<hr />
+
+<h3 id="action-value-methods">Action-value Methods</h3>
+
+<hr />
+
+<h3 id="summary">Summary</h3>
+
+<hr />
+
+<h3 id="reference">Reference</h3>
+<ul>
+  <li><a href="http://incompleteideas.net/book/the-book.html">Reinforcement Learning: An Introduction - Richard S. Sutton and Andrew G. Barto</a></li>
+</ul>
+
+    <article>
+    <div class="post-more">
+      
+      <a href="/reinforcement%20learning/2019/01/02/rl-multi-armed-bandits/#disqus_thread"> <i class="fa fa-comments" aria-hidden="true"></i>Comment</a>&nbsp;
+      
+      <a href="/reinforcement%20learning/2019/01/02/rl-multi-armed-bandits/"><i class="fa fa-plus-circle" aria-hidden="true"></i>Read more</a>
+    </div>
+  </div>
+  
+  <div class="post">
+    <h1 class="post-title">
       <a href="/reinforcement%20learning/2019/01/01/rl-introduction/">
         강화학습 정리 - Introduction
       </a>
@@ -303,11 +380,11 @@ MathJax.Hub.Config({ tex2jax: { inlineMath: [ ['$','$'], ["\\(","\\)"] ], proces
 
 <h3 id="reinforcement-learning">Reinforcement Learning</h3>
 
-<p>Reinforcement learning은 현재 자신에게 주어진 환경에서 어떤 <strong>행동(action)</strong>을 해야 하는지 배우는 것이다. 그리고 이 행동(action)은 <strong>보상(reward)</strong>을 최대로 얻을 수 있는 방법을 따른다.</p>
+<p>강화학습(Reinforcement Learning)은 현재 자신에게 주어진 환경에서 어떤 <strong>행동(action)</strong>을 해야 하는지 배우는 것이다. 그리고 이 행동(action)은 <strong>보상(reward)</strong>을 최대로 얻을 수 있는 방법을 따른다.</p>
 
 <p>여기서 흥미로운 점은 내가 선택하는 행동(action)이 당장 받을 보상(immediate reward)뿐 아니라 다음 상황(state)과 나중에 받을 보상(subsequent rewards)에도 영향을 미친다는 것이다. 즉, 행동(action)을 선택할 때 나중에 받을 보상도 고려를 해야 하는 것이다.</p>
 
-<p>또한, reinfocement learning이 받는 challenge 중 하나는 <strong>exploitation</strong> 과 <strong>exploration</strong>의 trade-off 이다. 행동(action)을 선택할 때 두 가지 접근 방법 중에서 하나를 선택해야 하기 때문이다.</p>
+<p>또한, 강화학습이 받는 challenge 중 하나는 <strong>exploitation</strong> 과 <strong>exploration</strong>의 trade-off 이다. 행동(action)을 선택할 때 두 가지 접근 방법 중에서 하나를 선택해야 하기 때문이다.</p>
 
 <ul>
   <li><strong>exploitation</strong>: 이미 학습한 정보를 토대로 최대 reward를 얻는 action을 선택한다.</li>
@@ -319,13 +396,13 @@ MathJax.Hub.Config({ tex2jax: { inlineMath: [ ['$','$'], ["\\(","\\)"] ], proces
   <p>The agent has to <em>exploit</em> what it has already experienced in order to obtain reward, but it also has to <em>explore</em> in order to make better action selections in the future.</p>
 </blockquote>
 
-<p>마지막으로, reinforcement learning에서 <strong>학습하는 대상(agent)</strong>은 <strong>목표 지향적(goal-directed)</strong>이며 불확실한 환경(uncertain environment)에서도 모든 문제를 고려해야 한다.</p>
+<p>마지막으로, 강화학습에서 <strong>학습하는 대상(agent)</strong>은 <strong>목표 지향적(goal-directed)</strong>이며 불확실한 환경(uncertain environment)에서도 모든 문제를 고려해야 한다.</p>
 
 <hr />
 
 <h3 id="elements-of-reinforcement-learning">Elements of Reinforcement Learning</h3>
 
-<p>위에서 설명 했듯이 reinforcement learning에서는 <strong>agent</strong>는 <strong>environment</strong>와 상호작용 하면서 학습하는데, 이 시스템에서 중요한 네가지 요소를 아래와 같이 정의할 수 있다.</p>
+<p>위에서 설명 했듯이 강화학습에서는 <strong>agent</strong>는 <strong>environment</strong>와 상호작용 하면서 학습하는데, 이 시스템에서 중요한 네가지 요소를 아래와 같이 정의할 수 있다.</p>
 
 <ul>
   <li><strong>Policy</strong>: 주어진 environment의 state에서 agent가 선택해야 할 action을 정의</li>
@@ -336,7 +413,7 @@ MathJax.Hub.Config({ tex2jax: { inlineMath: [ ['$','$'], ["\\(","\\)"] ], proces
 
 <p><strong>Policy</strong>는 현재의 내 상태(states of the environment)에서 취해야 할 action을 정의 하는데, 간단한 function이나 lookup table 일 수도 있다. 일반적으로 확률론(stochastic)적 이며 각 action에 대한 확률(probabilities)를 가지고 있다.</p>
 
-<p><strong>Reward signal</strong>은 agent가 action을 선택 했을 때 즉각적으로 environment로 부터 받는 보상 값으로, reinforcement learning에서 agent의 유일한 목표는 이 reward의 총 합을 최대화하는 것이다. reward는 policy를 정의하기 위한 기본 요소다.</p>
+<p><strong>Reward signal</strong>은 agent가 action을 선택 했을 때 즉각적으로 environment로 부터 받는 보상 값으로, 강화학습에서 agent의 유일한 목표는 이 reward의 총 합을 최대화하는 것이다. reward는 policy를 정의하기 위한 기본 요소다.</p>
 
 <p><strong>Value function</strong>은 길게 보았을 때 agent가 특정 state에서 받을 reward의 총 합에 대한 기댓값을 정의한다. agent가 주어진 state에서 특정 action을 선택했을 때 당장 받을 reward는 다른 action을 취했을 때 보다 상대적으로 낮더라도 최종적으로 누적될 reward는 가장 높을 수도 있다.</p>
 
@@ -346,7 +423,7 @@ MathJax.Hub.Config({ tex2jax: { inlineMath: [ ['$','$'], ["\\(","\\)"] ], proces
 
 <h3 id="summary">Summary</h3>
 
-<p>Reinforcement learning은 agent가 environment와 상호작용 하면서 학습한다는 점에서 다른 학습 방법과는 구분된다. 그리고 states, actions, rewards를 포함한 environment와 agent의 관계를 정의하기 위해서 <strong><a href="https://en.wikipedia.org/wiki/Markov_decision_process">Markov decision processes(MDP)</a></strong>라는 framework 를 사용한다. <strong>value</strong> 와 <strong>value function</strong> 컨셉은 reinforcement learning에서 매우 중요한 요소다. agent는 policy에 따라서 action을 취하는데, value는 policy를 정의하는 기본 요소이기 때문이다.</p>
+<p>강화학습은 agent가 environment와 상호작용 하면서 학습한다는 점에서 다른 학습 방법과는 구분된다. 그리고 states, actions, rewards를 포함한 environment와 agent의 관계를 정의하기 위해서 <strong><a href="https://en.wikipedia.org/wiki/Markov_decision_process">Markov decision processes(MDP)</a></strong>라는 framework 를 사용한다. <strong>value</strong> 와 <strong>value function</strong> 컨셉은 강화학습에서 매우 중요하다. agent는 policy에 따라서 action을 취하는데, value는 policy를 정의하는데 근간이 되기 때문이다.</p>
 
 <hr />
 
@@ -752,73 +829,6 @@ int main() {
       <a href="/algorithm/2018/12/27/boj-corporative-network-3780/#disqus_thread"> <i class="fa fa-comments" aria-hidden="true"></i>Comment</a>&nbsp;
       
       <a href="/algorithm/2018/12/27/boj-corporative-network-3780/"><i class="fa fa-plus-circle" aria-hidden="true"></i>Read more</a>
-    </div>
-  </div>
-  
-  <div class="post">
-    <h1 class="post-title">
-      <a href="/bixby/2018/12/23/basic_tutorial_3/">
-        주사위 프로젝트 - Capsule 테스트
-      </a>
-    </h1>
-
-    <span class="post-date">23 Dec 2018</span>
-     | 
-    
-    <a href="/blog/tags/#인공지능" class="post-tag">인공지능</a>
-    
-    <a href="/blog/tags/#빅스비" class="post-tag">빅스비</a>
-    
-    
-
-    <article>
-      <h2 id="capsule-테스트">Capsule 테스트</h2>
-
-<p>이제 아래와 같은 순서로 실행해볼 수 있습니다.</p>
-
-<ol>
-  <li><strong>View &gt; Open Simulator</strong> 로 가서 Simulator를 실행합니다.</li>
-  <li>팝업창이 뜨면 <strong>Confirm</strong>을 눌러서 컴파일 하고 학습된 데이터를 준비합니다.</li>
-  <li>아직 자연어 학습을 하지 않았기 때문에 아래의 intent를 직접 입력합니다.
-    <pre><code>intent {
-  goal: RollResult
-  value: NumSides (6)
-  value: NumDice (2)
-}
-</code></pre>
-  </li>
-  <li><strong>Run NL</strong> 을 선택하여 실행합니다.</li>
-</ol>
-
-<p>간단하게 설명드리면, 사용자는 RollResult를 얻기를 원하며, NumSides값을 6으로, NumDice값을 2로 빅스비에게 알려준 것입니다.</p>
-
-<div class="message">
-자연어를 학습시키면 "면이 6개인 주사위 2개를 굴려줘!" 라는 발화가 위의 intent로 변환되어 실행됩니다. 이 부분은 맨 마지막에 다룰 예정입니다.
-</div>
-
-<p>지금까지 잘 따라오셨다면 아래와 같은 화면을 보실 수 있을 겁니다. 현재는 따로 화면(Moment)을 만들지 않았기 때문에 리턴된 output 데이터를 테이블형식으로 보여줍니다.</p>
-
-<div class="message">
-빅스비에서는 사용자에게 보여주는 응답, 즉 화면 자체를 Moment라고 지칭합니다.
-</div>
-
-<p><img src="/assets/2018-12-23-basic_tutorial_3/screenshot02.png" alt="image" /></p>
-
-<p>이제 빅스비가 실행 그래프(execution graph)가 어떻게 만들었는지 확인해봅시다. simulator에서 왼쪽 위에 Reset 버튼 옆에 있는 두개의 버튼 중 <strong>Debug</strong> 버튼을 눌러서 Debug Console을 실행하면 아래와 같은 화면을 보실 수 있을겁니다.</p>
-
-<!-- ![image](){: width="50%" height="50%"} -->
-<p><img src="/assets/2018-12-23-basic_tutorial_3/screenshot03.png" alt="image" /></p>
-
-<p>위의 그래프를 보면 intent에서 두 개의 value 값이 concept으로 맵핑되고 goal인 RollResult를 얻기 위해서 RollDice로 연결되었습니다. 그리고 그래프가 실행되면서 RollDice Action에 도달했을 때는 endpoint에서 연결 된 RollDice.js 를 실행시켜 최종 아웃풋인 RollResult를 결과로 얻습니다.</p>
-
-<p>다음 포스트에서는 RollResult를 화면에 보여주는 방법에 대해서 정리하겠습니다.</p>
-
-    <article>
-    <div class="post-more">
-      
-      <a href="/bixby/2018/12/23/basic_tutorial_3/#disqus_thread"> <i class="fa fa-comments" aria-hidden="true"></i>Comment</a>&nbsp;
-      
-      <a href="/bixby/2018/12/23/basic_tutorial_3/"><i class="fa fa-plus-circle" aria-hidden="true"></i>Read more</a>
     </div>
   </div>
   

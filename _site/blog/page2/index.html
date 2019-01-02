@@ -48,6 +48,10 @@ MathJax.Hub.Config({ tex2jax: { inlineMath: [ ['$','$'], ["\\(","\\)"] ], proces
 
   <!-- Custom -->
   <link rel="stylesheet" href="/public/css/custom.css">
+
+  <!-- MathJax -->
+  
+
 </head>
 
 
@@ -187,7 +191,7 @@ MathJax.Hub.Config({ tex2jax: { inlineMath: [ ['$','$'], ["\\(","\\)"] ], proces
                 (
                   
                   
-                  1
+                  2
                 )
               </a>
           
@@ -277,6 +281,73 @@ MathJax.Hub.Config({ tex2jax: { inlineMath: [ ['$','$'], ["\\(","\\)"] ], proces
 
       <div class="container content">
         <div class="posts">
+  
+  <div class="post">
+    <h1 class="post-title">
+      <a href="/bixby/2018/12/23/basic_tutorial_3/">
+        주사위 프로젝트 - Capsule 테스트
+      </a>
+    </h1>
+
+    <span class="post-date">23 Dec 2018</span>
+     | 
+    
+    <a href="/blog/tags/#인공지능" class="post-tag">인공지능</a>
+    
+    <a href="/blog/tags/#빅스비" class="post-tag">빅스비</a>
+    
+    
+
+    <article>
+      <h2 id="capsule-테스트">Capsule 테스트</h2>
+
+<p>이제 아래와 같은 순서로 실행해볼 수 있습니다.</p>
+
+<ol>
+  <li><strong>View &gt; Open Simulator</strong> 로 가서 Simulator를 실행합니다.</li>
+  <li>팝업창이 뜨면 <strong>Confirm</strong>을 눌러서 컴파일 하고 학습된 데이터를 준비합니다.</li>
+  <li>아직 자연어 학습을 하지 않았기 때문에 아래의 intent를 직접 입력합니다.
+    <pre><code>intent {
+  goal: RollResult
+  value: NumSides (6)
+  value: NumDice (2)
+}
+</code></pre>
+  </li>
+  <li><strong>Run NL</strong> 을 선택하여 실행합니다.</li>
+</ol>
+
+<p>간단하게 설명드리면, 사용자는 RollResult를 얻기를 원하며, NumSides값을 6으로, NumDice값을 2로 빅스비에게 알려준 것입니다.</p>
+
+<div class="message">
+자연어를 학습시키면 "면이 6개인 주사위 2개를 굴려줘!" 라는 발화가 위의 intent로 변환되어 실행됩니다. 이 부분은 맨 마지막에 다룰 예정입니다.
+</div>
+
+<p>지금까지 잘 따라오셨다면 아래와 같은 화면을 보실 수 있을 겁니다. 현재는 따로 화면(Moment)을 만들지 않았기 때문에 리턴된 output 데이터를 테이블형식으로 보여줍니다.</p>
+
+<div class="message">
+빅스비에서는 사용자에게 보여주는 응답, 즉 화면 자체를 Moment라고 지칭합니다.
+</div>
+
+<p><img src="/assets/2018-12-23-basic_tutorial_3/screenshot02.png" alt="image" /></p>
+
+<p>이제 빅스비가 실행 그래프(execution graph)가 어떻게 만들었는지 확인해봅시다. simulator에서 왼쪽 위에 Reset 버튼 옆에 있는 두개의 버튼 중 <strong>Debug</strong> 버튼을 눌러서 Debug Console을 실행하면 아래와 같은 화면을 보실 수 있을겁니다.</p>
+
+<!-- ![image](){: width="50%" height="50%"} -->
+<p><img src="/assets/2018-12-23-basic_tutorial_3/screenshot03.png" alt="image" /></p>
+
+<p>위의 그래프를 보면 intent에서 두 개의 value 값이 concept으로 맵핑되고 goal인 RollResult를 얻기 위해서 RollDice로 연결되었습니다. 그리고 그래프가 실행되면서 RollDice Action에 도달했을 때는 endpoint에서 연결 된 RollDice.js 를 실행시켜 최종 아웃풋인 RollResult를 결과로 얻습니다.</p>
+
+<p>다음 포스트에서는 RollResult를 화면에 보여주는 방법에 대해서 정리하겠습니다.</p>
+
+    <article>
+    <div class="post-more">
+      
+      <a href="/bixby/2018/12/23/basic_tutorial_3/#disqus_thread"> <i class="fa fa-comments" aria-hidden="true"></i>Comment</a>&nbsp;
+      
+      <a href="/bixby/2018/12/23/basic_tutorial_3/"><i class="fa fa-plus-circle" aria-hidden="true"></i>Read more</a>
+    </div>
+  </div>
   
   <div class="post">
     <h1 class="post-title">
@@ -799,167 +870,6 @@ int main() {
       <a href="/bixby/2018/12/21/basic_tutorial_1/#disqus_thread"> <i class="fa fa-comments" aria-hidden="true"></i>Comment</a>&nbsp;
       
       <a href="/bixby/2018/12/21/basic_tutorial_1/"><i class="fa fa-plus-circle" aria-hidden="true"></i>Read more</a>
-    </div>
-  </div>
-  
-  <div class="post">
-    <h1 class="post-title">
-      <a href="/algorithm/2018/12/18/boj-editor-1406/">
-        BOJ - 에디터(1406)
-      </a>
-    </h1>
-
-    <span class="post-date">18 Dec 2018</span>
-     | 
-    
-    <a href="/blog/tags/#boj" class="post-tag">BOJ</a>
-    
-    <a href="/blog/tags/#백준" class="post-tag">백준</a>
-    
-    <a href="/blog/tags/#알고리즘" class="post-tag">알고리즘</a>
-    
-    <a href="/blog/tags/#자료구조" class="post-tag">자료구조</a>
-    
-    
-
-    <article>
-      <p><strong>이중 링크드 리스트(Double Linked List)</strong>이용하여 해결할 수 있는 문제입니다. 각 노드를 ‘커서’가 가리키고 있는 위치라고 한다면, 노드 안에 데이터는 ‘커서’ 바로 뒤의 문자입니다. 예를 들어서 문자열 ‘ABC’가 있으면 첫 번째 노드는 맨 앞 ‘커서’이고 가지고 있는 데이터는 ‘A’입니다. 즉, 각 노드는 ‘첫 번째 커서[A]’, ‘두 번째 커서[B]’, ‘세 번째 커서[C]’ 를 의미합니다. 그런데 ‘커서’가 문자열의 맨 뒤에도 위치할 수 있기 때문에 임의의 노드를 하나 더 추가해야 합니다.</p>
-
-<div class="message">
-scanf 함수로 문자를 받으니, 다음 scanf 함수에 개행(\n)이 입력으로 들어갔습니다. 이 문제를 해결하기 위해서 scanf로 문자를 받은 다음에 바로 다음에 getchar() 함수를 사용해서 개행(\n)문자를 입력으로 받았습니다.
-</div>
-
-<h2 id="구조체-배열">구조체 배열</h2>
-<pre><code>struct Node {
-	Node* next;
-	Node* prev;
-	char data;
-} nr[600005];
-int nidx = 0;
-Node* allocNode(char data) {
-	Node* nn = &amp;nr[nidx++];
-	nn-&gt;data = data;
-	return nn;
-}
-</code></pre>
-
-<h2 id="이중-링크드-리스트">이중 링크드 리스트</h2>
-<pre><code>Node* head = nullptr;
-Node* tail = nullptr;
-
-void add(char data) {
-	Node* nn = allocNode(data);
-
-	if (head == nullptr) {
-		head = nn;
-		tail = nn;
-	} else {
-		tail-&gt;next = nn;
-		nn-&gt;prev = tail;
-		tail = nn;
-	}
-}
-</code></pre>
-
-<h2 id="편집기-기능">편집기 기능</h2>
-<pre><code class="language-cpp">Node* pointer = nullptr;
-void addAtPointer(char data) {
-	Node* nn = allocNode(data);
-	
-	if (pointer == head) {
-		nn-&gt;next = pointer;
-		pointer-&gt;prev = nn;
-
-		head = nn;
-	} else {
-		nn-&gt;next = pointer;
-		nn-&gt;prev = pointer-&gt;prev;
-		pointer-&gt;prev-&gt;next = nn;
-		pointer-&gt;prev = nn;
-	}
-}
-void del() {
-	if (pointer == head) {
-		return;
-	}
-	if (pointer-&gt;prev == head) {
-		head = pointer;
-		pointer-&gt;prev = nullptr;
-	} else {
-		pointer-&gt;prev-&gt;prev-&gt;next = pointer;
-		pointer-&gt;prev = pointer-&gt;prev-&gt;prev;
-	}
-}
-
-void left() {
-	if (pointer != head) {
-		pointer = pointer-&gt;prev;
-	}
-}
-
-void right() {
-	if (pointer != tail) {
-		pointer = pointer-&gt;next;
-	}
-}
-</code></pre>
-
-<h2 id="메인-함수">메인 함수</h2>
-<pre><code>int main() {
-
-	// 문자열 입력
-	scanf("%s", str);
-	getchar();
-
-	// 문자열 링크드 리스트에 추가
-	int strIdx = 0;
-	while (str[strIdx] != '\0') {
-		add(str[strIdx]);
-		strIdx++;
-	}
-
-	// 맨 뒤에 커서 추가
-	add('-');
-
-	// 포인터 위치 초기화
-	pointer = tail;
-
-	int N;
-	scanf("%d", &amp;N);
-	getchar();
-
-	while (N--) {
-		char key;
-		scanf("%c", &amp;key);
-		getchar();
-		if (key == 'P') {
-			char nc;
-			scanf("%c", &amp;nc);
-			getchar();
-			addAtPointer(nc);
-		} else if (key == 'L') {
-			left();
-		} else if (key == 'D') {
-			right();
-		} else if (key == 'B') {
-			del();
-		}
-	}
-
-	Node* cur = head;
-	while (cur-&gt;data != '-') {
-		printf("%c", cur-&gt;data);
-		cur = cur-&gt;next;
-	}
-}
-</code></pre>
-
-    <article>
-    <div class="post-more">
-      
-      <a href="/algorithm/2018/12/18/boj-editor-1406/#disqus_thread"> <i class="fa fa-comments" aria-hidden="true"></i>Comment</a>&nbsp;
-      
-      <a href="/algorithm/2018/12/18/boj-editor-1406/"><i class="fa fa-plus-circle" aria-hidden="true"></i>Read more</a>
     </div>
   </div>
   

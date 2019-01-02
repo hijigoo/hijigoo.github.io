@@ -11,7 +11,7 @@
 
   <title>
     
-      안녕지구 &middot; #developer #bompapa
+      강화학습 정리 - Multi-armed Bandits (업데이트중) &middot; 안녕지구
     
   </title>
 
@@ -50,6 +50,25 @@ MathJax.Hub.Config({ tex2jax: { inlineMath: [ ['$','$'], ["\\(","\\)"] ], proces
   <link rel="stylesheet" href="/public/css/custom.css">
 
   <!-- MathJax -->
+  
+    <script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    TeX: {
+      equationNumbers: {
+        autoNumber: "AMS"
+      }
+    },
+    tex2jax: {
+      <!-- inlineMath: [ ['$','$'], ['\(', '\)'] ], -->
+      inlineMath: [ ['$','$'] ],
+      displayMath: [ ['$$','$$'] ],
+      processEscapes: true,
+    }
+  });
+</script>
+<script type="text/javascript"
+        src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
   
 
 </head>
@@ -112,7 +131,7 @@ MathJax.Hub.Config({ tex2jax: { inlineMath: [ ['$','$'], ["\\(","\\)"] ], proces
       
 
       <span class="">
-        <a class="sidebar-nav-item active" href="/">
+        <a class="sidebar-nav-item " href="/">
           Home
         </a>
 
@@ -280,10 +299,116 @@ MathJax.Hub.Config({ tex2jax: { inlineMath: [ ['$','$'], ["\\(","\\)"] ], proces
       </div>
 
       <div class="container content">
-        <div class="hero">
-  <img src="/public/img/bom_family.jpg" />
-  <p><b>Bom</b>'s <i>Family</i></p>
+        <div class="post">
+  <h1 class="post-title">강화학습 정리 - Multi-armed Bandits (업데이트중)</h1>
+  <span class="post-date">02 Jan 2019</span>
+   | 
+  
+    <a href="/blog/tags/#강화학습" class="post-tag">강화학습</a>
+  
+    <a href="/blog/tags/#rl" class="post-tag">RL</a>
+  
+  
+  <article>
+    <h2 id="2-multi-armed-bandits">2. Multi-armed Bandits</h2>
+
+<p>강화학습이 다른 딥러닝과 구분되는 가장 중요한 특징은 선택한 action에 대해 <strong>평가(evaluate)</strong>를 한다는 것이다. 이런 피드백은 얼마나 좋은지에 대한 평가이지 정답인지 아닌지를 알려주는 것은 아니다. 이번 챕터에서는 단순화된 환경에서 강화학습의 평가(evaluate)에 중점을 두고 공부할 것이다. 우리가 다룰 문제는 <strong>k-armed bandit problem</strong>인데 이를 소개하면서 강화학습의 주요한 요소 몇가지도 함께 공부할 것이다.</p>
+
+<hr />
+<h3 id="a-k-armed-bandit-problem">A k-armed Bandit Problem</h3>
+
+<p>A k-armed Bandit Problem은 k개의 레버가 있는 슬롯머신에서 최대의 reward를 받기 위한 문제다. 내용은 아래와 같다.</p>
+
+<ol>
+  <li>k개의 다른 option이나 action중에서 하나를 선택한다.</li>
+  <li><em>stationary probability distribution</em>으로 부터 하나의 reward를 받는다.</li>
+  <li>최종 목표는 일정 기간 동안 전체 reward를 최대화 하는 것이다.</li>
+</ol>
+
+<p>위 k-armed bandit problem에서 k action을 선택할 때마다 reward를 받는데, 이때 rewards의 기댓값(expectation)을 선택된 action의 <strong>value</strong>라고 한다. 식으로 나타내면 아래와 같다.</p>
+
+<script type="math/tex; mode=display">q_*(a)\doteq \mathbb{E}[R_t | A_t=a]</script>
+
+<ul>
+  <li>$A_t$: time step가 $t$ 일 때 선택된 action</li>
+  <li>$R_t$: time step가 $t$ 일 때 $A_t$에 대한 reward</li>
+  <li>$q_*(a)$: action $a$ 가 선택됐을 때 받는 reward의 기댓값</li>
+</ul>
+
+<p>만약 우리가 각 action에 대한 value를 알고 있다면 k-armed bandit problem을 해결하는 것은 매우 쉬울 것이다. 매번 value가 가장 높은 action을 선택하면 되기 때문이다. 그런데 처음에는 value을 알 수 없기 때문에 계속해서 <strong>estimate</strong>해야 한다. 이렇게 time step $t$에서 선택된 action $a$의 value를 $Q_t(a)$라고 한다. 우리는 $Q_t(a)$가  $q_*(a)$에 가까워 지도록 계속해서 estimate 해야 한다.</p>
+
+<p>action value를 계속해서 estimate 한다면, time step 마다 적어도 한 개 이상의 가장 높은 value를 갖는 action이 있을 것이다. 그 action을 <em>greedy</em> action 이라고 한다. 만약 이 action들 중 하나를 선택한다면 이를 <strong><em>exploiting</em></strong> 한다고 얘기한다. 반대로 <em>greedy</em> action이 아닌 다른 action들 중 하나를 선택한다면 <strong><em>exploring</em></strong>한다고 얘기한다. 당장 한 스텝만 바라봤을 때는 <strong><em>exploitation</em></strong>이 value를 최대화 하는 방법일지 몰라도, 장기적인 관점에서 바라봤을 때 <strong><em>exploration</em></strong>의 total reward가 더 높을 수 있다.</p>
+
+<p><em>exploration</em> 와 <em>exploitation</em> 의 균형을 맞춰 나가기 위해서 복잡한 수학적인 방법들이 존재하지만, 많은 가정들이 전제해야 하기 때문에 사실상 full reinforcment learning 문제에 적용하기는 불가능하다. 하지만, 이를 해결하기 위한 간단한 방법들이 존재하고 나중에 다룰 것이다.</p>
+
+<hr />
+<h3 id="action-value-methods">Action-value Methods</h3>
+
+<hr />
+<h3 id="summary">Summary</h3>
+
+<hr />
+<h3 id="reference">Reference</h3>
+<ul>
+  <li><a href="http://incompleteideas.net/book/the-book.html">Reinforcement Learning: An Introduction - Richard S. Sutton and Andrew G. Barto</a></li>
+</ul>
+
+  </article>
 </div>
+
+<div class="related">
+  <h2>Related Posts</h2>
+  <ul class="related-posts">
+    
+      <li>
+        <h3>
+          <a href="/reinforcement%20learning/2019/01/01/rl-introduction/">
+            강화학습 정리 - Introduction
+            <small>01 Jan 2019</small>
+          </a>
+        </h3>
+      </li>
+    
+      <li>
+        <h3>
+          <a href="/algorithm/2018/12/29/boj-go-trip-1976/">
+            BOJ - 여행 가자(1976)
+            <small>29 Dec 2018</small>
+          </a>
+        </h3>
+      </li>
+    
+      <li>
+        <h3>
+          <a href="/bixby/2018/12/28/basic_tutorial_4/">
+            주사위 프로젝트 - View 및 Dialog 작성
+            <small>28 Dec 2018</small>
+          </a>
+        </h3>
+      </li>
+    
+  </ul>
+</div>
+
+
+<div class="comments">
+  <h2>Comments</h2>
+  <div id="disqus_thread"></div>
+  <script>
+var disqus_config = function () {
+  this.page.url = 'http://localhost:4000/reinforcement%20learning/2019/01/02/rl-multi-armed-bandits/'; // Replace PAGE_URL with your page's canonical URL variable
+  this.page.identifier = '/reinforcement%20learning/2019/01/02/rl-multi-armed-bandits'; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+};
+(function() {
+  var d = document, s = d.createElement('script');
+  s.src = '//hijigoo.disqus.com/embed.js';
+  s.setAttribute('data-timestamp', +new Date());
+  (d.head || d.body).appendChild(s);
+})();
+  </script>
+  <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+</div>
+
 
       </div>
     </div>
