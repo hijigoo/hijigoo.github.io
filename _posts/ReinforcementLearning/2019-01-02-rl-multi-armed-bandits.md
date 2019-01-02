@@ -10,8 +10,11 @@ use_math: true
 
 ## 2. Multi-armed Bandits
 
-강화학습이 다른 딥러닝과 구분되는 가장 중요한 특징은 선택한 action에 대해 **평가(evaluate)**를 한다는 것이다. 이런 피드백은 얼마나 좋은지에 대한 평가이지 정답인지 아닌지를 알려주는 것은 아니다. 이번 챕터에서는 단순화된 환경에서 강화학습의 평가(evaluate)에 중점을 두고 공부할 것이다. 우리가 다룰 문제는 **k-armed bandit problem**인데 이를 소개하면서 강화학습의 주요한 요소 몇가지도 함께 공부할 것이다.
+강화학습이 다른 딥러닝과 구분되는 가장 중요한 특징은 선택한 action에 대해 **평가(evaluate)**를 한다는 것이다. 이런 피드백(feedback)은 얼마나 좋은지에 대한 평가이지 정답인지 아닌지를 알려주는 것은 아니다. 이번 챕터에서는 간단한 환경에서 강화학습의 평가(evaluate)에 중점을 두고 공부할 것이다. 오직 단 하나의 상황에서만 evaluate하기 때문에 *full reinforcement learning problem*의 복잡성을 피할 수 있다. 여기서 다룰 문제는 **k-armed bandit problem**인데 이를 소개하면서 강화학습의 주요한 요소 몇가지도 함께 다룰 것이다.
 
+<div class="message">
+이번 장에서는 단순화된 환경(nonassociative setting)에서 설명하기 때문에, 강화학습에서 처음에 많이 다루는 'frozen lake'와 비교하면서 보시면 헷갈리실 수 있습니다. 처음에는 'Multi-armed Bandits'를 독립적인 문제로 보고 접근하시는 것을 추천드립니다.
+</div>
 
 ***
 ### A k-armed Bandit Problem
@@ -22,11 +25,13 @@ A k-armed Bandit Problem은 k개의 레버가 있는 슬롯머신에서 최대�
 2. *stationary probability distribution*으로 부터 하나의 reward를 받는다. 
 3. 최종 목표는 일정 기간 동안 전체 reward를 최대화 하는 것이다. 
 
-위 k-armed bandit problem에서 k action을 선택할 때마다 reward를 받는데, 이때 rewards의 기댓값(expectation)을 선택된 action의 **value**라고 한다. 식으로 나타내면 아래와 같다. 
+위 k-armed bandit problem에서 k action을 선택할 때마다 reward를 받는데, 이때 rewards의 기댓값(expectation)을 선택된 action의 **value**라고 한다. 식으로 나타내면 아래와 같다.
+
 
 $$
 q_*(a)\doteq \mathbb{E}[R_t | A_t=a]
-$$
+$$ 
+
 
 - $A_t$: time step가 $t$ 일 때 선택된 action
 - $R_t$: time step가 $t$ 일 때 $A_t$에 대한 reward
@@ -44,6 +49,24 @@ action value를 계속해서 estimate 한다면, time step 마다 적어도 한 
 ***
 ### Action-value Methods
 
+여기서는 action의 value을 estimate하는 방법(method)에 대해 더 자세하게 알아볼 것이다. 우리는 이것을 ***action-value methods*** 라고 부르는데 action을 선택하기 위해서도 사용된다. 그리고 action이 선택될 때마다 계산한 reward의 평균을 *action의 true value*라고 한다. 수식은 아래와 같다. 
+
+$$
+Q_t(a)\doteq \frac{\text{sum of rewards when $a$ taken prior to $t$}}{\text{number of times $a$ taken prior to $t$}} = \frac{\sum_{i=1}^{t-1}R_i \cdot \mathbb{1}_{A_i=a}}{\sum_{i=1}^{t-1}\mathbb{1}_{A_i=a}}
+$$
+
+- $\mathbb{1}_{predicate}$: $predicate$가 true 이면 1이고 false이면 0이다. 
+
+위의 식에서 $\mathbb{1}_{A_i=a}$은 $a$가 선택된 경우만 계산하겠다는 의미다. 그리고 한 번도 $a$가 선택된 적이 없는 경우 분모가 0이 되어서 계산이 불가능하기 때문에 $Q_t(a)$를 기본 값(예: 0)으로 대신한다. 사실 이렇게 평균을 내는 것은 action value를 estimate하는 여러가지 방법 중 하나지만, action을 선택하는 방법을 설명하기 위해서 일단은 사용할 것이다.
+
+
+
+***
+### The 10-armed Testbed
+
+
+***
+### Incremental Implementation
 
 
 
