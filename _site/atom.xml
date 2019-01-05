@@ -4,7 +4,7 @@
  <title>안녕지구</title>
  <link href="http://localhost:4000/atom.xml" rel="self"/>
  <link href="http://localhost:4000/"/>
- <updated>2019-01-03T03:14:47+09:00</updated>
+ <updated>2019-01-06T03:44:56+09:00</updated>
  <id>http://localhost:4000</id>
  <author>
    <name>안녕지구</name>
@@ -48,7 +48,7 @@
 
 &lt;p&gt;만약 우리가 각 action에 대한 value를 알고 있다면 k-armed bandit problem을 해결하는 것은 매우 쉬울 것이다. 매번 value가 가장 높은 action을 선택하면 되기 때문이다. 그런데 처음에는 value을 알 수 없기 때문에 계속해서 &lt;strong&gt;estimate&lt;/strong&gt;해야 한다. 이렇게 time step $t$에서 선택된 action $a$의 value를 $Q_t(a)$라고 한다. 우리는 $Q_t(a)$가  $q_*(a)$에 가까워 지도록 계속해서 estimate 해야 한다.&lt;/p&gt;
 
-&lt;p&gt;action value를 계속해서 estimate 한다면, time step 마다 적어도 한 개 이상의 가장 높은 value를 갖는 action이 있을 것이다. 그 action을 &lt;em&gt;greedy&lt;/em&gt; action 이라고 한다. 만약 이 action들 중 하나를 선택한다면 이를 &lt;strong&gt;&lt;em&gt;exploiting&lt;/em&gt;&lt;/strong&gt; 한다고 얘기한다. 반대로 &lt;em&gt;greedy&lt;/em&gt; action이 아닌 다른 action들 중 하나를 선택한다면 &lt;strong&gt;&lt;em&gt;exploring&lt;/em&gt;&lt;/strong&gt;한다고 얘기한다. 당장 한 스텝만 바라봤을 때는 &lt;strong&gt;&lt;em&gt;exploitation&lt;/em&gt;&lt;/strong&gt;이 value를 최대화 하는 방법일지 몰라도, 장기적인 관점에서 바라봤을 때 &lt;strong&gt;&lt;em&gt;exploration&lt;/em&gt;&lt;/strong&gt;의 total reward가 더 높을 수 있다.&lt;/p&gt;
+&lt;p&gt;action value를 계속해서 estimate 한다면, time step 마다 적어도 한 개 이상의 가장 높은 value를 갖는 action이 있을 것이다. 그 action을 &lt;em&gt;greedy&lt;/em&gt; action 이라고 한다. 만약 이 greedy action 중 하나를 선택한다면 이를 &lt;strong&gt;&lt;em&gt;exploiting&lt;/em&gt;&lt;/strong&gt; 한다고 얘기한다. 반대로 &lt;em&gt;greedy&lt;/em&gt; action이 아닌 다른 action 중 하나를 선택한다면 &lt;strong&gt;&lt;em&gt;exploring&lt;/em&gt;&lt;/strong&gt;한다고 얘기한다. 당장 한 스텝만 바라봤을 때는 &lt;strong&gt;&lt;em&gt;exploitation&lt;/em&gt;&lt;/strong&gt;이 value를 최대화 하는 방법일지 몰라도, 장기적인 관점에서 바라봤을 때 &lt;strong&gt;&lt;em&gt;exploration&lt;/em&gt;&lt;/strong&gt;의 total reward가 더 높을 수 있다.&lt;/p&gt;
 
 &lt;p&gt;&lt;em&gt;exploration&lt;/em&gt; 와 &lt;em&gt;exploitation&lt;/em&gt; 의 균형을 맞춰 나가기 위해서 복잡한 수학적인 방법들이 존재하지만, 많은 가정들이 전제해야 하기 때문에 사실상 full reinforcment learning 문제에 적용하기는 불가능하다. 하지만, 이를 해결하기 위한 간단한 방법들이 존재하고 나중에 다룰 것이다.&lt;/p&gt;
 
@@ -63,13 +63,34 @@
   &lt;li&gt;$\mathbb{1}_{predicate}$: $predicate$가 true 이면 1이고 false이면 0이다.&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;p&gt;위의 식에서 $\mathbb{1}_{A_i=a}$은 $a$가 선택된 경우만 계산하겠다는 의미다. 그리고 한 번도 $a$가 선택된 적이 없는 경우 분모가 0이 되어서 계산이 불가능하기 때문에 $Q_t(a)$를 기본 값(예: 0)으로 대신한다. 사실 이렇게 평균을 내는 것은 action value를 estimate하는 여러가지 방법 중 하나지만, action을 선택하는 방법을 설명하기 위해서 일단은 사용할 것이다.&lt;/p&gt;
+&lt;p&gt;위의 식에서 $\mathbb{1}_{A_i=a}$은 $a$가 선택된 경우만 계산하겠다는 의미다. 그리고 한 번도 $a$가 선택된 적이 없는 경우 분모가 0이 되어서 계산이 불가능하기 때문에 $Q_t(a)$를 기본 값(예: 0)으로 대신한다. 사실 이렇게 평균을 내는 것은 action value를 estimate하는 여러가지 방법 중 하나다. 우리는 이것을 &lt;em&gt;sample-average&lt;/em&gt;라고 부를 것이다.&lt;/p&gt;
+
+&lt;p&gt;action을 선택하는 가장 간단한 방법 중 하나는 당연히 estimate value가 가장 큰 것(&lt;em&gt;greedy action&lt;/em&gt;)을 선택하는 것이다. 만약 두 개 이상의 &lt;em&gt;greedy&lt;/em&gt; action이 있다면 그 중 아무거나 선택하면 된다. 우리는 이런 방법을 &lt;strong&gt;&lt;em&gt;greedy&lt;/em&gt; action selection&lt;/strong&gt; 이라고 하며, 아래와 같이 정의할 수 있다.&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;A_t \doteq \underset{a}{argmax}Q_t(a)&lt;/script&gt;
+
+&lt;p&gt;위에서 $argmax_a$는 뒤에 따라오는 $Q_t(a)$를 최대화(maximized)해주는 action(a)을 선택한다는 뜻이다. &lt;em&gt;greedy&lt;/em&gt; action selection은 지금 알고 있는 정보를 기반으로 &lt;em&gt;눈 앞에 보이는&lt;/em&gt; reward를 최대화하기 위해서 항상 &lt;strong&gt;exploit&lt;/strong&gt; 한다. 하지만 이런 방식은 장기적 관점에서 봤을 때 더 좋은 action을 놓칠 수 있다. 이런 단점을 보안하기 위해서 &lt;strong&gt;아주 적은 확률($\varepsilon$)&lt;/strong&gt;로 action중 하나를 랜덤으로 선택하는 방법이 있는데, 우리는 이 방법을 &lt;strong&gt;$\varepsilon-greedy$&lt;/strong&gt; method 라고 한다. 이런 방법의 장점은 모든 action들이 sampling될 수 있기 때문에 $Q_t(a)$ 가 $q_*(a)$로 수렴된다는 것이다.&lt;/p&gt;
 
 &lt;hr /&gt;
 &lt;h3 id=&quot;the-10-armed-testbed&quot;&gt;The 10-armed Testbed&lt;/h3&gt;
 
+&lt;p&gt;&lt;strong&gt;greedy&lt;/strong&gt;와 &lt;strong&gt;&lt;script type=&quot;math/tex&quot;&gt;\varepsilon&lt;/script&gt;-greedy&lt;/strong&gt;의 효과를 알아보기 위해서, &lt;em&gt;k&lt;/em&gt;-armed bandit problems을 가지고 두 가지 방법을 비교 했다. 아래는 &lt;em&gt;k&lt;/em&gt;가 10개인 &lt;em&gt;k&lt;/em&gt;-armed bandit problems의 reward 분포다. 분산(variance)이 1이고 평균(mean)이 $q_*(a)$인 정규 분포(normal distribution)다. 이 분포로 부터 $t$ (time step)에서 $A_t$(action)를 선택했을 때 $R_t$(reward)를 얻는다.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/2019-01-02-rl-bulti-armed-bandits/figure2_1.png&quot; alt=&quot;image&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;분산(variance)이 1이고 평균(mean)이 0인 정규 분포(normal distribution)에서 1000번의 action을 선택했고, 이렇게 2000번 반복한 평균으로 성능을 측정했다.&lt;/p&gt;
+
+&lt;p&gt;아래는 &lt;strong&gt;greedy method&lt;/strong&gt;와 두개의 &lt;strong&gt;$\varepsilon$-greedy method&lt;/strong&gt;($\varepsilon$=0.01 과 $\varepsilon$=0.1)로 테스트한 결과다. 자세히 보면 처음에는 greedy method가 더 빠르게 향상되는 것처럼 보이나 시간이 지날수록 $\varepsilon$-greedy method가 더 향상되는 것을 볼 수 있다. greedy method는 시간이 지날수록 더디게 향상되는데, 이는 suboptimal에 빠질 수 있기 때문이다. 아래 그래프를 보면 greedy method는 optimal action의 1/3 정도 밖에 도달하지 못했다. 반면에, $\varepsilon$-greedy method는 계속해서 explore하고 optimal action을 찾기 위한 가능성을 높혔기 때문에 최종적으로 더 나은 성능을 보였다.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/2019-01-02-rl-bulti-armed-bandits/figure2_2.png&quot; alt=&quot;image&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;$\varepsilon$-greedy method의 이점은 task에 따라서 다르다. 만약에 분산(variance)이 매우 크다면(예: 10) optimal policy를 찾기 위해서 더 많은 exploration를 해야한다. 이럴 경우 $\varepsilon$-greedy method가 더 좋은 성능을 보인다. 하지만 만약 분산(variance)이 0이라면 단 한 번만 시도 해보고 true value를 알 수 있기 때문에 exploration없이도 optimal policy를 찾을 수 있을 것이다. 하지만 이런 deterministic한 경우라도 일부 가정이 불확실 하다면 exploration은 필요하다. 예를 들어서 bandit problem이 &lt;strong&gt;nonstationary&lt;/strong&gt;하다면 true value는 시간이 지남에 따라 변경되기 때문에 exploration이 필요하다. nonstationary 문제는 reinforcement learning에서 자주 나타나는 상황이다. 이와 같이 reinforcement learning에서 exploration과 exploitation의 균형은 매우 중요하다.&lt;/p&gt;
+
 &lt;hr /&gt;
 &lt;h3 id=&quot;incremental-implementation&quot;&gt;Incremental Implementation&lt;/h3&gt;
+
+&lt;hr /&gt;
+&lt;h3 id=&quot;tracking-a-nonstationary-problem&quot;&gt;Tracking a Nonstationary Problem&lt;/h3&gt;
 
 &lt;hr /&gt;
 &lt;h3 id=&quot;summary&quot;&gt;Summary&lt;/h3&gt;
