@@ -71,7 +71,7 @@ $$
 ***
 ### The 10-armed Testbed
 
-**greedy**와 **$$\varepsilon$$-greedy**의 효과를 알아보기 위해서, *k*-armed bandit problems을 가지고 두 가지 방법을 비교 했다. 아래는 *k*가 10개인 *k*-armed bandit problems의 reward 분포다. 분산(variance)이 1이고 평균(mean)이 $q_*(a)$인 정규 분포(normal distribution)다. 이 분포로 부터 $t$ (time step)에서 $A_t$(action)를 선택했을 때 $R_t$(reward)를 얻는다.
+***k*-armed bandit problems**으로 **greedy**와 **$$\varepsilon$$-greedy** 두 가지 방법을 비교 했다. 아래는 *k*가 10개인 *k*-armed bandit problems의 reward 분포다. 분산(variance)이 1이고 평균(mean)이 $q_*(a)$인 정규 분포(normal distribution)다. 이 분포로 부터 $t$ (time step)에서 $A_t$(action)를 선택했을 때 $R_t$(reward)를 얻는다.
 
 ![image](/assets/2019-01-02-rl-bulti-armed-bandits/figure2_1.png)
 

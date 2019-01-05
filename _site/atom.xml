@@ -4,7 +4,7 @@
  <title>안녕지구</title>
  <link href="http://localhost:4000/atom.xml" rel="self"/>
  <link href="http://localhost:4000/"/>
- <updated>2019-01-06T03:44:56+09:00</updated>
+ <updated>2019-01-06T03:48:44+09:00</updated>
  <id>http://localhost:4000</id>
  <author>
    <name>안녕지구</name>
@@ -74,7 +74,7 @@
 &lt;hr /&gt;
 &lt;h3 id=&quot;the-10-armed-testbed&quot;&gt;The 10-armed Testbed&lt;/h3&gt;
 
-&lt;p&gt;&lt;strong&gt;greedy&lt;/strong&gt;와 &lt;strong&gt;&lt;script type=&quot;math/tex&quot;&gt;\varepsilon&lt;/script&gt;-greedy&lt;/strong&gt;의 효과를 알아보기 위해서, &lt;em&gt;k&lt;/em&gt;-armed bandit problems을 가지고 두 가지 방법을 비교 했다. 아래는 &lt;em&gt;k&lt;/em&gt;가 10개인 &lt;em&gt;k&lt;/em&gt;-armed bandit problems의 reward 분포다. 분산(variance)이 1이고 평균(mean)이 $q_*(a)$인 정규 분포(normal distribution)다. 이 분포로 부터 $t$ (time step)에서 $A_t$(action)를 선택했을 때 $R_t$(reward)를 얻는다.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;&lt;em&gt;k&lt;/em&gt;-armed bandit problems&lt;/strong&gt;으로 &lt;strong&gt;greedy&lt;/strong&gt;와 &lt;strong&gt;&lt;script type=&quot;math/tex&quot;&gt;\varepsilon&lt;/script&gt;-greedy&lt;/strong&gt; 두 가지 방법을 비교 했다. 아래는 &lt;em&gt;k&lt;/em&gt;가 10개인 &lt;em&gt;k&lt;/em&gt;-armed bandit problems의 reward 분포다. 분산(variance)이 1이고 평균(mean)이 $q_*(a)$인 정규 분포(normal distribution)다. 이 분포로 부터 $t$ (time step)에서 $A_t$(action)를 선택했을 때 $R_t$(reward)를 얻는다.&lt;/p&gt;
 
 &lt;p&gt;&lt;img src=&quot;/assets/2019-01-02-rl-bulti-armed-bandits/figure2_1.png&quot; alt=&quot;image&quot; /&gt;&lt;/p&gt;
 
