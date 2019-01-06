@@ -4,7 +4,7 @@
  <title>안녕지구</title>
  <link href="http://localhost:4000/atom.xml" rel="self"/>
  <link href="http://localhost:4000/"/>
- <updated>2019-01-06T15:53:48+09:00</updated>
+ <updated>2019-01-07T00:13:04+09:00</updated>
  <id>http://localhost:4000</id>
  <author>
    <name>안녕지구</name>
@@ -90,29 +90,34 @@
 &lt;h3 id=&quot;incremental-implementation&quot;&gt;Incremental Implementation&lt;/h3&gt;
 &lt;p&gt;지금까지 논의한 &lt;strong&gt;action-value method&lt;/strong&gt;는 얻은 rewards의 평균(sample averages)을 내어서 estimate 하였다. 이번에는 이렇게 매번 평균을 내는 것보다 더 효율적인 방법에 대해 알아볼 것이다.&lt;/p&gt;
 
-&lt;p&gt;복잡한 식를 피하기 위해서 하나의 action에 대해서만 다룬다. action value 식을 간단하게 표기하면 아래와 같은데, $R_i$는 i번째 action이 선택된 후에 받은 reward이고, $Q_n$은 n-1번째 까지 측정된 action value 이다.&lt;/p&gt;
+&lt;p&gt;복잡한 식를 피하기 위해서 하나의 action에 대해서만 다룬다. action-value 식은 아래와 같다.&lt;/p&gt;
 
 &lt;script type=&quot;math/tex; mode=display&quot;&gt;Q_n \doteq \frac{R_1 + R_2 + \dots + R_{n-1}}{n-1}&lt;/script&gt;
 
-&lt;p&gt;위의 방식은 모든 reward를 보관하고 있다가 value를 estimate할 때마다 계산한다. 하지만 이런 방식은 시간이 지나고 reward를 받을 때마다 더 많은 메모리와 연산을 필요로 한다. 예상할 수 있듯이, 이는 비효율적이기 때문에 평균(average)를 업데이트 하는 다른 방법이 필요하다. 이미 계산된 $Q_n$과 n번째 reward $R_n$이 주어지면 모든 reward의 평균을 아래와 같이 &lt;strong&gt;incremental formulas&lt;/strong&gt;로 계산할 수 있다.&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;$R_i$: i번째 action이 선택된 후에 받은 reward&lt;/li&gt;
+  &lt;li&gt;$Q_n$: n-1번째 까지 측정된 action value&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;위의 방식은 모든 reward를 보관하고 있다가 value를 estimate할 때마다 계산하는데, 이런 방식은 시간이 지나고 reward를 받을 때마다 더 많은 메모리와 연산을 필요로 한다. 예상할 수 있듯이, 이는 비효율적이기 때문에 평균(average)를 업데이트 하는 다른 방법이 필요하다. 이미 계산된 $Q_n$과 n번째 reward $R_n$이 주어지면 모든 reward의 평균을 아래와 같이 &lt;strong&gt;incremental formulas&lt;/strong&gt;로 계산할 수 있다.&lt;/p&gt;
 
 &lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
-\begin{align}
+\begin{align*}
 Q_n &amp;= \frac{1}{n}\sum_{i=1}^{n}R_i \\
     &amp;= \frac{1}{n}\left(R_n + \sum_{i=1}^{n-1}R_i\right) \\
     &amp;= \frac{1}{n}\left(R_n + (n-1)\frac{1}{n-1}\sum_{i=1}^{n-1}R_i\right) \\
     &amp;= \frac{1}{n}\left(R_n + (n-1)Q_n\right) \\
     &amp;= \frac{1}{n}\left(R_n + nQ_n - Q_n\right) \\
-    &amp;= Q_n + \frac{1}{n}\left[R_n - Q_n\right]
-\end{align} %]]&gt;&lt;/script&gt;
+    &amp;= Q_n + \frac{1}{n}\left[R_n - Q_n\right] &amp; (2.3)
+\end{align*} %]]&gt;&lt;/script&gt;
 
-&lt;p&gt;위의 연산은 새로운 reward를 얻더라도 $Q_n$과 $n$ 그리고 (6)정도의 간단한 연산만 필요하다. 위의 update 식은 일반적으로 아래와 같이 표기한다.&lt;/p&gt;
+&lt;p&gt;위의 연산은 새로운 reward를 얻더라도 $Q_n$과 $n$ 그리고 (2.3)정도의 간단한 연산만 필요하다. 위의 update 식은 일반적으로 아래와 같이 표기할 수 있다.&lt;/p&gt;
 
 &lt;script type=&quot;math/tex; mode=display&quot;&gt;NewEstimate \leftarrow OldEstimate + StepSize [Target - OldEstimate]&lt;/script&gt;
 
 &lt;p&gt;위 식에서 $[Target - OldEstimate]$가 estimate에서 &lt;strong&gt;error&lt;/strong&gt;이며, $Target$에 가까워질수록 작아진다. target은  우리가 원하는 방향이며 여기서는 n번째 reward다.&lt;/p&gt;
 
-&lt;p&gt;참고로, &lt;strong&gt;incremental method&lt;/strong&gt; (6)에서 사용된 step-size parameter(StepSize)는 time step이 지날 수록 $\frac{1}{n}$으로 변경된다. 우리는 앞으로 이 &lt;strong&gt;step-size&lt;/strong&gt;를 $\alpha$ 혹은 $\alpha_t(a)$로 표기할 것이다.&lt;/p&gt;
+&lt;p&gt;참고로, &lt;strong&gt;incremental method&lt;/strong&gt; (2.3)에서 사용된 step-size parameter(StepSize)는 time step이 지날 수록 $\frac{1}{n}$으로 변경된다. 우리는 앞으로 이 &lt;strong&gt;step-size&lt;/strong&gt;를 $\alpha$ 혹은 $\alpha_t(a)$로 표기할 것이다.&lt;/p&gt;
 
 &lt;p&gt;아래는 incrementally computed sample averages 와 $\varepsilon$-greedy action selection을 사용한 A Simple bandit algorithm의 슈도코드(Pseudocode)다.&lt;/p&gt;
 
@@ -121,8 +126,52 @@ Q_n &amp;= \frac{1}{n}\sum_{i=1}^{n}R_i \\
 &lt;hr /&gt;
 &lt;h3 id=&quot;tracking-a-nonstationary-problem&quot;&gt;Tracking a Nonstationary Problem&lt;/h3&gt;
 
+&lt;p&gt;지금까지는 시간이 지나더라도 reward의 probability가 변하지 않는 &lt;strong&gt;stationary&lt;/strong&gt; 상황에서 bandit problems에 대해 알아보았다. 하지만 reinforcement learning에서는 종종 시간이 지남에 따라 reward의 probability가 변하는 &lt;strong&gt;nonstationary&lt;/strong&gt; 상황에 대해서 다뤄야 할 때가 있다. 이런 상황에서는 한참 전에 받은 reward보다 최근에 받은 reward에 좀 더 비중을 두는 것이 합당하다. 우리는 이를 상수 step-size paramenter를 사용해서 구현할 수 있다. 예를 들어서, (2.3)식을 수정한 식은 아래와 같다.&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;Q_{n+1} = Q_n + \alpha\left[R_n - Q_n\right]&lt;/script&gt;
+
+&lt;p&gt;$\alpha$는 $\alpha\in(0,1]$인 상수다. $Q_{n+1}$은 지난 rewards의 weighted average이고 $Q_1$은 초기값이다.&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
+\begin{align*}
+Q_n &amp;= Q_n + \alpha\left[R_n - Q_n\right] \\
+    &amp;= \alpha R_n  + (1 - \alpha)Q_n\\
+    &amp;= \alpha R_n  + (1 - \alpha)[\alpha R_{n-1} + (1 - \alpha)Q_{n-1}] \\
+    &amp;= \alpha R_n  + (1 - \alpha)\alpha R_{n-1} + (1 - \alpha)^2 Q_{n-1} \\
+    &amp;= \alpha R_n  + (1 - \alpha)\alpha R_{n-1} + (1 - \alpha)\alpha R_{n-2} +
+       \dots + (1 - \alpha)^{n-1}\alpha R_1 + (1 - \alpha)^n Q_1\\
+    &amp;= (1 - \alpha)^n Q_1 + \sum_{i=1}^{n}\alpha(1 - \alpha)^{n-1}R_i &amp; (2.6)
+
+\end{align*} %]]&gt;&lt;/script&gt;
+
+&lt;p&gt;우리는 위 식을 것은 weighted average라고 부르는데, weight의 총 합이 1이기 때문이다.&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;(1 - \alpha)^n + \sum_{i=1}^{n}\alpha(1 - \alpha)^{n-1} = 1&lt;/script&gt;
+
+&lt;p&gt;$R_i$의 가중치 $\alpha(1 - \alpha)^{n-1}$는 이전에 얼마나 많은 reward가 있었느냐에 따라 달라진다. (2.6) 식에서 $1-\alpha$은 1보다 작기 때문에, 전체 reward의 수(n)가 증가 할수록 $R_i$이 값은 작아진다. 여기서 weight은 $1 - \alpha$의 exponent에 의해서 기하급수적으 줄어드는데 이를 &lt;em&gt;exponential recency-weighted average&lt;/em&gt; 라고 한다.&lt;/p&gt;
+
+&lt;div class=&quot;message&quot;&gt;
+위 설명이 조금 복잡했는데요, 간단하게 요약하면 위 action-value method에서 $\alpha$ 가 1보다 작기 때문에, 오래전에 받은 reward일 수록 가중치(weight)는 점점 작아지고, 가장 최근에 받은 reward의 가중치(weight)는 더 커진다는 뜻입니다.
+&lt;/div&gt;
+
 &lt;hr /&gt;
 &lt;h3 id=&quot;optimistic-initial-values&quot;&gt;Optimistic Initial Values&lt;/h3&gt;
+
+&lt;p&gt;지금까지 나온 모든 수식들은 action-value의 초기값 $Q_1(a)$에 영향을 받는다. 통게학에서는 이를 &lt;em&gt;bias&lt;/em&gt;라고 얘기한다. sample-average methods 에서는 모든 action들이 한 번씩 선택되면 이 bias는 모두 사라진다. 하지만 step-size인 $\alpha$가 존재한다면 $Q_1$은 점점 작아지더라도 완전히 사라지지는 않는다.(식 2.6 참고) 이 bias는 종종 매우 유용한데, 예상되는 reward의 값을 미리 설정할 수 있기 때문이다.&lt;/p&gt;
+
+&lt;p&gt;또한, action value를 초기화하는 방법으로 간단하게 &lt;strong&gt;exploration&lt;/strong&gt;을 유도할 수 있다. 예를 들어서, 10-armed bandit testbed 에서 action value의 초기값을 0이 아닌 +5로 설정했다고 가정해보자. $q_*(a)$의 평균은 0이고 분산은 1이다. 그러면 앞으로 action이 어떤 것으로 선택되더라도 update된 reward는 초기값 +5보다 작을 것이기 때문에(식 2.6 참고), 다음에 선택할 greedy action은 항상 시도해보지 않은 action일 것이다. 즉, value estimate가 수렴하기 전까지 &lt;strong&gt;exploration&lt;/strong&gt; 할 것이다.&lt;/p&gt;
+
+&lt;p&gt;아래는 10-armed bandit testbed 에서 $Q_1(a) = +5$ 으로 설정한 greedy method와 $Q_1(a) = 0$ 으로 설정한 $\varepsilon$-greedy method를 비교한 것이다. 초기에는 greedy method($Q_1(a) = +5$)가 더 많은 exploration을 하기 때문에 좋은 나쁜 성능을 보이지만, 시간이 지날 수록 exploration하는 횟수가 줄어들면서 Optial action에 더 가까워지는 것을 볼 수 있다. 이런 테크닉을 &lt;strong&gt;&lt;em&gt;optimistic initial values&lt;/em&gt;&lt;/strong&gt; 라고 한다.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/2019-01-02-rl-bulti-armed-bandits/figure2_3.png&quot; alt=&quot;image&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;이런 방법은 특정 stationary problems에서만 유용한 simple trick으로, 일방적인 상황에서 exploration 하는 방법으로는 유용하지 않다. 예를 들어서 nonstationary problems에는 적합하지 않은데, 본질적으로 이런 방법은 일시적으로만 동작하기 때문이다.&lt;/p&gt;
+
+&lt;hr /&gt;
+&lt;h3 id=&quot;upper-confidence-bound-action-selection&quot;&gt;Upper-Confidence-Bound Action Selection&lt;/h3&gt;
+
+&lt;hr /&gt;
+&lt;h3 id=&quot;gradient-bandit-algorithms&quot;&gt;Gradient Bandit Algorithms&lt;/h3&gt;
 
 &lt;hr /&gt;
 &lt;h3 id=&quot;summary&quot;&gt;Summary&lt;/h3&gt;
