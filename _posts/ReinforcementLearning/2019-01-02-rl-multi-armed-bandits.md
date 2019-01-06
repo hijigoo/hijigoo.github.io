@@ -171,14 +171,31 @@ $R_i$의 가중치 $\alpha(1 - \alpha)^{n-1}$는 이전에 얼마나 많은 rewa
 
 아래는 10-armed bandit testbed 에서 $Q_1(a) = +5$ 으로 설정한 greedy method와 $Q_1(a) = 0$ 으로 설정한 $\varepsilon$-greedy method를 비교한 것이다. 초기에는 greedy method($Q_1(a) = +5$)가 더 많은 exploration을 하기 때문에 좋은 나쁜 성능을 보이지만, 시간이 지날 수록 exploration하는 횟수가 줄어들면서 Optial action에 더 가까워지는 것을 볼 수 있다. 이런 테크닉을 ***optimistic initial values*** 라고 한다.
 
-
 ![image](/assets/2019-01-02-rl-bulti-armed-bandits/figure2_3.png)
 
-이런 방법은 특정 stationary problems에서만 유용한 simple trick으로, 일방적인 상황에서 exploration 하는 방법으로는 유용하지 않다. 예를 들어서 nonstationary problems에는 적합하지 않은데, 본질적으로 이런 방법은 일시적으로만 동작하기 때문이다.
+이런 방법은 특정 stationary problems에서만 유용한 simple trick으로, 일방적인 상황에서 exploration 하는 방법으로는 효율적이지 않다. 예를 들어서 nonstationary problems에는 적합하지 않은데, 본질적으로 이런 방법은 일시적으로만 작동하기 때문이다.
+
 
 ***
 ### Upper-Confidence-Bound Action Selection
 
+action-value estimates는 불확실성을 내재하고 있기 때문에 exploration이 필요하다. greedy action이 현재 시점에서는 가장 좋은 선택일지라도, 장기적인 관점에서 봤을 때 다른 action이 더 좋은 선택일 수 있기 때문이다. 그래서 $\varepsilon$-greedy action selection으로 non-greedy action을 시도하는데, 그 중에서 어떤 action이 더 좋을지에 대한 기준없이 랜덤으로 선택한다. 이런 방법 보다는 그 중에서 가장 optimal이 될 가능성이 높은 action을 선택하는 것이 더 나을 것이다. 아래는 action을 선택하는 효율적인 방법중 하나다. 
+
+$$
+A_t \doteq \underset{a}{\operatorname{argmax}} \left[ Q_t(a) + c\sqrt{\frac{\operatorname{ln}t}{N_t(a)}} \right]
+$$
+
+- $\operatorname{ln}t$: $t$의 자연로그
+- $N_t(a)$: time $t$전에 action $a$가 선택된 횟수
+- $c$: $c > 0$으로 exploration의 빈도를 조절
+
+만약 $N_t(a) = 0$ 이면, 이때 $a$는 식을 가장 최대화 하는 action으로 간주된다. 
+
+이런 아이디어를 ***upper confidence bound* (UCB)** action selection 이라고 하는데 제곱근 식($\sqrt{\frac{\operatorname{ln}t}{N_t(a)}}$)은  $a$ value의 불확실한 정도(uncertainty) 혹은 변화하는 정도(variance)를 측정한다. 분모에 있는 $N_t(a)$가 증가하면 불확실한 정도(uncertainty)는 낮아지고, 반면에 다른 action이 선택 되어 $N_t(a)$는 증가하지 않고 $t$ 만 증가한다면 불확실한 정도(uncertainty)는 증가할 것이다. 결국 모든 action이 선택될 것이다. 다만, 측정(estimate)된 value가 낮거나 이전에 자주 선택됐던 action은 시간이 지날수록 낮은 빈도로 선택될 것이다.
+
+아래는 10-armed testbed에서 **UCB** 를 사용한 결과다. 보여지는 것처럼 UCB는 잘 작동하지만 더 일반적으로 셋팅된 reinforcement learning 문제에서는 $\varepsilon$-greedy 보다 낮은 성능을 보인다.
+
+![image](/assets/2019-01-02-rl-bulti-armed-bandits/figure2_4.png)
 
 ***
 ### Gradient Bandit Algorithms
