@@ -71,7 +71,7 @@ $$
 ***
 ### The 10-armed Testbed
 
-***k*-armed bandit problems**으로 **greedy**와 **$$\varepsilon$$-greedy** 두 가지 방법을 비교 했다. 아래는 *k*가 10개인 *k*-armed bandit problems의 reward 분포다. 분산(variance)이 1이고 평균(mean)이 $q_*(a)$인 정규 분포(normal distribution)다. 이 분포로 부터 $t$ (time step)에서 $A_t$(action)를 선택했을 때 $R_t$(reward)를 얻는다.
+***k*-armed bandit problems**으로 *greedy action-value method*(**greedy method**)와 *$\varepsilon$-greedy action-value method*(**$\varepsilon$-greedy method**) 두 가지 방법을 비교 했다. 아래는 *k*가 10개인 *k*-armed bandit problems의 reward 분포다. 분산(variance)이 1이고 평균(mean)이 $q_*(a)$인 정규 분포(normal distribution)다. 이 분포로 부터 $t$ (time step)에서 $A_t$(action)를 선택했을 때 $R_t$(reward)를 얻는다.
 
 ![image](/assets/2019-01-02-rl-bulti-armed-bandits/figure2_1.png)
 
@@ -81,14 +81,54 @@ $$
 
 ![image](/assets/2019-01-02-rl-bulti-armed-bandits/figure2_2.png)
 
-$\varepsilon$-greedy method의 이점은 task에 따라서 다르다. 만약에 분산(variance)이 매우 크다면(예: 10) optimal policy를 찾기 위해서 더 많은 exploration를 해야한다. 이럴 경우 $\varepsilon$-greedy method가 더 좋은 성능을 보인다. 하지만 만약 분산(variance)이 0이라면 단 한 번만 시도 해보고 true value를 알 수 있기 때문에 exploration없이도 optimal policy를 찾을 수 있을 것이다. 하지만 이런 deterministic한 경우라도 일부 가정이 불확실 하다면 exploration은 필요하다. 예를 들어서 bandit problem이 **nonstationary**하다면 true value는 시간이 지남에 따라 변경되기 때문에 exploration이 필요하다. nonstationary 문제는 reinforcement learning에서 자주 나타나는 상황이다. 이와 같이 reinforcement learning에서 exploration과 exploitation의 균형은 매우 중요하다.
+$\varepsilon$-greedy method의 이점은 task에 따라서 다르다. 만약에 분산(variance)이 매우 크다면(예: 10) optimal policy를 찾기 위해서 더 많은 exploration를 해야한다. 이럴 경우 $\varepsilon$-greedy method가 더 좋은 성능을 보인다. 하지만 만약 분산(variance)이 0이라면 단 한 번만 시도 해보고 true value를 알 수 있기 때문에 exploration없이도 optimal policy를 찾을 수 있을 것이다. 하지만 이런 **deterministic**한 경우라도 일부 가정이 불확실 하다면 exploration은 필요하다. 예를 들어서 bandit problem이 **nonstationary**하다면 true value는 시간이 지남에 따라 변경되기 때문에 exploration이 필요하다. nonstationary 문제는 reinforcement learning에서 자주 나타나는 상황이다. 이와 같이 reinforcement learning에서 exploration과 exploitation의 균형은 매우 중요하다.
 
 
 ***
 ### Incremental Implementation
+지금까지 논의한 **action-value method**는 얻은 rewards의 평균(sample averages)을 내어서 estimate 하였다. 이번에는 이렇게 매번 평균을 내는 것보다 더 효율적인 방법에 대해 알아볼 것이다. 
+
+복잡한 식를 피하기 위해서 하나의 action에 대해서만 다룬다. action value 식을 간단하게 표기하면 아래와 같은데, $R_i$는 i번째 action이 선택된 후에 받은 reward이고, $Q_n$은 n-1번째 까지 측정된 action value 이다. 
+
+$$
+Q_n \doteq \frac{R_1 + R_2 + \dots + R_{n-1}}{n-1}
+$$
+
+위의 방식은 모든 reward를 보관하고 있다가 value를 estimate할 때마다 계산한다. 하지만 이런 방식은 시간이 지나고 reward를 받을 때마다 더 많은 메모리와 연산을 필요로 한다. 예상할 수 있듯이, 이는 비효율적이기 때문에 평균(average)를 업데이트 하는 다른 방법이 필요하다. 이미 계산된 $Q_n$과 n번째 reward $R_n$이 주어지면 모든 reward의 평균을 아래와 같이 **incremental formulas**로 계산할 수 있다.
+
+$$
+\begin{align}
+Q_n &= \frac{1}{n}\sum_{i=1}^{n}R_i \\
+    &= \frac{1}{n}\left(R_n + \sum_{i=1}^{n-1}R_i\right) \\
+    &= \frac{1}{n}\left(R_n + (n-1)\frac{1}{n-1}\sum_{i=1}^{n-1}R_i\right) \\
+    &= \frac{1}{n}\left(R_n + (n-1)Q_n\right) \\
+    &= \frac{1}{n}\left(R_n + nQ_n - Q_n\right) \\
+    &= Q_n + \frac{1}{n}\left[R_n - Q_n\right]
+\end{align}
+$$
+
+위의 연산은 새로운 reward를 얻더라도 $Q_n$과 $n$ 그리고 (6)정도의 간단한 연산만 필요하다. 위의 update 식은 일반적으로 아래와 같이 표기한다. 
+
+$$
+NewEstimate \leftarrow OldEstimate + StepSize [Target - OldEstimate] 
+$$
+
+위 식에서 $[Target - OldEstimate]$가 estimate에서 **error**이며, $Target$에 가까워질수록 작아진다. target은  우리가 원하는 방향이며 여기서는 n번째 reward다. 
+
+참고로, **incremental method** (6)에서 사용된 step-size parameter(StepSize)는 time step이 지날 수록 $\frac{1}{n}$으로 변경된다. 우리는 앞으로 이 **step-size**를 $\alpha$ 혹은 $\alpha_t(a)$로 표기할 것이다.
+
+아래는 incrementally computed sample averages 와 $\varepsilon$-greedy action selection을 사용한 A Simple bandit algorithm의 슈도코드(Pseudocode)다.
+
+![image](/assets/2019-01-02-rl-bulti-armed-bandits/pseudocode_1.png)
+
 
 ***
 ### Tracking a Nonstationary Problem
+
+
+***
+### Optimistic Initial Values
+
 
 ***
 ### Summary
