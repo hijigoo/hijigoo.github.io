@@ -4,7 +4,7 @@
  <title>안녕지구</title>
  <link href="http://localhost:4000/atom.xml" rel="self"/>
  <link href="http://localhost:4000/"/>
- <updated>2019-01-08T03:02:25+09:00</updated>
+ <updated>2019-01-08T03:06:35+09:00</updated>
  <id>http://localhost:4000</id>
  <author>
    <name>안녕지구</name>
@@ -14,9 +14,9 @@
  
  <entry>
    <title>강화학습 정리 - Multi-armed Bandits</title>
-   <link href="http://localhost:4000/reinforcement%20learning/2019/01/02/rl-multi-armed-bandits/"/>
-   <updated>2019-01-02T00:00:00+09:00</updated>
-   <id>http://localhost:4000/reinforcement%20learning/2019/01/02/rl-multi-armed-bandits</id>
+   <link href="http://localhost:4000/reinforcement%20learning/2019/01/08/rl-multi-armed-bandits/"/>
+   <updated>2019-01-08T00:00:00+09:00</updated>
+   <id>http://localhost:4000/reinforcement%20learning/2019/01/08/rl-multi-armed-bandits</id>
    <content type="html">&lt;h2 id=&quot;2-multi-armed-bandits&quot;&gt;2. Multi-armed Bandits&lt;/h2&gt;
 
 &lt;p&gt;강화학습이 다른 딥러닝과 구분되는 가장 중요한 특징은 선택한 action에 대해 &lt;strong&gt;평가(evaluate)&lt;/strong&gt;를 한다는 것이다. 이런 피드백(feedback)은 얼마나 좋은지에 대한 평가이지 정답인지 아닌지를 알려주는 것은 아니다. 이번 챕터에서는 간단한 환경에서 강화학습의 평가(evaluate)에 중점을 두고 공부할 것이다. 오직 단 하나의 상황에서만 evaluate하기 때문에 &lt;em&gt;full reinforcement learning problem&lt;/em&gt;의 복잡성을 피할 수 있다. 여기서 다룰 문제는 &lt;strong&gt;k-armed bandit problem&lt;/strong&gt;인데 이를 소개하면서 강화학습의 주요한 요소 몇가지도 함께 다룰 것이다.&lt;/p&gt;
@@ -233,6 +233,8 @@ H_{t+1}(A_t) &amp;\doteq H_t(a) - \alpha(R_t - \bar{R_t})\pi_t(A_t) &amp;&amp; \
 
 &lt;hr /&gt;
 &lt;h3 id=&quot;summary&quot;&gt;Summary&lt;/h3&gt;
+
+&lt;p&gt;아래는 이번 챕터에서 다룬 각 method를 비교한 결과다.&lt;/p&gt;
 
 &lt;p&gt;&lt;img src=&quot;/assets/2019-01-02-rl-bulti-armed-bandits/figure2_5.png&quot; alt=&quot;image&quot; /&gt;&lt;/p&gt;
 

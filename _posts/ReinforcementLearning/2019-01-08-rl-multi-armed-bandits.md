@@ -244,6 +244,8 @@ $$
 ***
 ### Summary
 
+아래는 이번 챕터에서 다룬 각 method를 비교한 결과다.
+
 ![image](/assets/2019-01-02-rl-bulti-armed-bandits/figure2_5.png)
 
 <div class="message">
