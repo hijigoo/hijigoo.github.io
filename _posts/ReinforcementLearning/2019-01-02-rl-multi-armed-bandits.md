@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 강화학습 정리 - Multi-armed Bandits (업데이트중)
+title: 강화학습 정리 - Multi-armed Bandits
 category: Reinforcement Learning
 tag: [강화학습, RL]
 use_math: true
@@ -179,7 +179,7 @@ $R_i$의 가중치 $\alpha(1 - \alpha)^{n-1}$는 이전에 얼마나 많은 rewa
 ***
 ### Upper-Confidence-Bound Action Selection
 
-action-value estimates는 불확실성을 내재하고 있기 때문에 exploration이 필요하다. greedy action이 현재 시점에서는 가장 좋은 선택일지라도, 장기적인 관점에서 봤을 때 다른 action이 더 좋은 선택일 수 있기 때문이다. 그래서 $\varepsilon$-greedy action selection으로 non-greedy action을 시도하는데, 그 중에서 어떤 action이 더 좋을지에 대한 기준없이 랜덤으로 선택한다. 이런 방법 보다는 그 중에서 가장 optimal이 될 가능성이 높은 action을 선택하는 것이 더 나을 것이다. 아래는 action을 선택하는 효율적인 방법중 하나다. 
+action-value estimates는 불확실성을 내재하고 있기 때문에 exploration이 필요하다. greedy action이 현재 시점에서는 가장 좋은 선택일지라도, 장기적인 관점에서 봤을 때 다른 action이 더 좋은 선택일 수 있기 때문이다. 그래서 $\varepsilon$-greedy action selection으로 non-greedy action을 시도하는데, 그 중에서 어떤 action이 더 좋을지에 대한 기준없이 랜덤으로 선택한다. 이런 방법 보다는 그 중에서 가장 optimal이 될 가능성이 높은 action을 선택하는 것이 더 나을 것이다. 아래는 효율적으로 action을 선택하는 방법중 하나다. 
 
 $$
 A_t \doteq \underset{a}{\operatorname{argmax}} \left[ Q_t(a) + c\sqrt{\frac{\operatorname{ln}t}{N_t(a)}} \right]
@@ -197,13 +197,58 @@ $$
 
 ![image](/assets/2019-01-02-rl-bulti-armed-bandits/figure2_4.png)
 
+
 ***
 ### Gradient Bandit Algorithms
+
+지금까지는 action을 선택하는데 action value를 사용했다. 이 방법은 매우 좋은 방법이지만 유일한 방법은 아니다. 여기서는 action $a$를 선택하기 위해 각 action의 **preference**을 사용할 것이며 $H_t(a)$ 으로 표기한다. preference가 큰 action이 더 자주 선택될 것이다. action에 대한 preference는 다음과 같이 *softmax distribution*으로 나타낼 수 있다. 
+
+$$
+\operatorname{Pr} \left\{ A_t=a \right\} \doteq \frac{e^{H_t(a)}}{\sum^{k}_{b=1}e^{H_t(b)}} \doteq \pi_t(a) 
+$$ 
+
+- $H_t(a)$: action $a$의 preference
+- $\pi_t(a)$: time $t$ 에서 action $a$를 선택할 확률
+
+모든 action의 preference 초기값은 0으로 같기 때문에 (e.g., $H_1(a) = 0$), 처음에 각 action의 선택될 확률은 모두 같다. 각 step에서 action $A_t$가 선택되고 reward $R_t$를 받으면 action preference는 다음 식에 의해 업데이트된다. 
+
+$$
+\begin{align*}
+H_{t+1}(A_t) &\doteq H_t(A_t) + \alpha(R_t - \bar{R_t})(1 - \pi_t(A_t)) && \text{and} \\
+H_{t+1}(A_t) &\doteq H_t(a) - \alpha(R_t - \bar{R_t})\pi_t(A_t) && \text{for all } \alpha \neq A_t
+\end{align*}
+$$
+
+- $\alpha$: 0보다 큰 step-size parameter
+- $\bar{R_t}$: time $t$를 포함한 모든 reward의 평균
+
+위 식은 *Incremental Implementation* 에서 봤던 update 방식으로 계산된다. 그리고, $\bar{R_t}$은 reward의 **baseline**으로 사용되는데 만약 reward가 baseline보다 높으면 $A_t$가 선택될 확률은 증가하고, 반대로 reward가 basline보다 낮으면 $A_t$가 선택될 확률은 낮아진다. 선택되지 않은 action은 이와 반대로 계산된다. 
+
+아래 Figure 2.5는 분산이 1이고 평균이 4인 정규 분포로부터 reward를 얻는 10-armed testbed에서 테스트한 결과다. 
+
+![image](/assets/2019-01-02-rl-bulti-armed-bandits/figure2_5.png)
+
+<div class="message">
+사실 이 Gradient Bandit Algorithms은 정확하게 이해하지 못했습니다. 위의 그래프를 보면 baseline을 사용한 경우 Optimal action에 더 접근하는 것 같습니다.
+</div>
+
+***
+### Associative Search (Contextual Bandits)
+지금까지는 각 다른 상황(situation)에서 다른 action이 필요하지 않은 *nonassociative task*에 대해서 다뤘다. task가 stationary할 때는 best action를 찾으면 됐고, task가 nonstationary할 때는 시간에 따라 best action을 추적하면 됐다. 하지만 일반적인 reinforcement learning task에서는 단지 한가지 상황만 존재하지 않는다. 각 상황에 맞는 action을 찾기 위한 **policy**를 학습해야 한다. 
+
+예를 들어서, 여러개의 다른 k-armed bandit task가 존재하고 매 step마다 그 중 하나를 랜덤으로 선택한다고 가정하자. 그렇다면 bandit task는 매 step마다 랜덤하게 바뀔 것이다. 그러면 마치 true action value가 step마다 변경되는 단 한개의 **nonstationary** k-armed bandit task 처럼 보일 것이다. 그렇다면 이번 챕터에서 배운 method를 사용할 수 있더라도 제대로 작동하지 않을 것이다. 하지만 만약 각 *slot machine*의 색이 다르다면 이와 연관된 **policy**를 학습할 수 있을 것이다. 
+
+이것을 *associative search* task라고 한다. 그리고 k-armed bandit problem 에서는 각 action이 reward에만 영향을 미치는데, 만약 다음 상황(next situation)에도 영향을 미친다면 이것을 **full reinforcement learning** 라고 한다.  
 
 
 ***
 ### Summary
 
+![image](/assets/2019-01-02-rl-bulti-armed-bandits/figure2_5.png)
+
+<div class="message">
+자세한 설명은 생략했습니다.
+</div>
 
 ***
 ### Reference
