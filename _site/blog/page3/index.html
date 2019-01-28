@@ -185,7 +185,7 @@
                 (
                   
                   
-                  2
+                  3
                 )
               </a>
           
@@ -275,6 +275,73 @@
 
       <div class="container content">
         <div class="posts">
+  
+  <div class="post">
+    <h1 class="post-title">
+      <a href="/bixby/2018/12/21/basic_tutorial_1/">
+        주사위 프로젝트 - 프로젝트 생성
+      </a>
+    </h1>
+
+    <span class="post-date">21 Dec 2018</span>
+     | 
+    
+    <a href="/blog/tags/#인공지능" class="post-tag">인공지능</a>
+    
+    <a href="/blog/tags/#빅스비" class="post-tag">빅스비</a>
+    
+    
+
+    <article>
+      <p>안녕하세요. 이번에는 빅스비 개발자 홈페이지에 나와있는 <a href="https://bixbydevelopers.com/dev/docs/get-started/quick-start">Dice 프로젝트</a>를 만들어 보려고 합니다. 영어가 편하신분은 공식 사이트에서 보시는 것을 추천드립니다. Dice프로젝트는 사용자가 아래와 같이 말하면 그 결과를 보여주는 간단한 캡슐입니다. 아래 예제에서 숫자 4 와 2는 1~6 중에서 랜덤으로 나온 숫자입니다.</p>
+
+<blockquote>
+  <p>사용자: “<strong>면이 6개</strong>인 <strong>주사위 2개</strong>를 굴려줘!”<br />
+빅스비: “4 그리고 2 가 나왔습니다. 총 합은 6입니다.”</p>
+</blockquote>
+
+<h2 id="프로젝트-생성">프로젝트 생성</h2>
+
+<p>그럼 프로젝트를 만들어 보겠습니다. IDE는 <a href="https://bixbydevelopers.com/">공식 홈페이지</a>에서 자신이 사용하는 OS에 맞게 <a href="https://bixbydevelopers.com/">다운</a> 받으시면 됩니다. IDE를 설치하시고 아래와 같은 순서로 진행합니다.</p>
+
+<ol>
+  <li><strong>Fie-&gt;New Capsule</strong>을 선택하여 프로젝트를 생성합니다.</li>
+  <li>프로젝트를 생성할 폴더를 선택합니다.</li>
+  <li>Capsule ID를 입력합니다. 저는 <strong>playground.dice</strong>로 생성했습니다.</li>
+  <li>마지막으로 <strong>Create</strong> 버튼을 누르시면 기본 구조로 프로젝트가 생성됩니다.</li>
+</ol>
+
+<p><img src="/assets/2018-12-21-basic_tutorial_1/screenshot01.png" alt="image" /></p>
+
+<p>처음 프로젝트를 생성하면 code와 resources폴더가 생깁니다. code폴더에는 Javascript 코드가 들어가는데 서버와 api 통신이나, 연산과 같은 각 Action이 실행될 때 필요한 로직이 들어갑니다. 그리고 resource폴더에는 언어별로 필요한 학습 데이터와 화면을 구성하는데 필요한 파일들이 들어갑니다.</p>
+
+<div class="message">
+캡슐에서는 사용자에게 보여지는 하나의 화면을 Moment라고 하며 여기에는 Dialog, View 그리고 Follow-Ups이 포함됩니다.
+</div>
+<p>참고: <a href="https://bixbydevelopers.com/dev/docs/dev-guide/design-guides/service">Designing Your Capsule</a></p>
+
+<p>그리고 <strong>capsule.bxb</strong> 파일을 보시면 아래와 같이 나와있는데요, 캡슐의 기본 설정 값을 입력한다고 생각하시면 됩니다. 저희는 한국어를 기본으로 할 것이기 때문에 <strong>targets</strong> 값을 <strong>bixby-mobile-ko-KR</strong> 로 변경합니다.</p>
+
+<pre><code>capsule {
+  id (study.dice)
+  version (0.1.0)
+  format (3)
+  targets {
+    target (bixby-mobile-ko-KR)
+  }
+}
+</code></pre>
+
+<p>다음에는 Concept과 Actions를 추가하여 모델링을 해보겠습니다.</p>
+
+    <article>
+    <div class="post-more">
+      
+      <a href="/bixby/2018/12/21/basic_tutorial_1/#disqus_thread"> <i class="fa fa-comments" aria-hidden="true"></i>Comment</a>&nbsp;
+      
+      <a href="/bixby/2018/12/21/basic_tutorial_1/"><i class="fa fa-plus-circle" aria-hidden="true"></i>Read more</a>
+    </div>
+  </div>
   
   <div class="post">
     <h1 class="post-title">
@@ -464,7 +531,7 @@ void right() {
 
 <p>개발자는 <strong>‘자연어 학습(Natural Language Traning)’</strong>, <strong>‘모델링(Concept and Action Models)’</strong>, <strong>‘함수 작성(API Function)’</strong> 그리고 사용자에게 보여주는 <strong>화면(Dialog &amp; Layout)</strong> 을 구현해야 한다고 했는데요, 개발자가 구현한 내용들이 플랫폼에서 동작하는 과정을 알아보려고 합니다. 다음은 사용자 발화가 들어왔을 때 빅스비가 실행되는 Flow입니다.</p>
 
-<p><img src="/assets/2018-12-16-overview-2/flow-18218708982895970544.png" alt="image" /></p>
+<p><img src="/assets/2018-12-17-overview_2/flow-18218708982895970544.png" alt="image" /></p>
 
 <p><strong>첫 번째</strong>로, 사용자가 발화를 하면 빅스비 플랫폼은 개발자가 학습한 데이터를 기반으로 <strong>intent</strong>로 변환합니다. intent 다음과 같습니다.</p>
 <pre><code>// Give two values (number of dice and number of sides) with the
@@ -573,7 +640,7 @@ module.exports = {
 
 <p>그리고 RollResult가 사용자에게 보여지도록 <strong>Dialog</strong>와 <strong>Layout</strong>을 작성하면 아래처럼 결과를 볼 수 있습니다. 아래 그림에서 빅스비가 얘기하는 부분(‘Here’s what I found’)이 Dialog이고 추가 정보를 보여주는 부분이 Layout 입니다.</p>
 
-<p><img src="/assets/2018-12-16-overview/layout-result-16107432446437221263.png" alt="image" /></p>
+<p><img src="/assets/2018-12-16-overview_1/layout-result-16107432446437221263.png" alt="image" /></p>
 
 <p>이번 포스트에서는 설명을 위해서 많은 부분을 생략했는데요, 자연어 학습 및 모델링 하는 부분은 나중에 예제를 프로젝트를 통해서 알아보도록 하겠습니다.
 다음 포스트에서는 빅스비 플랫폼이 어떻게 동작하는지 설명드리겠습니다. 감사합니다.</p>
@@ -684,173 +751,6 @@ int main() {
       <a href="/algorithm/2018/12/16/boj-josephus-1158/#disqus_thread"> <i class="fa fa-comments" aria-hidden="true"></i>Comment</a>&nbsp;
       
       <a href="/algorithm/2018/12/16/boj-josephus-1158/"><i class="fa fa-plus-circle" aria-hidden="true"></i>Read more</a>
-    </div>
-  </div>
-  
-  <div class="post">
-    <h1 class="post-title">
-      <a href="/algorithm/2018/12/15/boj-card-merge-1715/">
-        BOJ - 카드 정렬(1715)
-      </a>
-    </h1>
-
-    <span class="post-date">15 Dec 2018</span>
-     | 
-    
-    <a href="/blog/tags/#boj" class="post-tag">BOJ</a>
-    
-    <a href="/blog/tags/#백준" class="post-tag">백준</a>
-    
-    <a href="/blog/tags/#알고리즘" class="post-tag">알고리즘</a>
-    
-    <a href="/blog/tags/#자료구조" class="post-tag">자료구조</a>
-    
-    
-
-    <article>
-      <p><strong>최대 힙(MaxHeap)</strong>을 연습하기 위해 풀어본 문제입니다. 문제를 풀기 위해서는 가지고 있는 카드 묶음 중 가장 작은 두 묶음을 찾아서 더해주어야 했기 때문에 <strong>최소 힙(MinHeap)</strong>을 사용했습니다. 가장 작은 묶음 두 개를 꺼내서 더해준 후 다시 최소 힙에 넣어줍니다. 힙 안에 한 개만 남을 때까지 반복합니다. 힙만 구현하면 메인 함수는 매우 간단합니다.</p>
-
-<div class="message">
-최대 힙에서 최소 힙으로 변경할 때 부등호만 변경해 주었더니 정상적으로 동작하지 않았습니다. 최대 힙에서는 모든 노드를 0으로 초기화 했었는데요, 최소 힙에서는 값이 마지막 자리를 찾아가는 과정에서 문제가 발생했습니다. 이를 해결하기 위해 마지막 노드의 Index 사용하여 비교할 자식 노드가 있는지 확인했습니다.
-</div>
-
-<h2 id="최소-힙minheap">최소 힙(MinHeap)</h2>
-<pre><code>// 초기화
-int minHeap[200005];
-int lastIdx = 0;
-
-// 자식 노드 Index 
-int getLeftChild(int idx) {
-	return idx * 2;
-}
-
-int getRightChild(int idx) {
-	return idx * 2 + 1;
-}
-
-// 부모 노드 Index 
-int getParent(int idx) {
-	return idx / 2;
-}
-
-// 교환하는 함수
-void swap(int idx1, int idx2, int* arr) {
-	int tmp = arr[idx1];
-	arr[idx1] = arr[idx2];
-	arr[idx2] = tmp;
-}
-
-// dequeue 함수
-int dequeue() {
-
-	if (lastIdx == 0) return -1;
-
-	int maxVal = minHeap[1];
-	minHeap[1] = minHeap[lastIdx];
-	minHeap[lastIdx] = 0;
-	lastIdx--;
-
-	int curIdx = 1;
-	while (true) {
-		int left = getLeftChild(curIdx);
-		int right = getRightChild(curIdx);
-
-		int curVal = minHeap[curIdx];
-
-		int leftVal = minHeap[left];
-		int rightVal = minHeap[right];
-
-		int nextIdx;
-		int nextVal;
-
-		// 자식 노드가 없는 경우
-		if (lastIdx &lt; left) {
-			break;
-
-		// 왼쪽 자식 노드만 있는 경우 
-		} else if (lastIdx == left) {
-			nextIdx = left;
-			nextVal = minHeap[nextIdx];
-
-		// 둘 다 있는 경우 비교
-		} else if (lastIdx &gt;= right) {
-			nextIdx = leftVal &lt; rightVal ? left : right;
-			nextVal = minHeap[nextIdx];
-		}
-
-		if (curVal &gt; nextVal) {
-			swap(curIdx, nextIdx, minHeap);
-			curIdx = nextIdx;
-		} else {
-			break;
-		}
-	}
-
-	return maxVal;
-}
-
-// enqueue 함수
-void enqueue(int val) {
-	lastIdx++;
-	minHeap[lastIdx] = val;
-
-	int curIdx = lastIdx;
-	while (true) {
-		if (curIdx == 1) break;
-
-		int nextIdx = getParent(curIdx);
-
-		int curVal = minHeap[curIdx];
-		int nextVal = minHeap[nextIdx];
-
-		if (curVal &lt; nextVal) {
-			swap(curIdx, nextIdx, minHeap);
-			curIdx = nextIdx;
-		} else {
-			break;
-		}
-	}
-}
-</code></pre>
-
-<h2 id="메인-함수">메인 함수</h2>
-<pre><code>#include &lt;stdio.h&gt;
-
-int main() {
-
-	int N;
-	scanf("%d", &amp;N);
-
-	int ans = 0;
-
-	// enqueue
-	while (N--) {
-		int val;
-		scanf("%d", &amp;val);
-		enqueue(val);
-	}
-
-	// 비교 횟수 계산
-	while (lastIdx &gt; 1) {
-		int val1 = dequeue();
-		int val2 = dequeue();
-		
-		ans += (val1 + val2);
-
-		enqueue(val1 + val2);
-	}
-
-	printf("%d", ans);
-
-}
-</code></pre>
-
-    <article>
-    <div class="post-more">
-      
-      <a href="/algorithm/2018/12/15/boj-card-merge-1715/#disqus_thread"> <i class="fa fa-comments" aria-hidden="true"></i>Comment</a>&nbsp;
-      
-      <a href="/algorithm/2018/12/15/boj-card-merge-1715/"><i class="fa fa-plus-circle" aria-hidden="true"></i>Read more</a>
     </div>
   </div>
   

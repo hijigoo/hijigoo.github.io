@@ -185,7 +185,7 @@
                 (
                   
                   
-                  2
+                  3
                 )
               </a>
           
@@ -275,6 +275,173 @@
 
       <div class="container content">
         <div class="posts">
+  
+  <div class="post">
+    <h1 class="post-title">
+      <a href="/algorithm/2018/12/15/boj-card-merge-1715/">
+        BOJ - 카드 정렬(1715)
+      </a>
+    </h1>
+
+    <span class="post-date">15 Dec 2018</span>
+     | 
+    
+    <a href="/blog/tags/#boj" class="post-tag">BOJ</a>
+    
+    <a href="/blog/tags/#백준" class="post-tag">백준</a>
+    
+    <a href="/blog/tags/#알고리즘" class="post-tag">알고리즘</a>
+    
+    <a href="/blog/tags/#자료구조" class="post-tag">자료구조</a>
+    
+    
+
+    <article>
+      <p><strong>최대 힙(MaxHeap)</strong>을 연습하기 위해 풀어본 문제입니다. 문제를 풀기 위해서는 가지고 있는 카드 묶음 중 가장 작은 두 묶음을 찾아서 더해주어야 했기 때문에 <strong>최소 힙(MinHeap)</strong>을 사용했습니다. 가장 작은 묶음 두 개를 꺼내서 더해준 후 다시 최소 힙에 넣어줍니다. 힙 안에 한 개만 남을 때까지 반복합니다. 힙만 구현하면 메인 함수는 매우 간단합니다.</p>
+
+<div class="message">
+최대 힙에서 최소 힙으로 변경할 때 부등호만 변경해 주었더니 정상적으로 동작하지 않았습니다. 최대 힙에서는 모든 노드를 0으로 초기화 했었는데요, 최소 힙에서는 값이 마지막 자리를 찾아가는 과정에서 문제가 발생했습니다. 이를 해결하기 위해 마지막 노드의 Index 사용하여 비교할 자식 노드가 있는지 확인했습니다.
+</div>
+
+<h2 id="최소-힙minheap">최소 힙(MinHeap)</h2>
+<pre><code>// 초기화
+int minHeap[200005];
+int lastIdx = 0;
+
+// 자식 노드 Index 
+int getLeftChild(int idx) {
+	return idx * 2;
+}
+
+int getRightChild(int idx) {
+	return idx * 2 + 1;
+}
+
+// 부모 노드 Index 
+int getParent(int idx) {
+	return idx / 2;
+}
+
+// 교환하는 함수
+void swap(int idx1, int idx2, int* arr) {
+	int tmp = arr[idx1];
+	arr[idx1] = arr[idx2];
+	arr[idx2] = tmp;
+}
+
+// dequeue 함수
+int dequeue() {
+
+	if (lastIdx == 0) return -1;
+
+	int maxVal = minHeap[1];
+	minHeap[1] = minHeap[lastIdx];
+	minHeap[lastIdx] = 0;
+	lastIdx--;
+
+	int curIdx = 1;
+	while (true) {
+		int left = getLeftChild(curIdx);
+		int right = getRightChild(curIdx);
+
+		int curVal = minHeap[curIdx];
+
+		int leftVal = minHeap[left];
+		int rightVal = minHeap[right];
+
+		int nextIdx;
+		int nextVal;
+
+		// 자식 노드가 없는 경우
+		if (lastIdx &lt; left) {
+			break;
+
+		// 왼쪽 자식 노드만 있는 경우 
+		} else if (lastIdx == left) {
+			nextIdx = left;
+			nextVal = minHeap[nextIdx];
+
+		// 둘 다 있는 경우 비교
+		} else if (lastIdx &gt;= right) {
+			nextIdx = leftVal &lt; rightVal ? left : right;
+			nextVal = minHeap[nextIdx];
+		}
+
+		if (curVal &gt; nextVal) {
+			swap(curIdx, nextIdx, minHeap);
+			curIdx = nextIdx;
+		} else {
+			break;
+		}
+	}
+
+	return maxVal;
+}
+
+// enqueue 함수
+void enqueue(int val) {
+	lastIdx++;
+	minHeap[lastIdx] = val;
+
+	int curIdx = lastIdx;
+	while (true) {
+		if (curIdx == 1) break;
+
+		int nextIdx = getParent(curIdx);
+
+		int curVal = minHeap[curIdx];
+		int nextVal = minHeap[nextIdx];
+
+		if (curVal &lt; nextVal) {
+			swap(curIdx, nextIdx, minHeap);
+			curIdx = nextIdx;
+		} else {
+			break;
+		}
+	}
+}
+</code></pre>
+
+<h2 id="메인-함수">메인 함수</h2>
+<pre><code>#include &lt;stdio.h&gt;
+
+int main() {
+
+	int N;
+	scanf("%d", &amp;N);
+
+	int ans = 0;
+
+	// enqueue
+	while (N--) {
+		int val;
+		scanf("%d", &amp;val);
+		enqueue(val);
+	}
+
+	// 비교 횟수 계산
+	while (lastIdx &gt; 1) {
+		int val1 = dequeue();
+		int val2 = dequeue();
+		
+		ans += (val1 + val2);
+
+		enqueue(val1 + val2);
+	}
+
+	printf("%d", ans);
+
+}
+</code></pre>
+
+    <article>
+    <div class="post-more">
+      
+      <a href="/algorithm/2018/12/15/boj-card-merge-1715/#disqus_thread"> <i class="fa fa-comments" aria-hidden="true"></i>Comment</a>&nbsp;
+      
+      <a href="/algorithm/2018/12/15/boj-card-merge-1715/"><i class="fa fa-plus-circle" aria-hidden="true"></i>Read more</a>
+    </div>
+  </div>
   
   <div class="post">
     <h1 class="post-title">
@@ -683,142 +850,11 @@ int main() {
     </div>
   </div>
   
-  <div class="post">
-    <h1 class="post-title">
-      <a href="/algorithm/2018/12/10/boj-queue-10845/">
-        BOJ - 큐(10845)
-      </a>
-    </h1>
-
-    <span class="post-date">10 Dec 2018</span>
-     | 
-    
-    <a href="/blog/tags/#boj" class="post-tag">BOJ</a>
-    
-    <a href="/blog/tags/#백준" class="post-tag">백준</a>
-    
-    <a href="/blog/tags/#알고리즘" class="post-tag">알고리즘</a>
-    
-    <a href="/blog/tags/#자료구조" class="post-tag">자료구조</a>
-    
-    
-
-    <article>
-      <p><a href="../backjoon-stack-10828/">스택(10828)</a>과 마찬가지로 간단한 <strong>링크드 리스트</strong>를 이용해서 구현한 <strong>큐</strong>입니다. 배열을 사용해서 더 간단하게도 구현 가능하지만 <strong>구조체 배열</strong>을 연습하고자 링크드 리스트를 사용했습니다.</p>
-
-<h2 id="구조체-배열">구조체 배열</h2>
-
-<pre><code>// 정적이지만 동적할당처럼 사용하는 구조체 배열
-typedef struct node {
-	int data;
-	node* next;
-} Node;
-
-int nodeIndex = 0;
-Node nodeArray[10000];
-Node* allocNode() {
-	return &amp;nodeArray[nodeIndex++];
-};
-
-// 아래와 같이 사용할 수 있습니다.
-Node* node = allocNode();
-</code></pre>
-
-<h2 id="전체-코드">전체 코드</h2>
-<pre><code>#include &lt;stdio.h&gt;
-
-// 구조체 배열
-typedef struct node {
-	int data;
-	node* next;
-} Node;
-
-int nodeidx = 0;
-Node nodearray[10000];
-Node* allocNode() {
-	return &amp;nodearray[nodeidx++];
-};
-
-// 메인 함수
-int main() {
-
-	int N;
-	scanf("%d", &amp;N);
-
-	Node* head = '\0';
-	Node* tail = '\0';
-
-	char order[6];
-	int count = 0;
-	while (N--) {
-		scanf("%s", order);
-
-		// 새로운 노드 생성해서 큐에 PUSH
-		if (order[1] == 'u') {
-			int data;
-			scanf("%d", &amp;data);
-			Node* node = allocNode();
-			node-&gt;data = data;
-			if (count == 0) {
-				head = node;
-				tail = node;
-			} else {
-				tail-&gt;next = node;
-				tail = node;
-			}
-			count++;
-
-		// 상위 노드(head) POP
-		} else if (order[0] == 'p') {
-			if (count == 0) printf("-1\n");
-			else {
-				printf("%d\n", head-&gt;data);
-				head = head-&gt;next;
-				count--;
-			}
-
-		// 큐에 있는 노드 갯수 출력
-		} else if (order[0] == 's') {
-			printf("%d\n", count);
-
-		// 큐가 비어 있는지 확인
-		} else if (order[0] == 'e') {
-			if (count == 0) printf("1\n");
-			else printf("0\n");
-
-		// 상위 노드(head) 값 출력
-		} else if (order[0] == 'f') {
-			if (count == 0) printf("-1\n");
-			else {
-				printf("%d\n", head-&gt;data);
-			}
-
-		// 마지막 노드(tail) 값 출력
-		} else if (order[0] == 'b') {
-			if (count == 0) printf("-1\n");
-			else {
-				printf("%d\n", tail-&gt;data);
-			}
-		}
-	};
-	return 0;
-}
-</code></pre>
-
-    <article>
-    <div class="post-more">
-      
-      <a href="/algorithm/2018/12/10/boj-queue-10845/#disqus_thread"> <i class="fa fa-comments" aria-hidden="true"></i>Comment</a>&nbsp;
-      
-      <a href="/algorithm/2018/12/10/boj-queue-10845/"><i class="fa fa-plus-circle" aria-hidden="true"></i>Read more</a>
-    </div>
-  </div>
-  
 </div>
 
 <div class="pagination">
   
-    <span class="pagination-item older">Older</span>
+    <a class="pagination-item older" href="/blog/page5">Older</a>
   
   
     

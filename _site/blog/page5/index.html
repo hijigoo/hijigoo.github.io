@@ -11,7 +11,7 @@
 
   <title>
     
-      주사위 프로젝트 - Capsule 테스트 &middot; 안녕지구
+      Blog &middot; 안녕지구
     
   </title>
 
@@ -274,112 +274,150 @@
       </div>
 
       <div class="container content">
-        <div class="post">
-  <h1 class="post-title">주사위 프로젝트 - Capsule 테스트</h1>
-  <span class="post-date">23 Dec 2018</span>
-   | 
+        <div class="posts">
   
-    <a href="/blog/tags/#인공지능" class="post-tag">인공지능</a>
-  
-    <a href="/blog/tags/#빅스비" class="post-tag">빅스비</a>
-  
-  
-  <article>
-    <h2 id="capsule-테스트">Capsule 테스트</h2>
+  <div class="post">
+    <h1 class="post-title">
+      <a href="/algorithm/2018/12/10/boj-queue-10845/">
+        BOJ - 큐(10845)
+      </a>
+    </h1>
 
-<p>이제 아래와 같은 순서로 실행해볼 수 있습니다.</p>
+    <span class="post-date">10 Dec 2018</span>
+     | 
+    
+    <a href="/blog/tags/#boj" class="post-tag">BOJ</a>
+    
+    <a href="/blog/tags/#백준" class="post-tag">백준</a>
+    
+    <a href="/blog/tags/#알고리즘" class="post-tag">알고리즘</a>
+    
+    <a href="/blog/tags/#자료구조" class="post-tag">자료구조</a>
+    
+    
 
-<ol>
-  <li><strong>View &gt; Open Simulator</strong> 로 가서 Simulator를 실행합니다.</li>
-  <li>팝업창이 뜨면 <strong>Confirm</strong>을 눌러서 컴파일 하고 학습된 데이터를 준비합니다.</li>
-  <li>아직 자연어 학습을 하지 않았기 때문에 아래의 intent를 직접 입력합니다.
-    <pre><code>intent {
-  goal: RollResult
-  value: NumSides (6)
-  value: NumDice (2)
+    <article>
+      <p><a href="../backjoon-stack-10828/">스택(10828)</a>과 마찬가지로 간단한 <strong>링크드 리스트</strong>를 이용해서 구현한 <strong>큐</strong>입니다. 배열을 사용해서 더 간단하게도 구현 가능하지만 <strong>구조체 배열</strong>을 연습하고자 링크드 리스트를 사용했습니다.</p>
+
+<h2 id="구조체-배열">구조체 배열</h2>
+
+<pre><code>// 정적이지만 동적할당처럼 사용하는 구조체 배열
+typedef struct node {
+	int data;
+	node* next;
+} Node;
+
+int nodeIndex = 0;
+Node nodeArray[10000];
+Node* allocNode() {
+	return &amp;nodeArray[nodeIndex++];
+};
+
+// 아래와 같이 사용할 수 있습니다.
+Node* node = allocNode();
+</code></pre>
+
+<h2 id="전체-코드">전체 코드</h2>
+<pre><code>#include &lt;stdio.h&gt;
+
+// 구조체 배열
+typedef struct node {
+	int data;
+	node* next;
+} Node;
+
+int nodeidx = 0;
+Node nodearray[10000];
+Node* allocNode() {
+	return &amp;nodearray[nodeidx++];
+};
+
+// 메인 함수
+int main() {
+
+	int N;
+	scanf("%d", &amp;N);
+
+	Node* head = '\0';
+	Node* tail = '\0';
+
+	char order[6];
+	int count = 0;
+	while (N--) {
+		scanf("%s", order);
+
+		// 새로운 노드 생성해서 큐에 PUSH
+		if (order[1] == 'u') {
+			int data;
+			scanf("%d", &amp;data);
+			Node* node = allocNode();
+			node-&gt;data = data;
+			if (count == 0) {
+				head = node;
+				tail = node;
+			} else {
+				tail-&gt;next = node;
+				tail = node;
+			}
+			count++;
+
+		// 상위 노드(head) POP
+		} else if (order[0] == 'p') {
+			if (count == 0) printf("-1\n");
+			else {
+				printf("%d\n", head-&gt;data);
+				head = head-&gt;next;
+				count--;
+			}
+
+		// 큐에 있는 노드 갯수 출력
+		} else if (order[0] == 's') {
+			printf("%d\n", count);
+
+		// 큐가 비어 있는지 확인
+		} else if (order[0] == 'e') {
+			if (count == 0) printf("1\n");
+			else printf("0\n");
+
+		// 상위 노드(head) 값 출력
+		} else if (order[0] == 'f') {
+			if (count == 0) printf("-1\n");
+			else {
+				printf("%d\n", head-&gt;data);
+			}
+
+		// 마지막 노드(tail) 값 출력
+		} else if (order[0] == 'b') {
+			if (count == 0) printf("-1\n");
+			else {
+				printf("%d\n", tail-&gt;data);
+			}
+		}
+	};
+	return 0;
 }
 </code></pre>
-  </li>
-  <li><strong>Run NL</strong> 을 선택하여 실행합니다.</li>
-</ol>
 
-<p>간단하게 설명드리면, 사용자는 RollResult를 얻기를 원하며, NumSides값을 6으로, NumDice값을 2로 빅스비에게 알려준 것입니다.</p>
-
-<div class="message">
-자연어를 학습시키면 "면이 6개인 주사위 2개를 굴려줘!" 라는 발화가 위의 intent로 변환되어 실행됩니다. 이 부분은 맨 마지막에 다룰 예정입니다.
+    <article>
+    <div class="post-more">
+      
+      <a href="/algorithm/2018/12/10/boj-queue-10845/#disqus_thread"> <i class="fa fa-comments" aria-hidden="true"></i>Comment</a>&nbsp;
+      
+      <a href="/algorithm/2018/12/10/boj-queue-10845/"><i class="fa fa-plus-circle" aria-hidden="true"></i>Read more</a>
+    </div>
+  </div>
+  
 </div>
 
-<p>지금까지 잘 따라오셨다면 아래와 같은 화면을 보실 수 있을 겁니다. 현재는 따로 화면(Moment)을 만들지 않았기 때문에 리턴된 output 데이터를 테이블형식으로 보여줍니다.</p>
-
-<div class="message">
-빅스비에서는 사용자에게 보여주는 응답, 즉 화면 자체를 Moment라고 지칭합니다.
-</div>
-
-<p><img src="/assets/2018-12-23-basic_tutorial_3/screenshot02.png" alt="image" /></p>
-
-<p>이제 빅스비가 실행 그래프(execution graph)가 어떻게 만들었는지 확인해봅시다. simulator에서 왼쪽 위에 Reset 버튼 옆에 있는 두개의 버튼 중 <strong>Debug</strong> 버튼을 눌러서 Debug Console을 실행하면 아래와 같은 화면을 보실 수 있을겁니다.</p>
-
-<!-- ![image](){: width="50%" height="50%"} -->
-<p><img src="/assets/2018-12-23-basic_tutorial_3/screenshot03.png" alt="image" /></p>
-
-<p>위의 그래프를 보면 intent에서 두 개의 value 값이 concept으로 맵핑되고 goal인 RollResult를 얻기 위해서 RollDice로 연결되었습니다. 그리고 그래프가 실행되면서 RollDice Action에 도달했을 때는 endpoint에서 연결 된 RollDice.js 를 실행시켜 최종 아웃풋인 RollResult를 결과로 얻습니다.</p>
-
-<p>다음 포스트에서는 RollResult를 화면에 보여주는 방법에 대해서 정리하겠습니다.</p>
-
-  </article>
-</div>
-
-<div class="related">
-  <h2>Related Posts</h2>
-  <ul class="related-posts">
+<div class="pagination">
+  
+    <span class="pagination-item older">Older</span>
+  
+  
     
-      <li>
-        <h3>
-          <a href="/reinforcement%20learning/2019/01/15/rl-finite-markov-decision-rocesses/">
-            강화학습 정리 - Finite Markov Decision Processes (업데이트중)
-            <small>15 Jan 2019</small>
-          </a>
-        </h3>
-      </li>
+      <a class="pagination-item newer" href="/blog/page4">Newer</a>
     
-      <li>
-        <h3>
-          <a href="/reinforcement%20learning/2019/01/08/rl-multi-armed-bandits/">
-            강화학습 정리 - Multi-armed Bandits
-            <small>08 Jan 2019</small>
-          </a>
-        </h3>
-      </li>
-    
-      <li>
-        <h3>
-          <a href="/reinforcement%20learning/2019/01/01/rl-introduction/">
-            강화학습 정리 - Introduction
-            <small>01 Jan 2019</small>
-          </a>
-        </h3>
-      </li>
-    
-  </ul>
-</div>
-
-
-<div class="comments">
-  <h2>Comments</h2>
-  <div id="disqus_thread"></div>
-  <script>
-var disqus_config = function () {
-  this.page.url = 'http://localhost:4000/bixby/2018/12/23/basic_tutorial_3/'; // Replace PAGE_URL with your page's canonical URL variable
-  this.page.identifier = '/bixby/2018/12/23/basic_tutorial_3'; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
-};
-(function() {
-  var d = document, s = d.createElement('script');
-  s.src = '//hijigoo.disqus.com/embed.js';
-  s.setAttribute('data-timestamp', +new Date());
-  (d.head || d.body).appendChild(s);
-})();
-  </script>
-  <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+  
 </div>
 
 
