@@ -4,7 +4,7 @@
  <title>안녕지구</title>
  <link href="http://localhost:4000/atom.xml" rel="self"/>
  <link href="http://localhost:4000/"/>
- <updated>2019-01-29T01:32:50+09:00</updated>
+ <updated>2019-01-31T00:18:59+09:00</updated>
  <id>http://localhost:4000</id>
  <author>
    <name>안녕지구</name>
@@ -13,10 +13,10 @@
 
  
  <entry>
-   <title>강화학습 정리 - Finite Markov Decision Processes (업데이트중)</title>
-   <link href="http://localhost:4000/reinforcement%20learning/2019/01/15/rl-finite-markov-decision-rocesses/"/>
-   <updated>2019-01-15T00:00:00+09:00</updated>
-   <id>http://localhost:4000/reinforcement%20learning/2019/01/15/rl-finite-markov-decision-rocesses</id>
+   <title>강화학습 정리 - Finite Markov Decision Processes</title>
+   <link href="http://localhost:4000/reinforcement%20learning/2019/01/31/rl-finite-markov-decision-rocesses/"/>
+   <updated>2019-01-31T00:00:00+09:00</updated>
+   <id>http://localhost:4000/reinforcement%20learning/2019/01/31/rl-finite-markov-decision-rocesses</id>
    <content type="html">&lt;h2 id=&quot;3-finite-markov-decision-processes&quot;&gt;3. Finite Markov Decision Processes&lt;/h2&gt;
 
 &lt;p&gt;이번 챕터에서는 앞으로 계속 다룰 finite &lt;strong&gt;Markov decision processes (MDPs)&lt;/strong&gt; 에 대해서 소개한다. 그런데 이전 챕터에서 다룬 bandits problem 과는 다르게, 상황에 따라서 다른 action을 취해야 하는 &lt;em&gt;associative task&lt;/em&gt; 이다. MDPs는 &lt;a href=&quot;https://en.wikipedia.org/wiki/Sequential_decision_making&quot;&gt;순차적 의사 결정(sequential decision making)&lt;/a&gt;을 하는 고전적인 공식인데, 여기서 선택된 action은 immediate reward 에만 영향을 미치는 것이 아니라, 나중의 상황(situation)이나 &lt;strong&gt;state&lt;/strong&gt; 그리고 &lt;strong&gt;future reward&lt;/strong&gt; 에도 영향을 미친다. 그렇기 때문에 MDPs는 &lt;strong&gt;delayed reward&lt;/strong&gt; 라는 개념을 가지고 있으며, immediate reward 와 tradeoff 해야 하는 필요성도 수반하고 있다. Badit problem 에서는 각 action $a$ 의 value로 &lt;strong&gt;$q_*(a)$&lt;/strong&gt; 를 estimate했지만, MDPs에서는 action $a$ 와 각 state $s$ 의 value로 &lt;strong&gt;$q_*(s,a)$&lt;/strong&gt; 를 estimate한다.&lt;/p&gt;
@@ -30,7 +30,7 @@
 situation과 state 단어가 나오는데요, 여기서는 situation을 state를 포함한 개념으로 사용합니다. 중요한 키워드는 state와 reward입니다. 
 &lt;/div&gt;
 
-&lt;p&gt;&lt;img src=&quot;/assets/2019-01-15-rl-finite-mdps/figure3_1.png&quot; alt=&quot;image&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/assets/2019-01-31-rl-finite-mdps/figure3_1.png&quot; alt=&quot;image&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;위 그림처럼 각 time step($t$ = 0, 1, 2, 3, …)마다 &lt;strong&gt;agent&lt;/strong&gt;와 &lt;strong&gt;environment&lt;/strong&gt;는  상호작용 한다. time step $t$ 에서 agent는 environment로부터 &lt;strong&gt;state&lt;/strong&gt; ($ S_t \in \mathscr{S}$ )를 받으며 이를 고려해서 &lt;strong&gt;action&lt;/strong&gt; ($ A_t \in \mathscr{A}(s)$ )을 선택한다. 그리고 한 time step 이후에 action에 대한 결과로 &lt;strong&gt;reward&lt;/strong&gt; ($ R_{t+1} \in \mathscr{R} \subset \mathbb{R} $)와 새로운 state ($ S_{t+1} $)를 받는다. 이를 순서대로 나타내면 아래와 같다.&lt;/p&gt;
 
@@ -144,7 +144,7 @@ G_t &amp;\doteq R_{t+1} + \gamma R_{t+2} + \gamma^2R_{t+3} + \gamma^2R_{t+4} +\d
 &lt;p&gt;episodic task와 continuing task는 episode의 종료 시점을 고려하면 통합 될 수 있는데 그림으로 나타내면 아래와 같다.&lt;/p&gt;
 
 &lt;p align=&quot;center&quot;&gt;
-  &lt;img width=&quot;80%&quot; height=&quot;80%&quot; src=&quot;/assets/2019-01-15-rl-finite-mdps/pic1.png&quot; /&gt;
+  &lt;img width=&quot;80%&quot; height=&quot;80%&quot; src=&quot;/assets/2019-01-31-rl-finite-mdps/pic1.png&quot; /&gt;
 &lt;/p&gt;
 
 &lt;p&gt;위 그림에서 네모 모양은 episode의 마지막에 해당하는 special absorbing state 이다. $S_0$ 에서 시작해서 연속적인 reward +1, +1, 0, 0, 0, … 를 받는데, 모두 더하면 $T=3$ 이거나 $T=\infty$ 이더라도 똑같은 reward를 얻는다. discount rate를 적용해도 마찬가지다. 식으로 나타내면 아래와 같이 나타낼 수 있다. 앞으로는 아래 식을 계속 사용한다.&lt;/p&gt;
@@ -207,7 +207,7 @@ v_\pi(s) &amp;\doteq  \mathbb{E}_\pi\left[G_t  \mid  S_t=s \right]  \\
 &lt;p&gt;식 (3.14)는 $v_\pi$에 대한 &lt;strong&gt;&lt;em&gt;Bellman equation&lt;/em&gt;&lt;/strong&gt; 이다. 이것은 state 의 value 와 다음 state 의 value 에 대한 관계를 표현한다. 아래는 그림으로 나타낸 것이다.&lt;/p&gt;
 
 &lt;p align=&quot;center&quot;&gt;
-  &lt;img width=&quot;30%&quot; height=&quot;30%&quot; src=&quot;/assets/2019-01-15-rl-finite-mdps/pic2.png&quot; /&gt;
+  &lt;img width=&quot;30%&quot; height=&quot;30%&quot; src=&quot;/assets/2019-01-31-rl-finite-mdps/pic2.png&quot; /&gt;
 &lt;/p&gt;
 
 &lt;p&gt;하얀 원은 &lt;strong&gt;state&lt;/strong&gt; 이고 검정 점은 &lt;strong&gt;action&lt;/strong&gt; 을 의미한다. 제일 위에 있는 state $s$ 에서 시작하여, agent는 policy $\pi$ 를 따라서 세 개의 action 중 하나를 선택한다. 그러면 environment 는 dynamics 함수 $p$에 따라서 reward $r$ 과 다음 state $s_\prime$ 를 준다. Bellman Equation(3.14)은 발생될 확률을 가지는 모든 가능성에 대한 평균이다. 처음 state 의 value 는 다음 expected state 의 (discounted) value 와 그에 따른 reward 의 합과 같다.&lt;/p&gt;
@@ -217,7 +217,7 @@ v_\pi(s) &amp;\doteq  \mathbb{E}_\pi\left[G_t  \mid  S_t=s \right]  \\
 &lt;p&gt;&lt;strong&gt;$q_\pi(s, a)$&lt;/strong&gt;에 대한 Bellman equation을 backup digram으로 나타내면 아래와 같다.&lt;/p&gt;
 
 &lt;p align=&quot;center&quot;&gt;
-  &lt;img width=&quot;30%&quot; height=&quot;30%&quot; src=&quot;/assets/2019-01-15-rl-finite-mdps/pic3.png&quot; /&gt;
+  &lt;img width=&quot;30%&quot; height=&quot;30%&quot; src=&quot;/assets/2019-01-31-rl-finite-mdps/pic3.png&quot; /&gt;
 &lt;/p&gt;
 
 &lt;hr /&gt;
@@ -273,7 +273,7 @@ q_*(s,a) = \mathbb{E} \left[ R_{t+1} + \gamma v_*(S_{t+1}) \mid  S_t=s, A_t=a \r
 &lt;p&gt;아래 backup diagram 은 $v_*$ 와 $q_*$ 에 대한 Bellman optimality equation 을 시각적으로 보여준다. 이 backup digram 은 agent 가 max 를 선택하는 부분인 호(arc)를 제외하면 앞의 $v_\pi$ 및 $q_\pi$ 와 같다. 왼쪽은 식 (3.19)을 보여주고, 오른쪽은 식 (3.20)을 보여준다.&lt;/p&gt;
 
 &lt;p align=&quot;center&quot;&gt;
-  &lt;img width=&quot;60%&quot; height=&quot;60%&quot; src=&quot;/assets/2019-01-15-rl-finite-mdps/figure3_4.png&quot; /&gt;
+  &lt;img width=&quot;60%&quot; height=&quot;60%&quot; src=&quot;/assets/2019-01-31-rl-finite-mdps/figure3_4.png&quot; /&gt;
 &lt;/p&gt;
 
 &lt;p&gt;만약 $v_*$ 를 알고 있다면 optimal policy 를 찾는 건 상대적으로 쉽다. 각 state $s$ 에서 Bellman optimality equation 의 최대 값을 얻을 수 있는 action 이 하나 이상은 있을 것이다. 이 action 에 0이 아닌 확률이 부여된 policy 가 &lt;strong&gt;optimal policy&lt;/strong&gt; 이다. 이것을 &lt;strong&gt;one-step search&lt;/strong&gt; 로 생각할 수 있는데, one-step search 후에 선택한 action 이 optimal action 이다. &lt;strong&gt;장기적인 관점에서 기대되는 최적의 반환 값(optimal expected long-term return)&lt;/strong&gt;인 $v_*$ 은 각 state 에서 사용된다. 그러므로 one-step-ahead search 는 long-term optimal action 을 찾는다고 볼 수 있다.&lt;/p&gt;
@@ -288,12 +288,25 @@ q_*(s,a) = \mathbb{E} \left[ R_{t+1} + \gamma v_*(S_{t+1}) \mid  S_t=s, A_t=a \r
   &lt;li&gt;Markov property 를 만족해야 한다.&lt;/li&gt;
 &lt;/ol&gt;
 
-&lt;p&gt;그러나 우리가 관심을 가지고 있는 문제들은 거의 위 조건들을 충족하지 않는다. 예를 들어서 backgammon 게임에서 1번과 3번 은 충족하지만 2번 조건에서 문제가 생긴다. 왜냐하면 backgammon 게임은 거의 $10^20$ 의 state를 가지는데, 요즘 가장 빠른 컴퓨터를 사용하더라도 $v_*$ 이나 $q_*$ 를 계산하기 위해서는 수천년이 걸리기 때문이다. 그렇기 때문에 reinforcement learning 에서는 일반적으로 &lt;strong&gt;approximate solution&lt;/strong&gt; 을 찾아야 한다.&lt;/p&gt;
+&lt;p&gt;그러나 우리가 관심을 가지고 있는 문제들은 거의 위 조건들을 충족하지 않는다. 예를 들어서 backgammon 게임에서 1번과 3번 은 충족하지만 2번 조건에서 문제가 생긴다. 왜냐하면 backgammon 게임은 거의 $10^{20}$ 의 state를 가지는데, 요즘 가장 빠른 컴퓨터를 사용하더라도 $v_*$ 이나 $q_*$ 를 계산하기 위해서는 수천년이 걸리기 때문이다. 그렇기 때문에 reinforcement learning 에서는 일반적으로 &lt;strong&gt;approximate solution&lt;/strong&gt; 을 찾아야 한다.&lt;/p&gt;
 
-&lt;p&gt;다양한 decision-making 문제는 Bellman optimality equation 을 근사(approximately)하는 방법으로 해결한다고 볼 수 있다. &lt;strong&gt;Dynamic programming&lt;/strong&gt; 은 Bellman optimality equation 에 조금 더 관련되어 있다. 많은 reinforcement learning 은 사전 정보가 아닌 실제 경험을 통해서 Bellman optimality equation 을 근사적으로(approximately) 해결하는 것으로 이해할 수 있다.&lt;/p&gt;
+&lt;p&gt;다양한 decision-making 문제는 Bellman optimality equation 을 근사(approximately)하는 방법으로 해결한다고 볼 수 있다. &lt;strong&gt;Dynamic programming&lt;/strong&gt; 은 Bellman optimality equation 에 조금 더 관련되어 있다. 많은 reinforcement learning 문제는 사전 정보가 아닌 실제 경험을 통해서 Bellman optimality equation 을 근사적으로(approximately) 해결하는 것으로 이해할 수 있다.&lt;/p&gt;
 
 &lt;hr /&gt;
 &lt;h3 id=&quot;optimality-and-approximation&quot;&gt;Optimality and Approximation&lt;/h3&gt;
+
+&lt;p&gt;지금까지 optimal value function 과 optimal policy 에 대해 정의했다. 분명 agent 는 optimal policy 를 매우 잘 학습할 수 있지만, 이는 현실에서 매우 드물게 이루어진다. 우리가 관심 있어하는 과제에서 optimal policy 를 구하기 위해서는 &lt;strong&gt;극도로 많은 계산량&lt;/strong&gt;이 필요하다. 또한 environment 의 dynamic 에 대해 정확하게 알고 있더라도 Bellman optimality equation 으로 부터 optimal policy 를 계산하는 것은 간단하지 않다.&lt;/p&gt;
+
+&lt;p&gt;또한 가용 가능한 &lt;strong&gt;메모리&lt;/strong&gt; 에도 한계가 있다. 다양한 문제들을 해결하기 위해서는 매우 많은 메모리가 필요하다. 각 array 나 table 을 사용해서 해결할 수 있는 작은 문제들이 있는데, 이런 경우를 &lt;strong&gt;&lt;em&gt;tabular&lt;/em&gt; case&lt;/strong&gt; 라고 하고 여기에 대응하는 식을 tabular method 라고 한다. 그러나 우리가 관심있어하는 많은 문제들은 table 에 담을 수 있는 정보보다 훨씬 많은 state 들이 존재하다. 이런 경우 좀 더 간결한 &lt;strong&gt;매개 변수화된(parameterized)&lt;/strong&gt; 함수를 이용하여 &lt;strong&gt;근사화(approximated)&lt;/strong&gt; 해야 한다.&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;In these cases the functions must be approximated, using some sort of more compact parameterized function representation.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;hr /&gt;
+&lt;h3 id=&quot;summary&quot;&gt;Summary&lt;/h3&gt;
+
+&lt;p&gt;Reinforcement learning 은 목표를 달성하기 위해서 어떻게 행동해야 하는지 배우는 것이다. 그리고 이 학습은 상호작용으로부터 이루어진다. &lt;strong&gt;agent&lt;/strong&gt; 와 &lt;strong&gt;environment&lt;/strong&gt; 는 연속적인 이산 time step 으로 부터 상호작용 한다. &lt;strong&gt;action&lt;/strong&gt; 은 사용자가 선택하는 것이고, &lt;strong&gt;state&lt;/strong&gt; 는 선택하기 위한 기준이 된다. 그리고 &lt;strong&gt;reward&lt;/strong&gt; 는 그 선택을 평가하는 기준이다. agent 외적인 요소들은 불완전하게 제어가 가능하지만, 완벽하게 알려지지 않았을 수도 있다. &lt;strong&gt;policy&lt;/strong&gt; 는 agent 가 action을 선택하기 위한 state 에 대한 확률적인 규칙이다. 그리고 agent의 목표는 앞으로 받을 reward 의 총 합을 최대화 하는 것이다.&lt;/p&gt;
 
 &lt;hr /&gt;
 &lt;h3 id=&quot;reference&quot;&gt;Reference&lt;/h3&gt;

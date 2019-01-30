@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 강화학습 정리 - Finite Markov Decision Processes (업데이트중)
+title: 강화학습 정리 - Finite Markov Decision Processes
 category: Reinforcement Learning
 tag: [강화학습, RL]
 use_math: true
@@ -21,7 +21,7 @@ MDPs는 상호 작용하면서 학습하는 문제를 간단하게 정의한다.
 situation과 state 단어가 나오는데요, 여기서는 situation을 state를 포함한 개념으로 사용합니다. 중요한 키워드는 state와 reward입니다. 
 </div>
 
-![image](/assets/2019-01-15-rl-finite-mdps/figure3_1.png)
+![image](/assets/2019-01-31-rl-finite-mdps/figure3_1.png)
 
 위 그림처럼 각 time step($t$ = 0, 1, 2, 3, ...)마다 **agent**와 **environment**는  상호작용 한다. time step $t$ 에서 agent는 environment로부터 **state** ($ S_t \in \mathscr{S}$ )를 받으며 이를 고려해서 **action** ($ A_t \in \mathscr{A}(s)$ )을 선택한다. 그리고 한 time step 이후에 action에 대한 결과로 **reward** ($ R_{t+1} \in \mathscr{R} \subset \mathbb{R} $)와 새로운 state ($ S_{t+1} $)를 받는다. 이를 순서대로 나타내면 아래와 같다. 
 
@@ -146,7 +146,7 @@ $$
 episodic task와 continuing task는 episode의 종료 시점을 고려하면 통합 될 수 있는데 그림으로 나타내면 아래와 같다.
 
 <p align="center">
-  <img width="80%" height="80%" src="/assets/2019-01-15-rl-finite-mdps/pic1.png">
+  <img width="80%" height="80%" src="/assets/2019-01-31-rl-finite-mdps/pic1.png">
 </p>
 
 위 그림에서 네모 모양은 episode의 마지막에 해당하는 special absorbing state 이다. $S_0$ 에서 시작해서 연속적인 reward +1, +1, 0, 0, 0, ... 를 받는데, 모두 더하면 $T=3$ 이거나 $T=\infty$ 이더라도 똑같은 reward를 얻는다. discount rate를 적용해도 마찬가지다. 식으로 나타내면 아래와 같이 나타낼 수 있다. 앞으로는 아래 식을 계속 사용한다.
@@ -213,7 +213,7 @@ $$
 식 (3.14)는 $v_\pi$에 대한 ***Bellman equation*** 이다. 이것은 state 의 value 와 다음 state 의 value 에 대한 관계를 표현한다. 아래는 그림으로 나타낸 것이다.
 
 <p align="center">
-  <img width="30%" height="30%" src="/assets/2019-01-15-rl-finite-mdps/pic2.png">
+  <img width="30%" height="30%" src="/assets/2019-01-31-rl-finite-mdps/pic2.png">
 </p>
 
 하얀 원은 **state** 이고 검정 점은 **action** 을 의미한다. 제일 위에 있는 state $s$ 에서 시작하여, agent는 policy $\pi$ 를 따라서 세 개의 action 중 하나를 선택한다. 그러면 environment 는 dynamics 함수 $p$에 따라서 reward $r$ 과 다음 state $s_\prime$ 를 준다. Bellman Equation(3.14)은 발생될 확률을 가지는 모든 가능성에 대한 평균이다. 처음 state 의 value 는 다음 expected state 의 (discounted) value 와 그에 따른 reward 의 합과 같다. 
@@ -223,7 +223,7 @@ Reinforcement learning method 에서 심장이라고 할 수 있는 update 혹�
 **$q_\pi(s, a)$**에 대한 Bellman equation을 backup digram으로 나타내면 아래와 같다. 
 
 <p align="center">
-  <img width="30%" height="30%" src="/assets/2019-01-15-rl-finite-mdps/pic3.png">
+  <img width="30%" height="30%" src="/assets/2019-01-31-rl-finite-mdps/pic3.png">
 </p>
 
 
@@ -285,7 +285,7 @@ $$
 아래 backup diagram 은 $v_\*$ 와 $q_\*$ 에 대한 Bellman optimality equation 을 시각적으로 보여준다. 이 backup digram 은 agent 가 max 를 선택하는 부분인 호(arc)를 제외하면 앞의 $v_\pi$ 및 $q_\pi$ 와 같다. 왼쪽은 식 (3.19)을 보여주고, 오른쪽은 식 (3.20)을 보여준다.  
 
 <p align="center">
-  <img width="60%" height="60%" src="/assets/2019-01-15-rl-finite-mdps/figure3_4.png">
+  <img width="60%" height="60%" src="/assets/2019-01-31-rl-finite-mdps/figure3_4.png">
 </p>
 
 만약 $v_\*$ 를 알고 있다면 optimal policy 를 찾는 건 상대적으로 쉽다. 각 state $s$ 에서 Bellman optimality equation 의 최대 값을 얻을 수 있는 action 이 하나 이상은 있을 것이다. 이 action 에 0이 아닌 확률이 부여된 policy 가 **optimal policy** 이다. 이것을 **one-step search** 로 생각할 수 있는데, one-step search 후에 선택한 action 이 optimal action 이다. **장기적인 관점에서 기대되는 최적의 반환 값(optimal expected long-term return)**인 $v_\*$ 은 각 state 에서 사용된다. 그러므로 one-step-ahead search 는 long-term optimal action 을 찾는다고 볼 수 있다.
@@ -298,13 +298,26 @@ $q_\*$ 가 있으면 optimal action 을 찾기가 더 쉽다. $q_\*$ 가 있으�
 2. 연산에 필요한 충분한 resource 가 있어야 한다.
 3. Markov property 를 만족해야 한다.
 
-그러나 우리가 관심을 가지고 있는 문제들은 거의 위 조건들을 충족하지 않는다. 예를 들어서 backgammon 게임에서 1번과 3번 은 충족하지만 2번 조건에서 문제가 생긴다. 왜냐하면 backgammon 게임은 거의 $10^20$ 의 state를 가지는데, 요즘 가장 빠른 컴퓨터를 사용하더라도 $v_\*$ 이나 $q_\*$ 를 계산하기 위해서는 수천년이 걸리기 때문이다. 그렇기 때문에 reinforcement learning 에서는 일반적으로 **approximate solution** 을 찾아야 한다. 
+그러나 우리가 관심을 가지고 있는 문제들은 거의 위 조건들을 충족하지 않는다. 예를 들어서 backgammon 게임에서 1번과 3번 은 충족하지만 2번 조건에서 문제가 생긴다. 왜냐하면 backgammon 게임은 거의 $10^{20}$ 의 state를 가지는데, 요즘 가장 빠른 컴퓨터를 사용하더라도 $v_\*$ 이나 $q_\*$ 를 계산하기 위해서는 수천년이 걸리기 때문이다. 그렇기 때문에 reinforcement learning 에서는 일반적으로 **approximate solution** 을 찾아야 한다. 
 
-다양한 decision-making 문제는 Bellman optimality equation 을 근사(approximately)하는 방법으로 해결한다고 볼 수 있다. **Dynamic programming** 은 Bellman optimality equation 에 조금 더 관련되어 있다. 많은 reinforcement learning 은 사전 정보가 아닌 실제 경험을 통해서 Bellman optimality equation 을 근사적으로(approximately) 해결하는 것으로 이해할 수 있다. 
+다양한 decision-making 문제는 Bellman optimality equation 을 근사(approximately)하는 방법으로 해결한다고 볼 수 있다. **Dynamic programming** 은 Bellman optimality equation 에 조금 더 관련되어 있다. 많은 reinforcement learning 문제는 사전 정보가 아닌 실제 경험을 통해서 Bellman optimality equation 을 근사적으로(approximately) 해결하는 것으로 이해할 수 있다. 
 
 
 ***
 ### Optimality and Approximation
+
+지금까지 optimal value function 과 optimal policy 에 대해 정의했다. 분명 agent 는 optimal policy 를 매우 잘 학습할 수 있지만, 이는 현실에서 매우 드물게 이루어진다. 우리가 관심 있어하는 과제에서 optimal policy 를 구하기 위해서는 **극도로 많은 계산량**이 필요하다. 또한 environment 의 dynamic 에 대해 정확하게 알고 있더라도 Bellman optimality equation 으로 부터 optimal policy 를 계산하는 것은 간단하지 않다. 
+
+또한 가용 가능한 **메모리** 에도 한계가 있다. 다양한 문제들을 해결하기 위해서는 매우 많은 메모리가 필요하다. 각 array 나 table 을 사용해서 해결할 수 있는 작은 문제들이 있는데, 이런 경우를 ***tabular* case** 라고 하고 여기에 대응하는 식을 tabular method 라고 한다. 그러나 우리가 관심있어하는 많은 문제들은 table 에 담을 수 있는 정보보다 훨씬 많은 state 들이 존재하다. 이런 경우 좀 더 간결한 **매개 변수화된(parameterized)** 함수를 이용하여 **근사화(approximated)** 해야 한다. 
+
+> In these cases the functions must be approximated, using some sort of more compact parameterized function representation.
+
+
+***
+### Summary
+
+Reinforcement learning 은 목표를 달성하기 위해서 어떻게 행동해야 하는지 배우는 것이다. 그리고 이 학습은 상호작용으로부터 이루어진다. **agent** 와 **environment** 는 연속적인 이산 time step 으로 부터 상호작용 한다. **action** 은 사용자가 선택하는 것이고, **state** 는 선택하기 위한 기준이 된다. 그리고 **reward** 는 그 선택을 평가하는 기준이다. agent 외적인 요소들은 불완전하게 제어가 가능하지만, 완벽하게 알려지지 않았을 수도 있다. **policy** 는 agent 가 action을 선택하기 위한 state 에 대한 확률적인 규칙이다. 그리고 agent의 목표는 앞으로 받을 reward 의 총 합을 최대화 하는 것이다.  
+
 
 
 ***
