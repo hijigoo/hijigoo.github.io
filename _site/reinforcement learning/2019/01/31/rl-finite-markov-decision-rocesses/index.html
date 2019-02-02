@@ -206,7 +206,7 @@
                 (
                   
                   
-                  3
+                  4
                 )
               </a>
           
@@ -308,20 +308,20 @@
   <article>
     <h2 id="3-finite-markov-decision-processes">3. Finite Markov Decision Processes</h2>
 
-<p>이번 챕터에서는 앞으로 계속 다룰 finite <strong>Markov decision processes (MDPs)</strong> 에 대해서 소개한다. 그런데 이전 챕터에서 다룬 bandits problem 과는 다르게, 상황에 따라서 다른 action을 취해야 하는 <em>associative task</em> 이다. MDPs는 <a href="https://en.wikipedia.org/wiki/Sequential_decision_making">순차적 의사 결정(sequential decision making)</a>을 하는 고전적인 공식인데, 여기서 선택된 action은 immediate reward 에만 영향을 미치는 것이 아니라, 나중의 상황(situation)이나 <strong>state</strong> 그리고 <strong>future reward</strong> 에도 영향을 미친다. 그렇기 때문에 MDPs는 <strong>delayed reward</strong> 라는 개념을 가지고 있으며, immediate reward 와 tradeoff 해야 하는 필요성도 수반하고 있다. Badit problem 에서는 각 action $a$ 의 value로 <strong>$q_*(a)$</strong> 를 estimate했지만, MDPs에서는 action $a$ 와 각 state $s$ 의 value로 <strong>$q_*(s,a)$</strong> 를 estimate한다.</p>
+<p>이번 챕터에서는 앞으로 계속 다룰 finite <strong>Markov decision processes (MDPs)</strong> 에 대해서 소개한다. 그런데 이전 챕터에서 다룬 bandits problem 과는 다르게, 상황에 따라서 다른 action 을 선택해야 하는 <em>associative task</em> 이다. MDPs는 <a href="https://en.wikipedia.org/wiki/Sequential_decision_making">순차적 의사 결정(sequential decision making)</a>을 하는 고전적인 공식인데, 여기서 선택된 action은 immediate reward 에만 영향을 미치는 것이 아니라, 나중의 상황(situation)이나 <strong>state</strong> 그리고 <strong>future reward</strong> 에도 영향을 미친다. 그렇기 때문에 MDPs는 <strong>delayed reward</strong> 라는 개념을 가지고 있으며, immediate reward 와 tradeoff 해야 하는 필요성도 수반하고 있다. Badit problem 에서는 각 action $a$ 의 value로 <strong>$q_*(a)$</strong> 를 estimate했지만, MDPs에서는 action $a$ 와 각 state $s$ 의 value로 <strong>$q_*(s,a)$</strong> 를 estimate한다.</p>
 
 <hr />
 <h3 id="the-agentenvironment-interface">The Agent–Environment Interface</h3>
 
-<p>MDPs는 상호 작용하면서 학습하는 문제를 간단하게 정의한다. 학습하고 의사 결정하는 것을 <strong><em>agent</em></strong> 라고 하며, 이 agent와 상호작용 하며 agent외부에 존재하는 모든 것을 <strong><em>environment</em></strong> 라고 한다. agent가 action을 선택하면 environment는 새로운 상황(situation)을 제시한다. 또한 environment는 reward를 제공하는데, agent는 이 reward가  최대가 되도록 action을 선택해 나아가야 한다.</p>
+<p>MDPs는 상호 작용하며 학습하는 문제를 간단하게 정의한다. 학습과 동시에 의사 결정하는 것을 <strong><em>agent</em></strong> 라고 하며, 이 agent 와 상호작용 하며 agent 의 외부에 존재하는 모든 것을 <strong><em>environment</em></strong> 라고 한다. agen 가 action 을 선택하면 environment 는 새로운 상황(situation)을 제시한다. 또한 environment 는 reward 를 제공하는데, agent 는 이 reward가  최대가 되도록 action 을 선택해 나아가야 한다.</p>
 
 <div class="message">
-situation과 state 단어가 나오는데요, 여기서는 situation을 state를 포함한 개념으로 사용합니다. 중요한 키워드는 state와 reward입니다. 
+situation 과 state 단어가 나오는데요, 여기서는 situation 을 state 를 포함한 개념으로 사용합니다. 중요한 키워드는 state 와 reward 입니다. 
 </div>
 
 <p><img src="/assets/2019-01-31-rl-finite-mdps/figure3_1.png" alt="image" /></p>
 
-<p>위 그림처럼 각 time step($t$ = 0, 1, 2, 3, …)마다 <strong>agent</strong>와 <strong>environment</strong>는  상호작용 한다. time step $t$ 에서 agent는 environment로부터 <strong>state</strong> ($ S_t \in \mathscr{S}$ )를 받으며 이를 고려해서 <strong>action</strong> ($ A_t \in \mathscr{A}(s)$ )을 선택한다. 그리고 한 time step 이후에 action에 대한 결과로 <strong>reward</strong> ($ R_{t+1} \in \mathscr{R} \subset \mathbb{R} $)와 새로운 state ($ S_{t+1} $)를 받는다. 이를 순서대로 나타내면 아래와 같다.</p>
+<p>위 그림처럼 각 time step($t$ = 0, 1, 2, 3, …)마다 <strong>agent</strong> 와 <strong>environment</strong> 는 상호작용 한다. time step $t$ 에서 agent 는 environment 로부터 <strong>state</strong> ($ S_t \in \mathscr{S}$ )를 받으며 이를 고려해서 <strong>action</strong> ($ A_t \in \mathscr{A}(s)$ )을 선택한다. 그리고 한 time step 이후에 action 에 대한 결과로 <strong>reward</strong> ($ R_{t+1} \in \mathscr{R} \subset \mathbb{R} $)와 새로운 state ($ S_{t+1} $)를 받는다. 이를 순서대로 나타내면 아래와 같다.</p>
 
 <script type="math/tex; mode=display">% <![CDATA[
 \begin{align*}
@@ -339,7 +339,7 @@ p(s^\prime,r \mid s,a) \doteq \operatorname{Pr}\left\{ S_t=s^\prime, R_t=r  \mid
 
 <script type="math/tex; mode=display">\sum_{s^\prime \in \mathscr{S}}\sum_{r \in \mathscr{R}}p(s^\prime,r \mid s,a) = 1, \text{  for all }s \in \mathscr{S}, a \in \mathscr{A}(s)</script>
 
-<p>$S_t$와 $R_t$의 값은 바로 직전의 $S_{t-1}$와 $A_{t-1}$에 의해서만 결정된다. state는 이전에 발생한 agent 와 environment의 상호작용에 대한 모든 정보를 내포하고 있어야 하는데, 여기서는 이 state를 <strong><em><a href="https://en.wikipedia.org/wiki/Markov_property">Markov property</a></em></strong>라고 한다.</p>
+<p>$S_t$와 $R_t$의 값은 바로 직전의 $S_{t-1}$와 $A_{t-1}$에 의해서만 결정된다. state 는 이전에 발생한 agent 와 environment 의 상호작용에 대한 모든 정보를 내포하고 있어야 하는데, 여기서는 이 state 를 <strong><em><a href="https://en.wikipedia.org/wiki/Markov_property">Markov property</a></em></strong>라고 한다.</p>
 
 <p>다음과 같이 함수 $p$으로부터 environment에 대해서 알고 싶은 정보를 계산할 수 있다.</p>
 
@@ -361,45 +361,45 @@ p(s^\prime,r \mid s,a) \doteq \operatorname{Pr}\left\{ S_t=s^\prime, R_t=r  \mid
 
 <script type="math/tex; mode=display">r(s,a,s^\prime) \doteq  \mathbb{E}\left[R_t  \mid  S_{t-1}=s, A_{t-1}=a, S_t=s^\prime\right] = \sum_{r \in \mathscr{R}}r\frac{p(s^\prime,r \mid s,a)}{p(s^\prime \mid s,a)}</script>
 
-<p>MDP framework는 다양한 방법으로 다양한 문제에 적용할 수 있다. 예를 들어서, time step은 꼭 고정된 간격이 아니여도 되고, action은 로보트 팔에 적용될 volatage 처럼 low-level 컨트롤 이거나 학교에서 점심을 먹을지 말지에 대한 선택이여도 된다. 또한 state는 sensor에 대한 정보나 방(room)에 있는 물체들에 대한 설명일 수 있다.</p>
+<p>MDP framework 는 다양한 방법으로 다양한 문제에 적용할 수 있다. 예를 들어서, time step 은 꼭 고정된 간격이 아니여도 되고, action 은 로보트 팔에 적용될 volatage 처럼 low-level 컨트롤 이거나 학교에서 점심을 먹을지 말지에 대한 선택이여도 된다. 또한 state는 sensor에 대한 정보나 방(room)에 있는 물체들에 대한 설명일 수 있다.</p>
 
-<p><strong>MDP framework</strong>는 상호작용으로부터 목표 지향적인(goal-directed) 학습 문제를 추상화한 것이다. 목표 지향적인(goal-directed) 행동을 취하는 어떤 문제에서도, agen와 environment 사이를 오가는 신호를 세가지로 요약할 수 있다.  agent가 선택하는 신호를 <strong>action</strong>이라고 하고, 선택이 이루어지는 기본이 되는 신호를 <strong>state</strong>라고 하며, agent의 목표인 신호를 <strong>reward</strong>라고 한다. MDP framework가 모든 decision-learning problem을 표현하기에는 충분하지 않을 수 있으나, 지금까지 상당히 유용하게 사용되어왔다.</p>
+<p><strong>MDP framework</strong> 는 상호작용으로부터 목표 지향적인(goal-directed) 학습 문제를 추상화한 것이다. 목표 지향적인(goal-directed) 행동을 취하는 어떤 문제에서도, agen와 environment 사이를 오가는 신호를 세가지로 요약할 수 있다.  agent 가 선택하는 신호를 <strong>action</strong> 이라고 하고, 선택이 이루어지는 기본이 되는 신호를 <strong>state</strong> 라고 하며, agent의 목표인 신호를 <strong>reward</strong> 라고 한다. MDP framework 가 모든 decision-learning problem 을 표현하기에는 충분하지 않을 수 있으나, 지금까지 상당히 유용하게 사용되어왔다.</p>
 
-<p>물론 특정 state와 action은 작업마다 크게 다르며, 어떻게 표현 되느냐에 따라 성능에 크게 영향을 줄 수 있다.</p>
+<p>물론 특정 state 와 action 은 작업마다 크게 다르며, 어떻게 표현 되느냐에 따라 성능에 크게 영향을 줄 수 있다.</p>
 
 <hr />
 <h3 id="goals-and-rewards">Goals and Rewards</h3>
 
-<p>Reinforcement Learning 에서 agent의 <strong>목표(goal)</strong>는 environment로 부터 받는 특별한 신호인 <strong><em>reward</em></strong>를 공식 하는 것이다. 각 time step에서 reward는 단순한 숫자다. 조금 더 간단하게 얘기하면 agent의 목표(goal)는 reward의 총 합을 최대화 하는 것이다. 총 합이라는 것은 즉시 받는(immediate) reward뿐 아니라, 장기적으로 봤을 때 받을 모든 reward의 누적값이 라는 의미다.</p>
+<p>Reinforcement Learning 에서 agent의 <strong>목표(goal)</strong> 는 environment 로 부터 받는 특별한 신호인 <strong><em>reward</em></strong> 를 공식 하는 것이다. 각 time step 에서 reward 는 단순한 숫자다. 조금 더 간단하게 얘기하면 agent의 목표(goal)는 reward의 총 합을 최대화 하는 것이다. 총 합이라는 것은 즉시 받는(immediate) reward 뿐 아니라, 장기적으로 봤을 때 받을 모든 reward 의 누적값이 라는 의미다.</p>
 
 <blockquote>
   <p>That all of what we mean by goals and purposes can be well thought of as the maximization of the expected value of the cumulative sum of a received scalar signal (called reward).</p>
 </blockquote>
 
-<p>reward는 reinforcement learning에서 가장 두드러지는 특징 중 하나다.</p>
+<p>reward는 reinforcement learning 에서 가장 두드러지는 특징 중 하나다.</p>
 
-<p>reward에 대해서 goal을 공식화하는 것이 한계가 있어 보이지만, 유용하고 넓은 범위에서 사용 가능하다는 것을 증명해왔다. 예를 들어서, 로봇(agent)이 미로를 탈출하는 방법을 학습 시킬때 time step 마다 <strong>-1</strong> reward를 주었더니 이 agent는 더 빨리 탈출 하는 방법을 학습했다. 또한 재활용 로봇이 빈 캔을 찾고 수집하는 방법을 학습할 수 있도록 캔을 수집할 때마다 <strong>+1</strong> reward를 주어서 학습시키기도 했다.</p>
+<p>reward 에 대해서 goal 을 공식화하는 것이 한계가 있어 보이지만, 유용하고 넓은 범위에서 사용 가능하다는 것을 증명해왔다. 예를 들어서, 로봇(agent)이 미로를 탈출하는 방법을 학습 시킬때 time step 마다 <strong>-1</strong> reward를 주었더니 이 agent는 더 빨리 탈출 하는 방법을 학습했다. 또한 재활용 로봇이 빈 캔을 찾고 수집하는 방법을 학습할 수 있도록 캔을 수집할 때마다 <strong>+1</strong> reward를 주어서 학습시키기도 했다.</p>
 
-<p>위의 예에서 보면, agent는 항상 reward를 최대화 하기 위해서 학습한다. 만약 agent가 우리가 원하는 것을 학습하기 원한다면 agent가 reward를 최대화 하면서 목표(goal)를 달성할 수 있도록 reward를 제공해야 한다. 따라서 우리가 설정한 reward는 달성하고자 하는 목표(goal)을 확실하게 가리키도록 해야 한다. Reward는 agent와 <strong><em>‘how’</em></strong> 가 아닌 <strong><em>‘what’</em></strong> 을 communication하는 방법이다.</p>
+<p>위의 예에서 보면, agent 는 항상 reward 를 최대화 하기 위해서 학습한다. 만약 agent 가 우리가 원하는 것을 학습하기 원한다면 agent 가 reward 를 최대화 하면서 목표(goal)를 달성할 수 있도록 reward를 제공해야 한다. 따라서 우리가 설정한 reward 는 달성하고자 하는 목표(goal)을 확실하게 가리키도록 해야 한다. Reward 는 agent 와 <strong><em>‘how’</em></strong> 가 아닌 <strong><em>‘what’</em></strong> 을 communication하는 방법이다.</p>
 
 <hr />
 <h3 id="returns-and-episodes">Returns and Episodes</h3>
 
-<p>agent의 목표는 장기적으로 누적은 reward를 최대화 하는 것이다. 바로 이 누적된 reward를 $G_t$ 로 아래와 같이 표현할 수 있다. 이 값을 <strong><em>expected return</em></strong> 이라고 한다.</p>
+<p>agent 의 목표는 장기적으로 누적은 reward 를 최대화 하는 것이다. 바로 이 누적된 reward 를 $G_t$ 로 아래와 같이 표현할 수 있다. 이 값을 <strong><em>expected return</em></strong> 이라고 한다.</p>
 
 <script type="math/tex; mode=display">% <![CDATA[
 \begin{align*}
 G_t \doteq R_{t+1} + R_{t+2} + R_{t+3} + \dots + R_T && (3.7)
 \end{align*} %]]></script>
 
-<p>위 식에서 $T$를 final time step 이라고 한다. agent-envirionment 사이에서 이뤄지는 상호작용을 <strong>episode</strong> 개념으로 나눌 수 있다. 이 episode는 마치 게임에서 한 번 플레이 하는 것과 같은데, 여기서 final time step의 개념이 있는 것은 자연스러운 접근이다. 또한, 각 episode 에서 마지막 state를 <strong>terminal state</strong>라고 한다. episode가 게임에서 승패와 같이 특정 결과로 끝나더라도 다음 episode는 이전의 결과와 상관없이 새로 시작된다. 이런 episode로 이루어진 task를 <em>episodic task</em>라고 한다. episodic task에서 terminal state의 존재 여부에 따라서 state set을 아래와 같이 구분한다.</p>
+<p>위 식에서 $T$를 final time step 이라고 한다. agent-envirionment 사이에서 이뤄지는 상호작용을 <strong>episode</strong> 개념으로 나눌 수 있다. 이 episode 는 마치 게임에서 한 번 플레이 하는 것과 같은데, 여기서 final time step의 개념이 있는 것은 자연스러운 접근이다. 또한, 각 episode 에서 마지막 state 를 <strong>terminal state</strong> 라고 한다. episode 가 게임에서 승패와 같이 특정 결과로 끝나더라도 다음 episode 는 이전의 결과와 상관없이 새로 시작된다. 이런 episode로 이루어진 task를 <em>episodic task</em> 라고 한다. episodic task 에서 terminal state의 존재 여부에 따라서 state set 을 아래와 같이 구분한다.</p>
 
 <ul>
-  <li>$\mathscr{S}$  : terminal state가 포함되지 않는 모든 state set</li>
-  <li>$\mathscr{S}^+$: terminal state이 포함된 모든 모든 state set</li>
+  <li>$\mathscr{S}$  : terminal state 가 포함되지 않는 모든 state set</li>
+  <li>$\mathscr{S}^+$: terminal state 이 포함된 모든 모든 state set</li>
 </ul>
 
-<p>반면에 하나의 episode가 끝나지 않는 경우가 있는데. 이를 <strong>continuing task</strong>라고 한다. 이런 경우 final time step 은 $T=\infty$로 무한이기 때문에, 최대화 하려고 했던 return 식 (3.7)에 문제가 생긴다. 그렇기 때문에 앞으로 다른 return 식을 사용한다. 여기에 <strong>discounting</strong> 라는 컨셉이 추가된다.</p>
+<p>반면에 하나의 episode 가 끝나지 않는 경우가 있는데. 이를 <strong>continuing task</strong> 라고 한다. 이런 경우 final time step 은 $T=\infty$로 무한이기 때문에, 최대화 하려고 했던 return 식 (3.7)에 문제가 생긴다. 그렇기 때문에 앞으로 다른 return 식을 사용한다. 여기에 <strong>discounting</strong> 라는 컨셉이 추가된다.</p>
 
 <script type="math/tex; mode=display">% <![CDATA[
 \begin{align*}
@@ -410,7 +410,7 @@ G_t \doteq R_{t+1} + \gamma R_{t+2} + \gamma^2R_{t+3} + \dots =  \sum_{k=0}^\inf
   <li>$\gamma$: discount rate ($ 0 \le \gamma \le 1 $)</li>
 </ul>
 
-<p><strong>discount rate</strong> 는 미래(future) reward의 현재 가치을 정의한다. 미래 시점인 $k$ time step 에서 받을 reward의 현재 가치는 $\gamma^{k-1}$ 배 만큼 줄어든다. 만약 $\gamma &lt; 1$ 이면 (3.8) 식은 finite value를 가지게 될 것이고, $\gamma = 0$이라면 agent는 즉시 받을(immediate) reward $R_{t+1}$ 만 고려해서 action $A_t$를 선택할 것이다. 하지만 이렇게 immediate reward만 고려해서 action을 선택한다면 전체 return 값은 감소할 수 있다. $\gamma$ 가 1에 가까울 수록 전체 return은 future reward를 더 많이 수용한다. 이는 agent가 미래에 받을 reward를 신뢰한다고 볼 수 있다. 식 (3.8)은 아래와 같이 전개될 수 있다.</p>
+<p><strong>discount rate</strong> 는 미래(future) reward 의 현재 가치을 정의한다. 미래 시점인 $k$ time step 에서 받을 reward 의 현재 가치는 $\gamma^{k-1}$ 배 만큼 줄어든다. 만약 $\gamma &lt; 1$ 이면 (3.8) 식은 finite value 를 가지게 될 것이고, $\gamma = 0$이라면 agent 는 즉시 받을(immediate) reward $R_{t+1}$ 만 고려해서 action $A_t$를 선택할 것이다. 하지만 이렇게 immediate reward 만 고려해서 action 을 선택한다면 전체 return 값은 감소할 수 있다. $\gamma$ 가 1에 가까울 수록 전체 return 은 future reward 를 더 많이 수용한다. 이는 agent 가 미래에 받을 reward 를 신뢰한다고 볼 수 있다. 식 (3.8)은 아래와 같이 전개될 수 있다.</p>
 
 <script type="math/tex; mode=display">% <![CDATA[
 \begin{align*}
@@ -419,24 +419,24 @@ G_t &\doteq R_{t+1} + \gamma R_{t+2} + \gamma^2R_{t+3} + \gamma^2R_{t+4} +\dots 
 	&= R_{t+1} + \gamma G_{t+1} & (3.9)
 \end{align*} %]]></script>
 
-<p>return 식 (3.8) 에서 만약 reward가 0이 아니고 $\gamma &lt; 1$ 이라면 식(3.8)은 finite하다. 예를 들어서 reward가 1이라고 가정하면 return은 아래와 같다.</p>
+<p>return 식 (3.8) 에서 만약 reward 가 0이 아니고 $\gamma &lt; 1$ 이라면 식(3.8)은 finite 하다. 예를 들어서 reward 가 1이라고 가정하면 return 은 아래와 같다.</p>
 
 <script type="math/tex; mode=display">G_t = \sum_{k=0}^\infty \gamma^k = \frac{1}{1 - \gamma}</script>
 
 <hr />
 <h3 id="unified-notation-for-episodic-and-continuing-tasks">Unified Notation for Episodic and Continuing Tasks</h3>
 
-<p>이전 섹션에서 agent-environment 상호작용이 일련의 분리된 episode로 나눠지는 <strong>episodic task</strong>와 그렇지 않은 <strong>continuing task</strong>에 대해서 알아봤다. 앞으로 이 두 종류의 task에 대해서 다룰 것이기 때문에, 두 가지를 모두 정확하게 표현할 수 있는 하나의 표기법(notation)을 정의하는 것이 유용하다.</p>
+<p>이전 섹션에서 agent-environment 상호작용이 일련의 분리된 episode 로 나눠지는 <strong>episodic task</strong> 와 그렇지 않은 <strong>continuing task</strong> 에 대해서 알아봤다. 앞으로 이 두 종류의 task 에 대해서 다룰 것이기 때문에, 두 가지를 모두 정확하게 표현할 수 있는 하나의 표기법(notation)을 정의하는 것이 유용하다.</p>
 
-<p>원래는 episodic task를 더 정확하게 표현하기 위해서 추가적인 notation이 필요하다. 왜냐하면 여러개의 연속적인 episode을 표현해야 할 수도 있기 때문이다. 이 episode와 time step 둘 모두 고려했을 때 episode $i$ 에서 time step $t$ 일 때 state를 $S_{t,i}$ 로 나타낼 수 있다. 다른 것들도 마찬가지로 $A_{t,i}$, $R_{t,i}$, $\pi_{t,i}$, $T_{i}$, 등으로 나타낼 수 있다. 그러나 여기서는 대부분의 경우 episode를 구분할 필요가 없기 때문에 단일 episode만 고려할 것이기 때문에 $S_{t,i}$ 대신에 $S_t$ 을 사용할 것이다.</p>
+<p>원래는 episodic task 를 더 정확하게 표현하기 위해서 추가적인 notation 이 필요하다. 왜냐하면 여러개의 연속적인 episode 을 표현해야 할 수도 있기 때문이다. 이 episode 와 time step 둘 모두 고려했을 때 episode $i$ 에서 time step $t$ 일 때 state를 $S_{t,i}$ 로 나타낼 수 있다. 다른 것들도 마찬가지로 $A_{t,i}$, $R_{t,i}$, $\pi_{t,i}$, $T_{i}$, 등으로 나타낼 수 있다. 그러나 여기서는 대부분의 경우 episode를 구분할 필요가 없기 때문에 단일 episode 만 고려할 것이기 때문에 $S_{t,i}$ 대신에 $S_t$ 을 사용할 것이다.</p>
 
-<p>episodic task와 continuing task는 episode의 종료 시점을 고려하면 통합 될 수 있는데 그림으로 나타내면 아래와 같다.</p>
+<p>episodic task 와 continuing task 는 episode 의 종료 시점을 고려하면 통합 될 수 있는데 그림으로 나타내면 아래와 같다.</p>
 
 <p align="center">
   <img width="80%" height="80%" src="/assets/2019-01-31-rl-finite-mdps/pic1.png" />
 </p>
 
-<p>위 그림에서 네모 모양은 episode의 마지막에 해당하는 special absorbing state 이다. $S_0$ 에서 시작해서 연속적인 reward +1, +1, 0, 0, 0, … 를 받는데, 모두 더하면 $T=3$ 이거나 $T=\infty$ 이더라도 똑같은 reward를 얻는다. discount rate를 적용해도 마찬가지다. 식으로 나타내면 아래와 같이 나타낼 수 있다. 앞으로는 아래 식을 계속 사용한다.</p>
+<p>위 그림에서 네모 모양은 episode 의 마지막에 해당하는 special absorbing state 이다. $S_0$ 에서 시작해서 연속적인 reward +1, +1, 0, 0, 0, … 를 받는데, 모두 더하면 $T=3$ 이거나 $T=\infty$ 이더라도 똑같은 reward 를 얻는다. discount rate 를 적용해도 마찬가지다. 식으로 나타내면 아래와 같이 나타낼 수 있다. 앞으로는 아래 식을 계속 사용한다.</p>
 
 <script type="math/tex; mode=display">% <![CDATA[
 \begin{align*}
@@ -444,19 +444,19 @@ G_t \doteq \sum_{k=t+1}^T \gamma^{k-t-1}R_k && (3.11)
 \end{align*} %]]></script>
 
 <div class="message">
-식 (3.8)과 (3.11)은 상당히 유사합니다. (3.8)에서 k가 t시점에서 부터 진행된 time step 이라면, (3.11)에서 k는 시작 time step를 의미합니다. T time step을 표현하기 위해서라고 생각하시면 될 것 같습니다. (3.8)에서 단순히 무한 을 T로 변환하면 식이 성립하지 않습니다.
+식 (3.8)과 (3.11)은 상당히 유사합니다. (3.8)에서 k가 t시점에서 부터 진행된 time step 이라면, (3.11)에서 k는 시작 time step 를 의미합니다. T time step 을 표현하기 위해서라고 생각하시면 될 것 같습니다. (3.8)에서 단순히 무한 을 T로 변환하면 식이 성립하지 않습니다.
 </div>
 
 <hr />
 <h3 id="policies-and-value-functions">Policies and Value Functions</h3>
 
-<p>거의 모든 reinforcement learning 알고리즘은 value function을 estimating하는 것을 포함한다. 이 <strong><em>value function</em></strong>은 agent가 주어진 state에 있는 것이 얼마나 많은 <strong>expected return</strong>을 받을지 estimate한다. 그리고 agent가 주어진 state에서 선택한 action이 얼마나 많은 expected return을 받을지 estimate하는 것을 <strong><em>action-value function</em></strong>이라고 한다.</p>
+<p>거의 모든 reinforcement learning 알고리즘은 value function 을 estimating 하는 것을 포함한다. 이 <strong><em>value function</em></strong> 은 agent 가 주어진 state 에 있는 것이 얼마나 많은 <strong>expected return</strong> 을 받을지 estimate 한다. 그리고 agent 가 주어진 state 에서 선택한 action 이 얼마나 많은 expected return 을 받을지 estimate 하는 것을 <strong><em>action-value function</em></strong> 이라고 한다.</p>
 
 <div class="message">
-여기서 expected return은 agent가 앞으로 받을 rewards의 합입니다. 식 (3.7), (3.8), (3.9)에 자세하게 나와있습니다.
+여기서 expected return 은 agent 가 앞으로 받을 rewards 의 합입니다. 식 (3.7), (3.8), (3.9)에 자세하게 나와있습니다.
 </div>
 
-<p>물론, expected reward 는 agent가 어떤 action을 선택해 나아가냐에 따라 달려 있다. 그렇기 때문에 value function은 <strong>정책(policy)</strong>이라고 하는 action을 선택하는 방법에 영향을 받는다.</p>
+<p>물론, expected reward 는 agent 가 어떤 action 을 선택해 나아가냐에 따라 달려 있다. 그렇기 때문에 value function 은 <strong>정책(policy)</strong> 이라고 하는 action 을 선택하는 방법에 영향을 받는다.</p>
 
 <p><strong>policy</strong>는 state 와 action의 선택 확률을 맵핑한다. agent 가 time $t$ 에서 policy $\pi$ 를 따른다면, $S_t = s$ 가 주어졌을 때 $A_t = a$ 일 확률을 $\pi(a \mid s)$ 로 나타낼 수 있다.</p>
 
@@ -480,7 +480,7 @@ v_\pi(s) \doteq  \mathbb{E}_\pi\left[G_t  \mid  S_t=s \right] = \mathbb{E}_\pi\l
 q_\pi(s,a) \doteq  \mathbb{E}_\pi\left[G_t  \mid  S_t=s, A_t=a \right] = \mathbb{E}_\pi\left[ \sum_{k=0}^\infty \gamma^kR_{t+k+1} \mid S_t = s, A_t = a \right], && (3.13)
 \end{align*} %]]></script>
 
-<p>위 두 value function 값은 경험을 통해서 측정할 수 있다. 예를 들어서, agent가 policy $\pi$ 를 따르는 상황에서 무한히 각 state에서 value의 평균을 구한다면 <strong>$v_\pi(s)$</strong>에 <strong>수렴(converge)</strong> 한다. 그리고 마찬가지로 <strong>$q_\pi(s,a)$</strong> 도 수렴한다. 실제 return 을 매우 많이 샘플링해서 평균을 구하는 방법으로, <strong><em>Monte Carlo method</em></strong> 라고 한다.</p>
+<p>위 두 value function 값은 경험을 통해서 측정할 수 있다. 예를 들어서, agent 가 policy $\pi$ 를 따르는 상황에서 무한히 각 state 에서 value 의 평균을 구한다면 <strong>$v_\pi(s)$</strong>에 <strong>수렴(converge)</strong> 한다. 그리고 마찬가지로 <strong>$q_\pi(s,a)$</strong> 도 수렴한다. 실제 return 을 매우 많이 샘플링해서 평균을 구하는 방법으로, <strong><em>Monte Carlo method</em></strong> 라고 한다.</p>
 
 <p>Reinforcement learning 과 <strong>dynamic programming</strong> 에서 value function 의 근본적인 성질은 식(3.9) 처럼 <strong>재귀적인 관계(recursive relationship)</strong> 를 충족 시킨다는 것이다.</p>
 
@@ -540,7 +540,7 @@ q_*(s,a) &\doteq  \underset{\pi}{\text{max}} q_\pi(s,a), \text{	for all } s \in 
 q_*(s,a) = \mathbb{E} \left[ R_{t+1} + \gamma v_*(S_{t+1}) \mid  S_t=s, A_t=a \right]
 \end{align*}</script>
 
-<p>$v_*$는 policy 에 대한 value function 이기 때문에, Bellman Equation (3.14) 의 조건에 대해 일관성을 가져야 한다. 그러나 <strong>optimal value function</strong> 이기 때문에 특정한 policy 와 상관 없는 식을 가져야 한다. 이를 <strong>Bellman optimality equation</strong> 이라고 한다. 직관적으로 말하면, Bellman optimality equation 은 optimal policy 를 따른 state 의 value 와 가장 좋은 action을 선택했을 때 받는 expected return 은 같다는 사실을 표현한다.</p>
+<p>$v_*$는 policy 에 대한 value function 이기 때문에, Bellman Equation (3.14) 의 조건에 대해 일관성을 가져야 한다. 그러나 <strong>optimal value function</strong> 이기 때문에 특정한 policy 와 상관 없는 식을 가져야 한다. 이를 <strong>Bellman optimality equation</strong> 이라고 한다. 직관적으로 말하면, Bellman optimality equation 은 optimal policy 를 따른 state 의 value 와 가장 좋은 action 을 선택했을 때 받는 expected return 은 같다는 사실을 표현한다.</p>
 
 <script type="math/tex; mode=display">% <![CDATA[
 \begin{align*}
@@ -595,7 +595,7 @@ q_*(s,a) = \mathbb{E} \left[ R_{t+1} + \gamma v_*(S_{t+1}) \mid  S_t=s, A_t=a \r
 <hr />
 <h3 id="summary">Summary</h3>
 
-<p>Reinforcement learning 은 목표를 달성하기 위해서 어떻게 행동해야 하는지 배우는 것이다. 그리고 이 학습은 상호작용으로부터 이루어진다. <strong>agent</strong> 와 <strong>environment</strong> 는 연속적인 이산 time step 으로 부터 상호작용 한다. <strong>action</strong> 은 사용자가 선택하는 것이고, <strong>state</strong> 는 선택하기 위한 기준이 된다. 그리고 <strong>reward</strong> 는 그 선택을 평가하는 기준이다. agent 외적인 요소들은 불완전하게 제어가 가능하지만, 완벽하게 알려지지 않았을 수도 있다. <strong>policy</strong> 는 agent 가 action을 선택하기 위한 state 에 대한 확률적인 규칙이다. 그리고 agent의 목표는 앞으로 받을 reward 의 총 합을 최대화 하는 것이다.</p>
+<p>Reinforcement learning 은 목표를 달성하기 위해서 어떻게 행동해야 하는지 배우는 것이다. 그리고 이 학습은 상호작용으로부터 이루어진다. <strong>agent</strong> 와 <strong>environment</strong> 는 연속적인 이산 time step 으로 부터 상호작용 한다. <strong>action</strong> 은 사용자가 선택하는 것이고, <strong>state</strong> 는 action 을 선택하기 위한 기반이 된다. 그리고 <strong>reward</strong> 는 그 선택을 평가하는 기준이다. agent 의 외적인 요소들은 불완전하게 제어가 가능하지만, 완벽하게 알려지지 않았을 수도 있다. <strong>policy</strong> 는 agent 가 action 을 선택하는데 필요한 각 state 에 대한 확률적인 규칙이다. 그리고 agent 의 목표는 앞으로 받을 reward 의 총 합을 최대화 하는 것이다.</p>
 
 <hr />
 <h3 id="reference">Reference</h3>
@@ -612,6 +612,15 @@ q_*(s,a) = \mathbb{E} \left[ R_{t+1} + \gamma v_*(S_{t+1}) \mid  S_t=s, A_t=a \r
     
       <li>
         <h3>
+          <a href="/reinforcement%20learning/2019/02/15/rl-dynamic-programming/">
+            강화학습 정리 - Dynamic Programming
+            <small>15 Feb 2019</small>
+          </a>
+        </h3>
+      </li>
+    
+      <li>
+        <h3>
           <a href="/reinforcement%20learning/2019/01/08/rl-multi-armed-bandits/">
             강화학습 정리 - Multi-armed Bandits
             <small>08 Jan 2019</small>
@@ -624,15 +633,6 @@ q_*(s,a) = \mathbb{E} \left[ R_{t+1} + \gamma v_*(S_{t+1}) \mid  S_t=s, A_t=a \r
           <a href="/reinforcement%20learning/2019/01/01/rl-introduction/">
             강화학습 정리 - Introduction
             <small>01 Jan 2019</small>
-          </a>
-        </h3>
-      </li>
-    
-      <li>
-        <h3>
-          <a href="/algorithm/2018/12/29/boj-go-trip-1976/">
-            BOJ - 여행 가자(1976)
-            <small>29 Dec 2018</small>
           </a>
         </h3>
       </li>

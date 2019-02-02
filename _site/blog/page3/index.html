@@ -185,7 +185,7 @@
                 (
                   
                   
-                  3
+                  4
                 )
               </a>
           
@@ -275,6 +275,96 @@
 
       <div class="container content">
         <div class="posts">
+  
+  <div class="post">
+    <h1 class="post-title">
+      <a href="/algorithm/2018/12/22/boj-union-find-1717/">
+        BOJ - 집합의 표현(1717)
+      </a>
+    </h1>
+
+    <span class="post-date">22 Dec 2018</span>
+     | 
+    
+    <a href="/blog/tags/#boj" class="post-tag">BOJ</a>
+    
+    <a href="/blog/tags/#백준" class="post-tag">백준</a>
+    
+    <a href="/blog/tags/#알고리즘" class="post-tag">알고리즘</a>
+    
+    <a href="/blog/tags/#자료구조" class="post-tag">자료구조</a>
+    
+    
+
+    <article>
+      <p><strong>유니온 파인드(Union-Find)</strong>를 연습하기 위해 풀어본 문제입니다. 유니온 파인드는 배열을 사용해서 구현했습니다. 같은 집합에 포함되어 있는지 확인할 때는 find() 함수로 root노드가 같은지 확인하고, 합집합을 할 때는 각 트리의 root 노드가 다르다면 하나를 다른 노드의 자식으로 넣어서 트리를 합칩니다.</p>
+
+<div class="message">
+단순하게 구현했을 때는 Timeout이 발생했습니다. find를 할 떄 부모를 찾아가는 경로가 길어진 경우 시간이 많이 소비되었기 때문입니다. 이를 해결하기 위해 find() 함수에 p[n] = find(p[n]); 를 넣어서 Root 번호를 바로 찾을 수 있게 해서 시간을 단축했습니다. 이를 경로 압축(path compression)이라고 합니다.
+</div>
+
+<h2 id="유니온-파인드">유니온 파인드</h2>
+<pre><code>#define MAX 1000001
+int p[MAX];
+
+int find(int n) {
+	if (p[n] &lt; 0) return n;
+	else {
+		//경로 압축(path compression)
+		p[n] = find(p[n]);
+		return p[n];
+	}
+}
+
+void uni(int a, int b) {
+	int ap = find(a);
+	int bp = find(b);
+	if (ap != bp) {
+		p[bp] = ap;
+	}
+}
+</code></pre>
+
+<h2 id="메인-함수">메인 함수</h2>
+<pre><code>#include &lt;stdio.h&gt;
+
+int main() {
+
+	// init
+	for (int i = 0; i &lt; MAX; i++) {
+		p[i] = -1;
+	};
+
+	int n, m;
+	scanf("%d %d", &amp;n, &amp;m);
+
+	while(m--) {
+		int op, a, b;
+		scanf("%d %d %d", &amp;op, &amp;a, &amp;b);
+
+		if (op == 0) {
+			uni(a, b);
+		} else {
+			int ap = find(a);
+			int bp = find(b);
+
+			if (ap == bp) printf("YES\n");
+			else printf("NO\n");
+		}
+	}
+
+	return 0;
+}
+</code></pre>
+
+    <article>
+    <div class="post-more">
+      
+      <a href="/algorithm/2018/12/22/boj-union-find-1717/#disqus_thread"> <i class="fa fa-comments" aria-hidden="true"></i>Comment</a>&nbsp;
+      
+      <a href="/algorithm/2018/12/22/boj-union-find-1717/"><i class="fa fa-plus-circle" aria-hidden="true"></i>Read more</a>
+    </div>
+  </div>
   
   <div class="post">
     <h1 class="post-title">
@@ -651,106 +741,6 @@ module.exports = {
       <a href="/bixby/2018/12/16/overview_1/#disqus_thread"> <i class="fa fa-comments" aria-hidden="true"></i>Comment</a>&nbsp;
       
       <a href="/bixby/2018/12/16/overview_1/"><i class="fa fa-plus-circle" aria-hidden="true"></i>Read more</a>
-    </div>
-  </div>
-  
-  <div class="post">
-    <h1 class="post-title">
-      <a href="/algorithm/2018/12/16/boj-josephus-1158/">
-        BOJ - 조세퍼스 문제(1158)
-      </a>
-    </h1>
-
-    <span class="post-date">16 Dec 2018</span>
-     | 
-    
-    <a href="/blog/tags/#boj" class="post-tag">BOJ</a>
-    
-    <a href="/blog/tags/#백준" class="post-tag">백준</a>
-    
-    <a href="/blog/tags/#알고리즘" class="post-tag">알고리즘</a>
-    
-    <a href="/blog/tags/#자료구조" class="post-tag">자료구조</a>
-    
-    
-
-    <article>
-      <p><strong>이중 연결 리스트(Double Linked List)</strong>를 연습하기 위해 풀어본 문제입니다. 문제를 풀기 위해서 <strong>원형 링크드 리스트(Circular Liked List)</strong>를 구현해야 하는데 이중 연결 리스트를 이용해서 구현했습니다.</p>
-
-<h2 id="구조체-배열">구조체 배열</h2>
-<pre><code>struct Node {
-	Node* next;
-	Node* prev;
-	int data;
-}narr[5005];
-
-int nidx = 0;
-Node* allocNode() {
-	return &amp;narr[nidx++];
-}
-</code></pre>
-
-<h2 id="원형-링크드-리스트">원형 링크드 리스트</h2>
-<pre><code>Node* head = NULL;
-Node* tail = NULL;
-
-void addNode(int data) {
-	Node* nn = allocNode();
-	nn-&gt;data = data;
-	if (head == NULL) {
-		head = nn;
-		tail = nn;
-		nn-&gt;prev = tail;
-		nn-&gt;next = head;
-	} else {
-		head-&gt;prev = nn;
-		tail-&gt;next = nn;
-		nn-&gt;prev = tail;
-		nn-&gt;next = head;
-		tail = nn;
-	}
-}
-
-int delNode(int idx) {
-	Node* cn = head;
-	if (head == NULL) return 0;
-	while (--idx) {
-		cn = cn-&gt;next;
-	}
-	head = cn-&gt;next;
-
-	cn-&gt;prev-&gt;next = cn-&gt;next;
-	cn-&gt;next-&gt;prev = cn-&gt;prev;
-	return cn-&gt;data;
-}
-</code></pre>
-
-<h2 id="메인-함수">메인 함수</h2>
-<pre><code>#include &lt;stdio.h&gt;
-
-int main() {
-	int N, M;
-	scanf("%d %d", &amp;N, &amp;M);
-
-	for (int i = 1; i &lt;= N; i++) {
-		addNode(i);
-	}
-
-	printf("&lt;");
-	for (int i = 1; i &lt; N; i++) {
-		printf("%d, ", delNode(M));
-	}
-	printf("%d", delNode(M));
-	printf("&gt;");
-}
-</code></pre>
-
-    <article>
-    <div class="post-more">
-      
-      <a href="/algorithm/2018/12/16/boj-josephus-1158/#disqus_thread"> <i class="fa fa-comments" aria-hidden="true"></i>Comment</a>&nbsp;
-      
-      <a href="/algorithm/2018/12/16/boj-josephus-1158/"><i class="fa fa-plus-circle" aria-hidden="true"></i>Read more</a>
     </div>
   </div>
   

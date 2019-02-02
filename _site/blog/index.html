@@ -185,7 +185,7 @@
                 (
                   
                   
-                  3
+                  4
                 )
               </a>
           
@@ -278,6 +278,103 @@
   
   <div class="post">
     <h1 class="post-title">
+      <a href="/reinforcement%20learning/2019/02/15/rl-dynamic-programming/">
+        강화학습 정리 - Dynamic Programming
+      </a>
+    </h1>
+
+    <span class="post-date">15 Feb 2019</span>
+     | 
+    
+    <a href="/blog/tags/#강화학습" class="post-tag">강화학습</a>
+    
+    <a href="/blog/tags/#rl" class="post-tag">RL</a>
+    
+    
+
+    <article>
+      <h2 id="4-dynamic-programming">4. Dynamic Programming</h2>
+
+<p><strong><a href="https://en.wikipedia.org/wiki/Dynamic_programming">Dynamic programing (DP)</a></strong> 은 알고리즘 범주 중 하나로, MDP 에서 완벽한 environment 의 model 이 주어졌을 때 optimal policy 를 계산할 수 있다. DP 는 reinforcement learning 에서 위의 조건을 만족하지 못하는 경우가 많기 때문에 사용에는 한계가 있지만, 여전히 이론적으로 매우 중요하다. DP 는 앞으로 다룰 내용들을 이해하는데 꼭 필요한 기반이 된다.</p>
+
+<p>이 챕터에서는 주로 environment 가 <strong>finite MDP</strong> 라고 가정할 것이다. 또한 <strong>dynamics</strong> 가 $p(s^\prime,r \mid s,a)$ 으로 주어진다. $s \in \mathscr{S}, a \in \mathscr{A}(s), r \in \mathscr{R}, s^\prime \in \mathscr{S}^+$ ($\mathscr{S}^+$ 는 episodic 문제에서 terminal state 를 포함)</p>
+
+<p>Reinforcement learning 과 DP 의 핵심 아이디어는 좋은 policy 를 찾기 위해서 value function 을 잘 구조화하는 것이다. 이 챕터에서는 DP 가 value function 을 계산하기 위해서 어떻게 사용하는지 알아볼 것이다. 만약 우리가 <strong>Bellman optimality equation</strong> 을 만족하는 $v_*$ 혹은 $q_*$ 를 알고 있으면 <strong>optimal policy</strong> 는 쉽게 구할 수 있다.</p>
+
+<script type="math/tex; mode=display">% <![CDATA[
+\begin{align*}
+ 	v_*(s) &= \underset{a}{\text{max}} \mathbb{E} \left[ R_{t+1} + \gamma v_*(S_{t+1}) \mid S_t = s, A_t = a \right] \\
+	&= \underset{a}{\text{max}} \sum_{s^\prime, r}p(s^\prime, r \mid s, a) \left[ r + \gamma v_*(s^\prime) \right] & (4.1)
+\end{align*} %]]></script>
+
+<script type="math/tex; mode=display">% <![CDATA[
+\begin{align*}
+	q_*(s,a) &= \mathbb{E} \left[ R_{t+1} + \gamma \underset{a^\prime}{\text{max}}q_*(S_{t+1}, a^\prime) \mid S_t=s, A_t = a \right] \\
+	&= \sum_{s^\prime, r}p(s^\prime, r \mid s, a) \left[ r + \gamma \underset{a^\prime}{\text{max}}q_*(s^\prime, a^\prime)) \right] & (4.2)
+\end{align*} %]]></script>
+
+<p>앞으로 다루겠지만, DP 알고리즘은 Bellman equation 을 value function 의 근사치를 얻기 위한 업데이트 규칙으로 변환됨으로써 얻어진다.</p>
+
+<blockquote>
+  <p>(4.1) 식에서 $v_*(s)$ 를 구하기 위해서는 $v_*(s^\prime)$ 가 먼저 업데이트 되어야 합니다. 이 챕터에서는 재귀적인 방법으로 계산하는 것이 아니라, 사전에 미리 구해진 $v_*(s^\prime)$ 의 값을 사용합니다. 결국 반복적으로 업데이트 하면서 원하는 value function 에 근사합니다.</p>
+</blockquote>
+
+<hr />
+
+<h3 id="policy-evaluation-prediction">Policy Evaluation (Prediction)</h3>
+
+<p>DP 에서 policy $\pi$ 에 대한 state-value function 을 <strong>policy evaluation</strong> 이라고 한다. 이전 장에서 모든 State s 에 대해 아래와 같이 정의 했었다.</p>
+
+<script type="math/tex; mode=display">% <![CDATA[
+\begin{align*}
+v_\pi(s) &\doteq  \mathbb{E}_\pi\left[G_t  \mid  S_t=s \right]  \\
+			&= \mathbb{E}_\pi \left[R_{t+1} + \gamma G_{t+1}  \mid  S_t=s \right] &  (from (3.9))\\
+			&= \mathbb{E}_\pi \left[R_{t+1} + \gamma v_{\pi}(S_{t+1})  \mid  S_t=s \right] & (4.3)\\
+			&= \sum_a \pi(a \mid s) \sum_{s^\prime, r} p(s^\prime,r \mid s,a) \left[ r + \gamma v_\pi(s^\prime) \right], \text{for all } s \in \mathscr{S}, & (4.4)
+			
+\end{align*} %]]></script>
+
+<p>$\pi(a \mid s)$ 는 policy $\pi$ 를 따랐을 때 state $s$ 에서 action $a$ 를 선택할 확률이다. 기댓값 $\mathbb{E}$ 에는 $\pi$ 에 따라 정해지기 때문에 $\pi$ 가 붙는다.</p>
+
+<p>만약 environment 의 dynamic 를 완벽하게 알고 있다면, 식 (4.4) 는 선형 연립방정식으로 풀 수 있다. 그러나 우리가 해결하려는 문제에는 반복적인 계산으로 방법이 더 적합하다. 연속적인 approximate value function 을 $v_0, v_1, v_2 …, $ 으로 간주했을 떄, $v_\pi$ 에 대한 Bellman equation 을 사용해서 순차적으로 값을 계산할 수 있다. 여기서 각 $v_k$ 는 final state 를 포함한 모든 State $\mathscr{S}^+$ 에 맵핑 된다.</p>
+
+<script type="math/tex; mode=display">% <![CDATA[
+\begin{align*}
+v_{k+1}(s) &\doteq \mathbb{E}_\pi \left[R_{t+1} + \gamma v_k(S_{t+1})  \mid  S_t=s \right] \\
+			&= \sum_a \pi(a \mid s) \sum_{s^\prime, r} p(s^\prime,r \mid s,a) \left[ r + \gamma v_k(s^\prime) \right], \text{for all } s \in \mathscr{S}, & (4.5)
+			
+\end{align*} %]]></script>
+
+<blockquote>
+  <p>식 (4.4) 에서 (4.5) 로 넘어오는 식이 매우 중요하다고 생각합니다. 식 (4.5) 를 여러번 계산한다고 생각했을 때, $v_{k+1}$ 을 계산할 때 필요한 $v_k$ 는 이미 이전 시점에서 계산 된 해를 가지고 있습니다. $v_k$ 에서 모든 $s \in \mathscr{S}$ 에 대해서 계산하고 다음 $v_{k+1}$ 로 넘어간다고 생각하시면 편할 겁니다.</p>
+</blockquote>
+
+<p>시퀀스 {$v_k$} 는 $k$ 가 무한으로 갈 때 $v_\pi$ 로 수렴한다. 이렇게 반복적으로 업데이트 하는 알고리즘을 <strong>iterative policy evaluation</strong> 이라고 한다.</p>
+
+<p>$v_k$ 으로부터 $v_{k+1}$ 에 대한 근사값(approximation) 을 구하기 위해서, 각 state $s$ 에서 동일한 iterative policy evaluation 을 적용한다. 이 작업은 기존 $s$ 의 값을 새로운 값으로 대체하는데, 이 값은 기존 $s$ 에 이어지는 다음 state 들의 값과 expected immediate reward 로부터 계산된다. 이런 업데이트를 <strong>expected update</strong> 라고 한다. 각 iterative policy evaludation 는 새로운 appoximate value function $v_{k+1}$ 를 구하기 위해서 한번 모든 state 의 값을 업데이트 한다. DP 알고리즘에서 완료된 update 를 expected update 라고 한다. 왜냐하면 다음 state 를 샘플링 하는 것이 아니라 가능한 모든 다음 state 를 기반으로 업데이트 하기때문이다.</p>
+
+<p>식 (4.5) 을 기반으로 iterative policy evaluation 을 프로그래밍 하기 위해서는 두개의 배열이 필요하다. 하나는 이전 값을 보관하는 $v_k(s)$ 이고, 또 다른 하나는 새로운 값을 보관하는 $v_{k+1}(s)$ 이다. 물론 하나의 배열을 사용해서 이전 값을 새로운 값으로 덮어씌워도 된다. 만약 그렇게 하면 업데이트되는 순서에 따라서 이미 업데이트 된 값이 이전 값 대신에 사용될 수도 있지만, 그렇다 하더라도 $v_\pi$ 에 수렴하게 된다. 사실 이런 방법이 두개의 배열을 사용하는 것보다 더 빠르게 수렴한다. 왜냐하면 업데이트된 새로운 값을 바로 사용할 수 있기 때문이다. 이런 알고리즘을 <strong>in-place</strong> 알고리즘 이라고 하며, 앞으로 DP 에서는 주로 이 방법을 사용할 것이다.</p>
+
+<p>다음은 <strong>Iterative policy evaluation</strong> 의 <strong>in-place</strong> 버전에 대한 슈도코드다.</p>
+
+<p><img src="/assets/2019-02-15-rl-dynamic-programming/pic1.png" alt="image" /></p>
+
+<hr />
+
+<h3 id="policy-iteration">Policy Iteration</h3>
+
+
+    <article>
+    <div class="post-more">
+      
+      <a href="/reinforcement%20learning/2019/02/15/rl-dynamic-programming/#disqus_thread"> <i class="fa fa-comments" aria-hidden="true"></i>Comment</a>&nbsp;
+      
+      <a href="/reinforcement%20learning/2019/02/15/rl-dynamic-programming/"><i class="fa fa-plus-circle" aria-hidden="true"></i>Read more</a>
+    </div>
+  </div>
+  
+  <div class="post">
+    <h1 class="post-title">
       <a href="/reinforcement%20learning/2019/01/31/rl-finite-markov-decision-rocesses/">
         강화학습 정리 - Finite Markov Decision Processes
       </a>
@@ -295,21 +392,21 @@
     <article>
       <h2 id="3-finite-markov-decision-processes">3. Finite Markov Decision Processes</h2>
 
-<p>이번 챕터에서는 앞으로 계속 다룰 finite <strong>Markov decision processes (MDPs)</strong> 에 대해서 소개한다. 그런데 이전 챕터에서 다룬 bandits problem 과는 다르게, 상황에 따라서 다른 action을 취해야 하는 <em>associative task</em> 이다. MDPs는 <a href="https://en.wikipedia.org/wiki/Sequential_decision_making">순차적 의사 결정(sequential decision making)</a>을 하는 고전적인 공식인데, 여기서 선택된 action은 immediate reward 에만 영향을 미치는 것이 아니라, 나중의 상황(situation)이나 <strong>state</strong> 그리고 <strong>future reward</strong> 에도 영향을 미친다. 그렇기 때문에 MDPs는 <strong>delayed reward</strong> 라는 개념을 가지고 있으며, immediate reward 와 tradeoff 해야 하는 필요성도 수반하고 있다. Badit problem 에서는 각 action $a$ 의 value로 <strong>$q_*(a)$</strong> 를 estimate했지만, MDPs에서는 action $a$ 와 각 state $s$ 의 value로 <strong>$q_*(s,a)$</strong> 를 estimate한다.</p>
+<p>이번 챕터에서는 앞으로 계속 다룰 finite <strong>Markov decision processes (MDPs)</strong> 에 대해서 소개한다. 그런데 이전 챕터에서 다룬 bandits problem 과는 다르게, 상황에 따라서 다른 action 을 선택해야 하는 <em>associative task</em> 이다. MDPs는 <a href="https://en.wikipedia.org/wiki/Sequential_decision_making">순차적 의사 결정(sequential decision making)</a>을 하는 고전적인 공식인데, 여기서 선택된 action은 immediate reward 에만 영향을 미치는 것이 아니라, 나중의 상황(situation)이나 <strong>state</strong> 그리고 <strong>future reward</strong> 에도 영향을 미친다. 그렇기 때문에 MDPs는 <strong>delayed reward</strong> 라는 개념을 가지고 있으며, immediate reward 와 tradeoff 해야 하는 필요성도 수반하고 있다. Badit problem 에서는 각 action $a$ 의 value로 <strong>$q_*(a)$</strong> 를 estimate했지만, MDPs에서는 action $a$ 와 각 state $s$ 의 value로 <strong>$q_*(s,a)$</strong> 를 estimate한다.</p>
 
 <hr />
 
 <h3 id="the-agentenvironment-interface">The Agent–Environment Interface</h3>
 
-<p>MDPs는 상호 작용하면서 학습하는 문제를 간단하게 정의한다. 학습하고 의사 결정하는 것을 <strong><em>agent</em></strong> 라고 하며, 이 agent와 상호작용 하며 agent외부에 존재하는 모든 것을 <strong><em>environment</em></strong> 라고 한다. agent가 action을 선택하면 environment는 새로운 상황(situation)을 제시한다. 또한 environment는 reward를 제공하는데, agent는 이 reward가  최대가 되도록 action을 선택해 나아가야 한다.</p>
+<p>MDPs는 상호 작용하며 학습하는 문제를 간단하게 정의한다. 학습과 동시에 의사 결정하는 것을 <strong><em>agent</em></strong> 라고 하며, 이 agent 와 상호작용 하며 agent 의 외부에 존재하는 모든 것을 <strong><em>environment</em></strong> 라고 한다. agen 가 action 을 선택하면 environment 는 새로운 상황(situation)을 제시한다. 또한 environment 는 reward 를 제공하는데, agent 는 이 reward가  최대가 되도록 action 을 선택해 나아가야 한다.</p>
 
 <div class="message">
-situation과 state 단어가 나오는데요, 여기서는 situation을 state를 포함한 개념으로 사용합니다. 중요한 키워드는 state와 reward입니다. 
+situation 과 state 단어가 나오는데요, 여기서는 situation 을 state 를 포함한 개념으로 사용합니다. 중요한 키워드는 state 와 reward 입니다. 
 </div>
 
 <p><img src="/assets/2019-01-31-rl-finite-mdps/figure3_1.png" alt="image" /></p>
 
-<p>위 그림처럼 각 time step($t$ = 0, 1, 2, 3, …)마다 <strong>agent</strong>와 <strong>environment</strong>는  상호작용 한다. time step $t$ 에서 agent는 environment로부터 <strong>state</strong> ($ S_t \in \mathscr{S}$ )를 받으며 이를 고려해서 <strong>action</strong> ($ A_t \in \mathscr{A}(s)$ )을 선택한다. 그리고 한 time step 이후에 action에 대한 결과로 <strong>reward</strong> ($ R_{t+1} \in \mathscr{R} \subset \mathbb{R} $)와 새로운 state ($ S_{t+1} $)를 받는다. 이를 순서대로 나타내면 아래와 같다.</p>
+<p>위 그림처럼 각 time step($t$ = 0, 1, 2, 3, …)마다 <strong>agent</strong> 와 <strong>environment</strong> 는 상호작용 한다. time step $t$ 에서 agent 는 environment 로부터 <strong>state</strong> ($ S_t \in \mathscr{S}$ )를 받으며 이를 고려해서 <strong>action</strong> ($ A_t \in \mathscr{A}(s)$ )을 선택한다. 그리고 한 time step 이후에 action 에 대한 결과로 <strong>reward</strong> ($ R_{t+1} \in \mathscr{R} \subset \mathbb{R} $)와 새로운 state ($ S_{t+1} $)를 받는다. 이를 순서대로 나타내면 아래와 같다.</p>
 
 <script type="math/tex; mode=display">% <![CDATA[
 \begin{align*}
@@ -327,7 +424,7 @@ p(s^\prime,r \mid s,a) \doteq \operatorname{Pr}\left\{ S_t=s^\prime, R_t=r  \mid
 
 <script type="math/tex; mode=display">\sum_{s^\prime \in \mathscr{S}}\sum_{r \in \mathscr{R}}p(s^\prime,r \mid s,a) = 1, \text{  for all }s \in \mathscr{S}, a \in \mathscr{A}(s)</script>
 
-<p>$S_t$와 $R_t$의 값은 바로 직전의 $S_{t-1}$와 $A_{t-1}$에 의해서만 결정된다. state는 이전에 발생한 agent 와 environment의 상호작용에 대한 모든 정보를 내포하고 있어야 하는데, 여기서는 이 state를 <strong><em><a href="https://en.wikipedia.org/wiki/Markov_property">Markov property</a></em></strong>라고 한다.</p>
+<p>$S_t$와 $R_t$의 값은 바로 직전의 $S_{t-1}$와 $A_{t-1}$에 의해서만 결정된다. state 는 이전에 발생한 agent 와 environment 의 상호작용에 대한 모든 정보를 내포하고 있어야 하는데, 여기서는 이 state 를 <strong><em><a href="https://en.wikipedia.org/wiki/Markov_property">Markov property</a></em></strong>라고 한다.</p>
 
 <p>다음과 같이 함수 $p$으로부터 environment에 대해서 알고 싶은 정보를 계산할 수 있다.</p>
 
@@ -349,47 +446,47 @@ p(s^\prime,r \mid s,a) \doteq \operatorname{Pr}\left\{ S_t=s^\prime, R_t=r  \mid
 
 <script type="math/tex; mode=display">r(s,a,s^\prime) \doteq  \mathbb{E}\left[R_t  \mid  S_{t-1}=s, A_{t-1}=a, S_t=s^\prime\right] = \sum_{r \in \mathscr{R}}r\frac{p(s^\prime,r \mid s,a)}{p(s^\prime \mid s,a)}</script>
 
-<p>MDP framework는 다양한 방법으로 다양한 문제에 적용할 수 있다. 예를 들어서, time step은 꼭 고정된 간격이 아니여도 되고, action은 로보트 팔에 적용될 volatage 처럼 low-level 컨트롤 이거나 학교에서 점심을 먹을지 말지에 대한 선택이여도 된다. 또한 state는 sensor에 대한 정보나 방(room)에 있는 물체들에 대한 설명일 수 있다.</p>
+<p>MDP framework 는 다양한 방법으로 다양한 문제에 적용할 수 있다. 예를 들어서, time step 은 꼭 고정된 간격이 아니여도 되고, action 은 로보트 팔에 적용될 volatage 처럼 low-level 컨트롤 이거나 학교에서 점심을 먹을지 말지에 대한 선택이여도 된다. 또한 state는 sensor에 대한 정보나 방(room)에 있는 물체들에 대한 설명일 수 있다.</p>
 
-<p><strong>MDP framework</strong>는 상호작용으로부터 목표 지향적인(goal-directed) 학습 문제를 추상화한 것이다. 목표 지향적인(goal-directed) 행동을 취하는 어떤 문제에서도, agen와 environment 사이를 오가는 신호를 세가지로 요약할 수 있다.  agent가 선택하는 신호를 <strong>action</strong>이라고 하고, 선택이 이루어지는 기본이 되는 신호를 <strong>state</strong>라고 하며, agent의 목표인 신호를 <strong>reward</strong>라고 한다. MDP framework가 모든 decision-learning problem을 표현하기에는 충분하지 않을 수 있으나, 지금까지 상당히 유용하게 사용되어왔다.</p>
+<p><strong>MDP framework</strong> 는 상호작용으로부터 목표 지향적인(goal-directed) 학습 문제를 추상화한 것이다. 목표 지향적인(goal-directed) 행동을 취하는 어떤 문제에서도, agen와 environment 사이를 오가는 신호를 세가지로 요약할 수 있다.  agent 가 선택하는 신호를 <strong>action</strong> 이라고 하고, 선택이 이루어지는 기본이 되는 신호를 <strong>state</strong> 라고 하며, agent의 목표인 신호를 <strong>reward</strong> 라고 한다. MDP framework 가 모든 decision-learning problem 을 표현하기에는 충분하지 않을 수 있으나, 지금까지 상당히 유용하게 사용되어왔다.</p>
 
-<p>물론 특정 state와 action은 작업마다 크게 다르며, 어떻게 표현 되느냐에 따라 성능에 크게 영향을 줄 수 있다.</p>
+<p>물론 특정 state 와 action 은 작업마다 크게 다르며, 어떻게 표현 되느냐에 따라 성능에 크게 영향을 줄 수 있다.</p>
 
 <hr />
 
 <h3 id="goals-and-rewards">Goals and Rewards</h3>
 
-<p>Reinforcement Learning 에서 agent의 <strong>목표(goal)</strong>는 environment로 부터 받는 특별한 신호인 <strong><em>reward</em></strong>를 공식 하는 것이다. 각 time step에서 reward는 단순한 숫자다. 조금 더 간단하게 얘기하면 agent의 목표(goal)는 reward의 총 합을 최대화 하는 것이다. 총 합이라는 것은 즉시 받는(immediate) reward뿐 아니라, 장기적으로 봤을 때 받을 모든 reward의 누적값이 라는 의미다.</p>
+<p>Reinforcement Learning 에서 agent의 <strong>목표(goal)</strong> 는 environment 로 부터 받는 특별한 신호인 <strong><em>reward</em></strong> 를 공식 하는 것이다. 각 time step 에서 reward 는 단순한 숫자다. 조금 더 간단하게 얘기하면 agent의 목표(goal)는 reward의 총 합을 최대화 하는 것이다. 총 합이라는 것은 즉시 받는(immediate) reward 뿐 아니라, 장기적으로 봤을 때 받을 모든 reward 의 누적값이 라는 의미다.</p>
 
 <blockquote>
   <p>That all of what we mean by goals and purposes can be well thought of as the maximization of the expected value of the cumulative sum of a received scalar signal (called reward).</p>
 </blockquote>
 
-<p>reward는 reinforcement learning에서 가장 두드러지는 특징 중 하나다.</p>
+<p>reward는 reinforcement learning 에서 가장 두드러지는 특징 중 하나다.</p>
 
-<p>reward에 대해서 goal을 공식화하는 것이 한계가 있어 보이지만, 유용하고 넓은 범위에서 사용 가능하다는 것을 증명해왔다. 예를 들어서, 로봇(agent)이 미로를 탈출하는 방법을 학습 시킬때 time step 마다 <strong>-1</strong> reward를 주었더니 이 agent는 더 빨리 탈출 하는 방법을 학습했다. 또한 재활용 로봇이 빈 캔을 찾고 수집하는 방법을 학습할 수 있도록 캔을 수집할 때마다 <strong>+1</strong> reward를 주어서 학습시키기도 했다.</p>
+<p>reward 에 대해서 goal 을 공식화하는 것이 한계가 있어 보이지만, 유용하고 넓은 범위에서 사용 가능하다는 것을 증명해왔다. 예를 들어서, 로봇(agent)이 미로를 탈출하는 방법을 학습 시킬때 time step 마다 <strong>-1</strong> reward를 주었더니 이 agent는 더 빨리 탈출 하는 방법을 학습했다. 또한 재활용 로봇이 빈 캔을 찾고 수집하는 방법을 학습할 수 있도록 캔을 수집할 때마다 <strong>+1</strong> reward를 주어서 학습시키기도 했다.</p>
 
-<p>위의 예에서 보면, agent는 항상 reward를 최대화 하기 위해서 학습한다. 만약 agent가 우리가 원하는 것을 학습하기 원한다면 agent가 reward를 최대화 하면서 목표(goal)를 달성할 수 있도록 reward를 제공해야 한다. 따라서 우리가 설정한 reward는 달성하고자 하는 목표(goal)을 확실하게 가리키도록 해야 한다. Reward는 agent와 <strong><em>‘how’</em></strong> 가 아닌 <strong><em>‘what’</em></strong> 을 communication하는 방법이다.</p>
+<p>위의 예에서 보면, agent 는 항상 reward 를 최대화 하기 위해서 학습한다. 만약 agent 가 우리가 원하는 것을 학습하기 원한다면 agent 가 reward 를 최대화 하면서 목표(goal)를 달성할 수 있도록 reward를 제공해야 한다. 따라서 우리가 설정한 reward 는 달성하고자 하는 목표(goal)을 확실하게 가리키도록 해야 한다. Reward 는 agent 와 <strong><em>‘how’</em></strong> 가 아닌 <strong><em>‘what’</em></strong> 을 communication하는 방법이다.</p>
 
 <hr />
 
 <h3 id="returns-and-episodes">Returns and Episodes</h3>
 
-<p>agent의 목표는 장기적으로 누적은 reward를 최대화 하는 것이다. 바로 이 누적된 reward를 $G_t$ 로 아래와 같이 표현할 수 있다. 이 값을 <strong><em>expected return</em></strong> 이라고 한다.</p>
+<p>agent 의 목표는 장기적으로 누적은 reward 를 최대화 하는 것이다. 바로 이 누적된 reward 를 $G_t$ 로 아래와 같이 표현할 수 있다. 이 값을 <strong><em>expected return</em></strong> 이라고 한다.</p>
 
 <script type="math/tex; mode=display">% <![CDATA[
 \begin{align*}
 G_t \doteq R_{t+1} + R_{t+2} + R_{t+3} + \dots + R_T && (3.7)
 \end{align*} %]]></script>
 
-<p>위 식에서 $T$를 final time step 이라고 한다. agent-envirionment 사이에서 이뤄지는 상호작용을 <strong>episode</strong> 개념으로 나눌 수 있다. 이 episode는 마치 게임에서 한 번 플레이 하는 것과 같은데, 여기서 final time step의 개념이 있는 것은 자연스러운 접근이다. 또한, 각 episode 에서 마지막 state를 <strong>terminal state</strong>라고 한다. episode가 게임에서 승패와 같이 특정 결과로 끝나더라도 다음 episode는 이전의 결과와 상관없이 새로 시작된다. 이런 episode로 이루어진 task를 <em>episodic task</em>라고 한다. episodic task에서 terminal state의 존재 여부에 따라서 state set을 아래와 같이 구분한다.</p>
+<p>위 식에서 $T$를 final time step 이라고 한다. agent-envirionment 사이에서 이뤄지는 상호작용을 <strong>episode</strong> 개념으로 나눌 수 있다. 이 episode 는 마치 게임에서 한 번 플레이 하는 것과 같은데, 여기서 final time step의 개념이 있는 것은 자연스러운 접근이다. 또한, 각 episode 에서 마지막 state 를 <strong>terminal state</strong> 라고 한다. episode 가 게임에서 승패와 같이 특정 결과로 끝나더라도 다음 episode 는 이전의 결과와 상관없이 새로 시작된다. 이런 episode로 이루어진 task를 <em>episodic task</em> 라고 한다. episodic task 에서 terminal state의 존재 여부에 따라서 state set 을 아래와 같이 구분한다.</p>
 
 <ul>
-  <li>$\mathscr{S}$  : terminal state가 포함되지 않는 모든 state set</li>
-  <li>$\mathscr{S}^+$: terminal state이 포함된 모든 모든 state set</li>
+  <li>$\mathscr{S}$  : terminal state 가 포함되지 않는 모든 state set</li>
+  <li>$\mathscr{S}^+$: terminal state 이 포함된 모든 모든 state set</li>
 </ul>
 
-<p>반면에 하나의 episode가 끝나지 않는 경우가 있는데. 이를 <strong>continuing task</strong>라고 한다. 이런 경우 final time step 은 $T=\infty$로 무한이기 때문에, 최대화 하려고 했던 return 식 (3.7)에 문제가 생긴다. 그렇기 때문에 앞으로 다른 return 식을 사용한다. 여기에 <strong>discounting</strong> 라는 컨셉이 추가된다.</p>
+<p>반면에 하나의 episode 가 끝나지 않는 경우가 있는데. 이를 <strong>continuing task</strong> 라고 한다. 이런 경우 final time step 은 $T=\infty$로 무한이기 때문에, 최대화 하려고 했던 return 식 (3.7)에 문제가 생긴다. 그렇기 때문에 앞으로 다른 return 식을 사용한다. 여기에 <strong>discounting</strong> 라는 컨셉이 추가된다.</p>
 
 <script type="math/tex; mode=display">% <![CDATA[
 \begin{align*}
@@ -400,7 +497,7 @@ G_t \doteq R_{t+1} + \gamma R_{t+2} + \gamma^2R_{t+3} + \dots =  \sum_{k=0}^\inf
   <li>$\gamma$: discount rate ($ 0 \le \gamma \le 1 $)</li>
 </ul>
 
-<p><strong>discount rate</strong> 는 미래(future) reward의 현재 가치을 정의한다. 미래 시점인 $k$ time step 에서 받을 reward의 현재 가치는 $\gamma^{k-1}$ 배 만큼 줄어든다. 만약 $\gamma &lt; 1$ 이면 (3.8) 식은 finite value를 가지게 될 것이고, $\gamma = 0$이라면 agent는 즉시 받을(immediate) reward $R_{t+1}$ 만 고려해서 action $A_t$를 선택할 것이다. 하지만 이렇게 immediate reward만 고려해서 action을 선택한다면 전체 return 값은 감소할 수 있다. $\gamma$ 가 1에 가까울 수록 전체 return은 future reward를 더 많이 수용한다. 이는 agent가 미래에 받을 reward를 신뢰한다고 볼 수 있다. 식 (3.8)은 아래와 같이 전개될 수 있다.</p>
+<p><strong>discount rate</strong> 는 미래(future) reward 의 현재 가치을 정의한다. 미래 시점인 $k$ time step 에서 받을 reward 의 현재 가치는 $\gamma^{k-1}$ 배 만큼 줄어든다. 만약 $\gamma &lt; 1$ 이면 (3.8) 식은 finite value 를 가지게 될 것이고, $\gamma = 0$이라면 agent 는 즉시 받을(immediate) reward $R_{t+1}$ 만 고려해서 action $A_t$를 선택할 것이다. 하지만 이렇게 immediate reward 만 고려해서 action 을 선택한다면 전체 return 값은 감소할 수 있다. $\gamma$ 가 1에 가까울 수록 전체 return 은 future reward 를 더 많이 수용한다. 이는 agent 가 미래에 받을 reward 를 신뢰한다고 볼 수 있다. 식 (3.8)은 아래와 같이 전개될 수 있다.</p>
 
 <script type="math/tex; mode=display">% <![CDATA[
 \begin{align*}
@@ -409,7 +506,7 @@ G_t &\doteq R_{t+1} + \gamma R_{t+2} + \gamma^2R_{t+3} + \gamma^2R_{t+4} +\dots 
 	&= R_{t+1} + \gamma G_{t+1} & (3.9)
 \end{align*} %]]></script>
 
-<p>return 식 (3.8) 에서 만약 reward가 0이 아니고 $\gamma &lt; 1$ 이라면 식(3.8)은 finite하다. 예를 들어서 reward가 1이라고 가정하면 return은 아래와 같다.</p>
+<p>return 식 (3.8) 에서 만약 reward 가 0이 아니고 $\gamma &lt; 1$ 이라면 식(3.8)은 finite 하다. 예를 들어서 reward 가 1이라고 가정하면 return 은 아래와 같다.</p>
 
 <script type="math/tex; mode=display">G_t = \sum_{k=0}^\infty \gamma^k = \frac{1}{1 - \gamma}</script>
 
@@ -417,17 +514,17 @@ G_t &\doteq R_{t+1} + \gamma R_{t+2} + \gamma^2R_{t+3} + \gamma^2R_{t+4} +\dots 
 
 <h3 id="unified-notation-for-episodic-and-continuing-tasks">Unified Notation for Episodic and Continuing Tasks</h3>
 
-<p>이전 섹션에서 agent-environment 상호작용이 일련의 분리된 episode로 나눠지는 <strong>episodic task</strong>와 그렇지 않은 <strong>continuing task</strong>에 대해서 알아봤다. 앞으로 이 두 종류의 task에 대해서 다룰 것이기 때문에, 두 가지를 모두 정확하게 표현할 수 있는 하나의 표기법(notation)을 정의하는 것이 유용하다.</p>
+<p>이전 섹션에서 agent-environment 상호작용이 일련의 분리된 episode 로 나눠지는 <strong>episodic task</strong> 와 그렇지 않은 <strong>continuing task</strong> 에 대해서 알아봤다. 앞으로 이 두 종류의 task 에 대해서 다룰 것이기 때문에, 두 가지를 모두 정확하게 표현할 수 있는 하나의 표기법(notation)을 정의하는 것이 유용하다.</p>
 
-<p>원래는 episodic task를 더 정확하게 표현하기 위해서 추가적인 notation이 필요하다. 왜냐하면 여러개의 연속적인 episode을 표현해야 할 수도 있기 때문이다. 이 episode와 time step 둘 모두 고려했을 때 episode $i$ 에서 time step $t$ 일 때 state를 $S_{t,i}$ 로 나타낼 수 있다. 다른 것들도 마찬가지로 $A_{t,i}$, $R_{t,i}$, $\pi_{t,i}$, $T_{i}$, 등으로 나타낼 수 있다. 그러나 여기서는 대부분의 경우 episode를 구분할 필요가 없기 때문에 단일 episode만 고려할 것이기 때문에 $S_{t,i}$ 대신에 $S_t$ 을 사용할 것이다.</p>
+<p>원래는 episodic task 를 더 정확하게 표현하기 위해서 추가적인 notation 이 필요하다. 왜냐하면 여러개의 연속적인 episode 을 표현해야 할 수도 있기 때문이다. 이 episode 와 time step 둘 모두 고려했을 때 episode $i$ 에서 time step $t$ 일 때 state를 $S_{t,i}$ 로 나타낼 수 있다. 다른 것들도 마찬가지로 $A_{t,i}$, $R_{t,i}$, $\pi_{t,i}$, $T_{i}$, 등으로 나타낼 수 있다. 그러나 여기서는 대부분의 경우 episode를 구분할 필요가 없기 때문에 단일 episode 만 고려할 것이기 때문에 $S_{t,i}$ 대신에 $S_t$ 을 사용할 것이다.</p>
 
-<p>episodic task와 continuing task는 episode의 종료 시점을 고려하면 통합 될 수 있는데 그림으로 나타내면 아래와 같다.</p>
+<p>episodic task 와 continuing task 는 episode 의 종료 시점을 고려하면 통합 될 수 있는데 그림으로 나타내면 아래와 같다.</p>
 
 <p align="center">
   <img width="80%" height="80%" src="/assets/2019-01-31-rl-finite-mdps/pic1.png" />
 </p>
 
-<p>위 그림에서 네모 모양은 episode의 마지막에 해당하는 special absorbing state 이다. $S_0$ 에서 시작해서 연속적인 reward +1, +1, 0, 0, 0, … 를 받는데, 모두 더하면 $T=3$ 이거나 $T=\infty$ 이더라도 똑같은 reward를 얻는다. discount rate를 적용해도 마찬가지다. 식으로 나타내면 아래와 같이 나타낼 수 있다. 앞으로는 아래 식을 계속 사용한다.</p>
+<p>위 그림에서 네모 모양은 episode 의 마지막에 해당하는 special absorbing state 이다. $S_0$ 에서 시작해서 연속적인 reward +1, +1, 0, 0, 0, … 를 받는데, 모두 더하면 $T=3$ 이거나 $T=\infty$ 이더라도 똑같은 reward 를 얻는다. discount rate 를 적용해도 마찬가지다. 식으로 나타내면 아래와 같이 나타낼 수 있다. 앞으로는 아래 식을 계속 사용한다.</p>
 
 <script type="math/tex; mode=display">% <![CDATA[
 \begin{align*}
@@ -435,20 +532,20 @@ G_t \doteq \sum_{k=t+1}^T \gamma^{k-t-1}R_k && (3.11)
 \end{align*} %]]></script>
 
 <div class="message">
-식 (3.8)과 (3.11)은 상당히 유사합니다. (3.8)에서 k가 t시점에서 부터 진행된 time step 이라면, (3.11)에서 k는 시작 time step를 의미합니다. T time step을 표현하기 위해서라고 생각하시면 될 것 같습니다. (3.8)에서 단순히 무한 을 T로 변환하면 식이 성립하지 않습니다.
+식 (3.8)과 (3.11)은 상당히 유사합니다. (3.8)에서 k가 t시점에서 부터 진행된 time step 이라면, (3.11)에서 k는 시작 time step 를 의미합니다. T time step 을 표현하기 위해서라고 생각하시면 될 것 같습니다. (3.8)에서 단순히 무한 을 T로 변환하면 식이 성립하지 않습니다.
 </div>
 
 <hr />
 
 <h3 id="policies-and-value-functions">Policies and Value Functions</h3>
 
-<p>거의 모든 reinforcement learning 알고리즘은 value function을 estimating하는 것을 포함한다. 이 <strong><em>value function</em></strong>은 agent가 주어진 state에 있는 것이 얼마나 많은 <strong>expected return</strong>을 받을지 estimate한다. 그리고 agent가 주어진 state에서 선택한 action이 얼마나 많은 expected return을 받을지 estimate하는 것을 <strong><em>action-value function</em></strong>이라고 한다.</p>
+<p>거의 모든 reinforcement learning 알고리즘은 value function 을 estimating 하는 것을 포함한다. 이 <strong><em>value function</em></strong> 은 agent 가 주어진 state 에 있는 것이 얼마나 많은 <strong>expected return</strong> 을 받을지 estimate 한다. 그리고 agent 가 주어진 state 에서 선택한 action 이 얼마나 많은 expected return 을 받을지 estimate 하는 것을 <strong><em>action-value function</em></strong> 이라고 한다.</p>
 
 <div class="message">
-여기서 expected return은 agent가 앞으로 받을 rewards의 합입니다. 식 (3.7), (3.8), (3.9)에 자세하게 나와있습니다.
+여기서 expected return 은 agent 가 앞으로 받을 rewards 의 합입니다. 식 (3.7), (3.8), (3.9)에 자세하게 나와있습니다.
 </div>
 
-<p>물론, expected reward 는 agent가 어떤 action을 선택해 나아가냐에 따라 달려 있다. 그렇기 때문에 value function은 <strong>정책(policy)</strong>이라고 하는 action을 선택하는 방법에 영향을 받는다.</p>
+<p>물론, expected reward 는 agent 가 어떤 action 을 선택해 나아가냐에 따라 달려 있다. 그렇기 때문에 value function 은 <strong>정책(policy)</strong> 이라고 하는 action 을 선택하는 방법에 영향을 받는다.</p>
 
 <p><strong>policy</strong>는 state 와 action의 선택 확률을 맵핑한다. agent 가 time $t$ 에서 policy $\pi$ 를 따른다면, $S_t = s$ 가 주어졌을 때 $A_t = a$ 일 확률을 $\pi(a \mid s)$ 로 나타낼 수 있다.</p>
 
@@ -472,7 +569,7 @@ v_\pi(s) \doteq  \mathbb{E}_\pi\left[G_t  \mid  S_t=s \right] = \mathbb{E}_\pi\l
 q_\pi(s,a) \doteq  \mathbb{E}_\pi\left[G_t  \mid  S_t=s, A_t=a \right] = \mathbb{E}_\pi\left[ \sum_{k=0}^\infty \gamma^kR_{t+k+1} \mid S_t = s, A_t = a \right], && (3.13)
 \end{align*} %]]></script>
 
-<p>위 두 value function 값은 경험을 통해서 측정할 수 있다. 예를 들어서, agent가 policy $\pi$ 를 따르는 상황에서 무한히 각 state에서 value의 평균을 구한다면 <strong>$v_\pi(s)$</strong>에 <strong>수렴(converge)</strong> 한다. 그리고 마찬가지로 <strong>$q_\pi(s,a)$</strong> 도 수렴한다. 실제 return 을 매우 많이 샘플링해서 평균을 구하는 방법으로, <strong><em>Monte Carlo method</em></strong> 라고 한다.</p>
+<p>위 두 value function 값은 경험을 통해서 측정할 수 있다. 예를 들어서, agent 가 policy $\pi$ 를 따르는 상황에서 무한히 각 state 에서 value 의 평균을 구한다면 <strong>$v_\pi(s)$</strong>에 <strong>수렴(converge)</strong> 한다. 그리고 마찬가지로 <strong>$q_\pi(s,a)$</strong> 도 수렴한다. 실제 return 을 매우 많이 샘플링해서 평균을 구하는 방법으로, <strong><em>Monte Carlo method</em></strong> 라고 한다.</p>
 
 <p>Reinforcement learning 과 <strong>dynamic programming</strong> 에서 value function 의 근본적인 성질은 식(3.9) 처럼 <strong>재귀적인 관계(recursive relationship)</strong> 를 충족 시킨다는 것이다.</p>
 
@@ -533,7 +630,7 @@ q_*(s,a) &\doteq  \underset{\pi}{\text{max}} q_\pi(s,a), \text{	for all } s \in 
 q_*(s,a) = \mathbb{E} \left[ R_{t+1} + \gamma v_*(S_{t+1}) \mid  S_t=s, A_t=a \right]
 \end{align*}</script>
 
-<p>$v_*$는 policy 에 대한 value function 이기 때문에, Bellman Equation (3.14) 의 조건에 대해 일관성을 가져야 한다. 그러나 <strong>optimal value function</strong> 이기 때문에 특정한 policy 와 상관 없는 식을 가져야 한다. 이를 <strong>Bellman optimality equation</strong> 이라고 한다. 직관적으로 말하면, Bellman optimality equation 은 optimal policy 를 따른 state 의 value 와 가장 좋은 action을 선택했을 때 받는 expected return 은 같다는 사실을 표현한다.</p>
+<p>$v_*$는 policy 에 대한 value function 이기 때문에, Bellman Equation (3.14) 의 조건에 대해 일관성을 가져야 한다. 그러나 <strong>optimal value function</strong> 이기 때문에 특정한 policy 와 상관 없는 식을 가져야 한다. 이를 <strong>Bellman optimality equation</strong> 이라고 한다. 직관적으로 말하면, Bellman optimality equation 은 optimal policy 를 따른 state 의 value 와 가장 좋은 action 을 선택했을 때 받는 expected return 은 같다는 사실을 표현한다.</p>
 
 <script type="math/tex; mode=display">% <![CDATA[
 \begin{align*}
@@ -590,7 +687,7 @@ q_*(s,a) = \mathbb{E} \left[ R_{t+1} + \gamma v_*(S_{t+1}) \mid  S_t=s, A_t=a \r
 
 <h3 id="summary">Summary</h3>
 
-<p>Reinforcement learning 은 목표를 달성하기 위해서 어떻게 행동해야 하는지 배우는 것이다. 그리고 이 학습은 상호작용으로부터 이루어진다. <strong>agent</strong> 와 <strong>environment</strong> 는 연속적인 이산 time step 으로 부터 상호작용 한다. <strong>action</strong> 은 사용자가 선택하는 것이고, <strong>state</strong> 는 선택하기 위한 기준이 된다. 그리고 <strong>reward</strong> 는 그 선택을 평가하는 기준이다. agent 외적인 요소들은 불완전하게 제어가 가능하지만, 완벽하게 알려지지 않았을 수도 있다. <strong>policy</strong> 는 agent 가 action을 선택하기 위한 state 에 대한 확률적인 규칙이다. 그리고 agent의 목표는 앞으로 받을 reward 의 총 합을 최대화 하는 것이다.</p>
+<p>Reinforcement learning 은 목표를 달성하기 위해서 어떻게 행동해야 하는지 배우는 것이다. 그리고 이 학습은 상호작용으로부터 이루어진다. <strong>agent</strong> 와 <strong>environment</strong> 는 연속적인 이산 time step 으로 부터 상호작용 한다. <strong>action</strong> 은 사용자가 선택하는 것이고, <strong>state</strong> 는 action 을 선택하기 위한 기반이 된다. 그리고 <strong>reward</strong> 는 그 선택을 평가하는 기준이다. agent 의 외적인 요소들은 불완전하게 제어가 가능하지만, 완벽하게 알려지지 않았을 수도 있다. <strong>policy</strong> 는 agent 가 action 을 선택하는데 필요한 각 state 에 대한 확률적인 규칙이다. 그리고 agent 의 목표는 앞으로 받을 reward 의 총 합을 최대화 하는 것이다.</p>
 
 <hr />
 
@@ -627,7 +724,7 @@ q_*(s,a) = \mathbb{E} \left[ R_{t+1} + \gamma v_*(S_{t+1}) \mid  S_t=s, A_t=a \r
     <article>
       <h2 id="2-multi-armed-bandits">2. Multi-armed Bandits</h2>
 
-<p>강화학습이 다른 딥러닝과 구분되는 가장 중요한 특징은 선택한 action에 대해 <strong>평가(evaluate)</strong>를 한다는 것이다. 이런 피드백(feedback)은 얼마나 좋은지에 대한 평가이지 정답인지 아닌지를 알려주는 것은 아니다. 이번 챕터에서는 간단한 환경에서 강화학습의 평가(evaluate)에 중점을 두고 공부할 것이다. 오직 단 하나의 상황에서만 evaluate하기 때문에 <em>full reinforcement learning problem</em>의 복잡성을 피할 수 있다. 여기서 다룰 문제는 <strong>k-armed bandit problem</strong>인데 이를 소개하면서 강화학습의 주요한 요소 몇가지도 함께 다룰 것이다.</p>
+<p>강화학습이 다른 딥러닝과 구분되는 가장 중요한 특징은 선택한 action 에 대해 <strong>평가(evaluate)</strong> 를 한다는 것이다. 이런 피드백(feedback)은 얼마나 좋은지에 대한 평가이지 정답인지 아닌지를 알려주는 것은 아니다. 이번 챕터에서는 간단한 환경에서 강화학습의 평가(evaluate)에 중점을 두고 공부할 것이다. 오직 단 하나의 상황에서만 evaluate 하기 때문에 <em>full reinforcement learning problem</em> 의 복잡성을 피할 수 있다. 여기서 다룰 문제는 <strong>k-armed bandit problem</strong> 인데 이를 소개하면서 강화학습의 주요한 요소 몇가지도 함께 다룰 것이다.</p>
 
 <div class="message">
 이번 장에서는 단순화된 환경(nonassociative setting)에서 설명하기 때문에, 강화학습에서 처음에 많이 다루는 'frozen lake'와 비교하면서 보시면 헷갈리실 수 있습니다. 처음에는 'Multi-armed Bandits'를 독립적인 문제로 보고 접근하시는 것을 추천드립니다.
@@ -637,27 +734,27 @@ q_*(s,a) = \mathbb{E} \left[ R_{t+1} + \gamma v_*(S_{t+1}) \mid  S_t=s, A_t=a \r
 
 <h3 id="a-k-armed-bandit-problem">A k-armed Bandit Problem</h3>
 
-<p>A k-armed Bandit Problem은 k개의 레버가 있는 슬롯머신에서 최대의 reward를 받기 위한 문제다. 내용은 아래와 같다.</p>
+<p>A k-armed Bandit Problem 은 k개의 레버가 있는 슬롯머신에서 최대의 reward 를 받기 위한 문제다. 내용은 아래와 같다.</p>
 
 <ol>
-  <li>k개의 다른 option이나 action중에서 하나를 선택한다.</li>
-  <li><em>stationary probability distribution</em>으로 부터 하나의 reward를 받는다.</li>
-  <li>최종 목표는 일정 기간 동안 전체 reward를 최대화 하는 것이다.</li>
+  <li>k개의 다른 option 이나 action 중에서 하나를 선택한다.</li>
+  <li><em>stationary probability distribution</em>으로 부터 하나의 reward 를 받는다.</li>
+  <li>최종 목표는 일정 기간 동안 전체 reward 를 최대화 하는 것이다.</li>
 </ol>
 
-<p>위 k-armed bandit problem에서 k action을 선택할 때마다 reward를 받는데, 이때 rewards의 기댓값(expectation)을 선택된 action의 <strong>value</strong>라고 한다. 식으로 나타내면 아래와 같다.</p>
+<p>위 k-armed bandit problem에서 k action 을 선택할 때마다 reward 를 받는데, 이때 rewards 의 기댓값(expectation)을 선택된 action 의 <strong>value</strong> 라고 한다. 식으로 나타내면 아래와 같다.</p>
 
 <script type="math/tex; mode=display">q_*(a)\doteq \mathbb{E}[R_t | A_t=a]</script>
 
 <ul>
-  <li>$A_t$: time step가 $t$ 일 때 선택된 action</li>
-  <li>$R_t$: time step가 $t$ 일 때 $A_t$에 대한 reward</li>
-  <li>$q_*(a)$: action $a$ 가 선택됐을 때 받는 reward의 기댓값</li>
+  <li>$A_t$: time step 이 $t$ 일 때 선택된 action</li>
+  <li>$R_t$: time step 이 $t$ 일 때 $A_t$에 대한 reward</li>
+  <li>$q_*(a)$: action $a$ 가 선택됐을 때 받는 reward 의 기댓값</li>
 </ul>
 
-<p>만약 우리가 각 action에 대한 value를 알고 있다면 k-armed bandit problem을 해결하는 것은 매우 쉬울 것이다. 매번 value가 가장 높은 action을 선택하면 되기 때문이다. 그런데 처음에는 value을 알 수 없기 때문에 계속해서 <strong>estimate</strong>해야 한다. 이렇게 time step $t$에서 선택된 action $a$의 value를 $Q_t(a)$라고 한다. 우리는 $Q_t(a)$가  $q_*(a)$에 가까워 지도록 계속해서 estimate 해야 한다.</p>
+<p>만약 우리가 각 action 에 대한 value 를 알고 있다면 k-armed bandit problem 을 해결하는 것은 매우 쉬울 것이다. 매번 value 가 가장 높은 action 을 선택하면 되기 때문이다. 그런데 처음에는 value 을 알 수 없기 때문에 계속해서 <strong>estimate</strong> 해야 한다. 이렇게 time step $t$에서 선택된 action $a$의 value 를 $Q_t(a)$라고 한다. 우리는 $Q_t(a)$가  $q_*(a)$에 가까워 지도록 계속해서 estimate 해야 한다.</p>
 
-<p>action value를 계속해서 estimate 한다면, time step 마다 적어도 한 개 이상의 가장 높은 value를 갖는 action이 있을 것이다. 그 action을 <em>greedy</em> action 이라고 한다. 만약 이 greedy action 중 하나를 선택한다면 이를 <strong><em>exploiting</em></strong> 한다고 얘기한다. 반대로 <em>greedy</em> action이 아닌 다른 action 중 하나를 선택한다면 <strong><em>exploring</em></strong>한다고 얘기한다. 당장 한 스텝만 바라봤을 때는 <strong><em>exploitation</em></strong>이 value를 최대화 하는 방법일지 몰라도, 장기적인 관점에서 바라봤을 때 <strong><em>exploration</em></strong>의 total reward가 더 높을 수 있다.</p>
+<p>action value 를 계속해서 estimate 한다면, time step 마다 적어도 한 개 이상의 가장 높은 value 를 갖는 action 이 있을 것이다. 그 action 을 <em>greedy</em> action 이라고 한다. 만약 이 greedy action 중 하나를 선택한다면 이를 <strong><em>exploiting</em></strong> 한다고 얘기한다. 반대로 <em>greedy</em> action이 아닌 다른 action 중 하나를 선택한다면 <strong><em>exploring</em></strong> 한다고 얘기한다. 당장 한 스텝만 바라봤을 때는 <strong><em>exploitation</em></strong> 이 value 를 최대화 하는 방법일지 몰라도, 장기적인 관점에서 바라봤을 때 <strong><em>exploration</em></strong>의 total reward 가 더 높을 수 있다.</p>
 
 <p><em>exploration</em> 와 <em>exploitation</em> 의 균형을 맞춰 나가기 위해서 복잡한 수학적인 방법들이 존재하지만, 많은 가정들이 전제해야 하기 때문에 사실상 full reinforcment learning 문제에 적용하기는 불가능하다. 하지만, 이를 해결하기 위한 간단한 방법들이 존재하고 나중에 다룰 것이다.</p>
 
@@ -665,7 +762,7 @@ q_*(s,a) = \mathbb{E} \left[ R_{t+1} + \gamma v_*(S_{t+1}) \mid  S_t=s, A_t=a \r
 
 <h3 id="action-value-methods">Action-value Methods</h3>
 
-<p>여기서는 action의 value을 estimate하는 방법(method)에 대해 더 자세하게 알아볼 것이다. 우리는 이것을 <strong><em>action-value methods</em></strong> 라고 부르는데 action을 선택하기 위해서도 사용된다. 그리고 action이 선택될 때마다 계산한 reward의 평균을 <em>action의 true value</em>라고 한다. 수식은 아래와 같다.</p>
+<p>여기서는 action 의 value 을 estimate 하는 방법(method)에 대해 더 자세하게 알아볼 것이다. 우리는 이것을 <strong><em>action-value methods</em></strong> 라고 부르는데 action 을 선택하기 위해서도 사용된다. 그리고 action 이 선택될 때마다 계산한 reward 의 평균을 <em>action 의 true value</em> 라고 한다. 수식은 아래와 같다.</p>
 
 <script type="math/tex; mode=display">Q_t(a)\doteq \frac{\text{sum of rewards when $a$ taken prior to $t$}}{\text{number of times $a$ taken prior to $t$}} = \frac{\sum_{i=1}^{t-1}R_i \cdot \mathbb{1}_{A_i=a}}{\sum_{i=1}^{t-1}\mathbb{1}_{A_i=a}}</script>
 
@@ -673,45 +770,45 @@ q_*(s,a) = \mathbb{E} \left[ R_{t+1} + \gamma v_*(S_{t+1}) \mid  S_t=s, A_t=a \r
   <li>$\mathbb{1}_{predicate}$: $predicate$가 true 이면 1이고 false이면 0이다.</li>
 </ul>
 
-<p>위의 식에서 $\mathbb{1}_{A_i=a}$은 $a$가 선택된 경우만 계산하겠다는 의미다. 그리고 한 번도 $a$가 선택된 적이 없는 경우 분모가 0이 되어서 계산이 불가능하기 때문에 $Q_t(a)$를 기본 값(예: 0)으로 대신한다. 사실 이렇게 평균을 내는 것은 action value를 estimate하는 여러가지 방법 중 하나다. 우리는 이것을 <em>sample-average</em>라고 부를 것이다.</p>
+<p>위의 식에서 $\mathbb{1}_{A_i=a}$은 $a$가 선택된 경우만 계산하겠다는 의미다. 그리고 한 번도 $a$가 선택된 적이 없는 경우 분모가 0이 되어서 계산이 불가능하기 때문에 $Q_t(a)$를 기본 값(예: 0)으로 대신한다. 사실 이렇게 평균을 내는 것은 action value 를 estimate 하는 여러가지 방법 중 하나다. 우리는 이것을 <em>sample-average</em>라고 부를 것이다.</p>
 
-<p>action을 선택하는 가장 간단한 방법 중 하나는 당연히 estimate value가 가장 큰 것(<em>greedy action</em>)을 선택하는 것이다. 만약 두 개 이상의 <em>greedy</em> action이 있다면 그 중 아무거나 선택하면 된다. 우리는 이런 방법을 <strong><em>greedy</em> action selection</strong> 이라고 하며, 아래와 같이 정의할 수 있다.</p>
+<p>action 을 선택하는 가장 간단한 방법 중 하나는 당연히 estimate value 가 가장 큰 것(<em>greedy action</em>)을 선택하는 것이다. 만약 두 개 이상의 <em>greedy</em> action 이 있다면 그 중 아무거나 선택하면 된다. 우리는 이런 방법을 <strong><em>greedy</em> action selection</strong> 이라고 하며, 아래와 같이 정의할 수 있다.</p>
 
 <script type="math/tex; mode=display">A_t \doteq \underset{a}{argmax}Q_t(a)</script>
 
-<p>위에서 $argmax_a$는 뒤에 따라오는 $Q_t(a)$를 최대화(maximized)해주는 action(a)을 선택한다는 뜻이다. <em>greedy</em> action selection은 지금 알고 있는 정보를 기반으로 <em>눈 앞에 보이는</em> reward를 최대화하기 위해서 항상 <strong>exploit</strong> 한다. 하지만 이런 방식은 장기적 관점에서 봤을 때 더 좋은 action을 놓칠 수 있다. 이런 단점을 보안하기 위해서 <strong>아주 적은 확률($\varepsilon$)</strong>로 action중 하나를 랜덤으로 선택하는 방법이 있는데, 우리는 이 방법을 <strong>$\varepsilon-greedy$</strong> method 라고 한다. 이런 방법의 장점은 모든 action들이 sampling될 수 있기 때문에 $Q_t(a)$ 가 $q_*(a)$로 수렴된다는 것이다.</p>
+<p>위에서 $argmax_a$는 뒤에 따라오는 $Q_t(a)$를 최대화(maximized)해주는 action(a)을 선택한다는 뜻이다. <em>greedy</em> action selection 은 지금 알고 있는 정보를 기반으로 <em>눈 앞에 보이는</em> reward 를 최대화하기 위해서 항상 <strong>exploit</strong> 한다. 하지만 이런 방식은 장기적 관점에서 봤을 때 더 좋은 action 을 놓칠 수 있다. 이런 단점을 보안하기 위해서 <strong>아주 적은 확률($\varepsilon$)</strong>로 action 중 하나를 랜덤으로 선택하는 방법이 있는데, 우리는 이 방법을 <strong>$\varepsilon-greedy$</strong> method 라고 한다. 이런 방법의 장점은 모든 action 들이 sampling 될 수 있기 때문에 $Q_t(a)$ 가 $q_*(a)$로 수렴된다는 것이다.</p>
 
 <hr />
 
 <h3 id="the-10-armed-testbed">The 10-armed Testbed</h3>
 
-<p><strong><em>k</em>-armed bandit problems</strong>으로 <em>greedy action-value method</em>(<strong>greedy method</strong>)와 <em>$\varepsilon$-greedy action-value method</em>(<strong>$\varepsilon$-greedy method</strong>) 두 가지 방법을 비교 했다. 아래는 <em>k</em>가 10개인 <em>k</em>-armed bandit problems의 reward 분포다. 분산(variance)이 1이고 평균(mean)이 $q_*(a)$인 정규 분포(normal distribution)다. 이 분포로 부터 $t$ (time step)에서 $A_t$(action)를 선택했을 때 $R_t$(reward)를 얻는다.</p>
+<p><strong><em>k</em>-armed bandit problems</strong> 으로 <em>greedy action-value method</em>(<strong>greedy method</strong>) ₩와 <em>$\varepsilon$-greedy action-value method</em>(<strong>$\varepsilon$-greedy method</strong>) 두 가지 방법을 비교 했다. 아래는 <em>k</em>가 10개인 <em>k</em>-armed bandit problems의 reward 분포다. 분산(variance)이 1이고 평균(mean)이 $q_*(a)$인 정규 분포(normal distribution)다. 이 분포로 부터 $t$ (time step)에서 $A_t$(action)를 선택했을 때 $R_t$(reward)를 얻는다.</p>
 
 <p><img src="/assets/2019-01-02-rl-bulti-armed-bandits/figure2_1.png" alt="image" /></p>
 
-<p>분산(variance)이 1이고 평균(mean)이 0인 정규 분포(normal distribution)에서 1000번의 action을 선택했고, 이렇게 2000번 반복한 평균으로 성능을 측정했다.</p>
+<p>분산(variance)이 1이고 평균(mean)이 0인 정규 분포(normal distribution)에서 1000번의 action 을 선택했고, 이렇게 2000번 반복한 평균으로 성능을 측정했다.</p>
 
-<p>아래는 <strong>greedy method</strong>와 두개의 <strong>$\varepsilon$-greedy method</strong>($\varepsilon$=0.01 과 $\varepsilon$=0.1)로 테스트한 결과다. 자세히 보면 처음에는 greedy method가 더 빠르게 향상되는 것처럼 보이나 시간이 지날수록 $\varepsilon$-greedy method가 더 향상되는 것을 볼 수 있다. greedy method는 시간이 지날수록 더디게 향상되는데, 이는 suboptimal에 빠질 수 있기 때문이다. 아래 그래프를 보면 greedy method는 optimal action의 1/3 정도 밖에 도달하지 못했다. 반면에, $\varepsilon$-greedy method는 계속해서 explore하고 optimal action을 찾기 위한 가능성을 높혔기 때문에 최종적으로 더 나은 성능을 보였다.</p>
+<p>아래는 <strong>greedy method</strong>와 두개의 <strong>$\varepsilon$-greedy method</strong>($\varepsilon$=0.01 과 $\varepsilon$=0.1)로 테스트한 결과다. 자세히 보면 처음에는 greedy method 가 더 빠르게 향상되는 것처럼 보이나 시간이 지날수록 $\varepsilon$-greedy method가 더 향상되는 것을 볼 수 있다. greedy method 는 시간이 지날수록 더디게 향상되는데, 이는 suboptimal 에 빠질 수 있기 때문이다. 아래 그래프를 보면 greedy method 는 optimal action 의 1/3 정도 밖에 도달하지 못했다. 반면에, $\varepsilon$-greedy method 는 계속해서 explore 하고 optimal action 을 찾기 위한 가능성을 높혔기 때문에 최종적으로 더 나은 성능을 보였다.</p>
 
 <p><img src="/assets/2019-01-02-rl-bulti-armed-bandits/figure2_2.png" alt="image" /></p>
 
-<p>$\varepsilon$-greedy method의 이점은 task에 따라서 다르다. 만약에 분산(variance)이 매우 크다면(예: 10) optimal policy를 찾기 위해서 더 많은 exploration를 해야한다. 이럴 경우 $\varepsilon$-greedy method가 더 좋은 성능을 보인다. 하지만 만약 분산(variance)이 0이라면 단 한 번만 시도 해보고 true value를 알 수 있기 때문에 exploration없이도 optimal policy를 찾을 수 있을 것이다. 하지만 이런 <strong>deterministic</strong>한 경우라도 일부 가정이 불확실 하다면 exploration은 필요하다. 예를 들어서 bandit problem이 <strong>nonstationary</strong>하다면 true value는 시간이 지남에 따라 변경되기 때문에 exploration이 필요하다. nonstationary 문제는 reinforcement learning에서 자주 나타나는 상황이다. 이와 같이 reinforcement learning에서 exploration과 exploitation의 균형은 매우 중요하다.</p>
+<p>$\varepsilon$-greedy method 의 이점은 task 에 따라서 다르다. 만약에 분산(variance)이 매우 크다면(예: 10) optimal policy 를 찾기 위해서 더 많은 exploration 를 해야한다. 이럴 경우 $\varepsilon$-greedy method 가 더 좋은 성능을 보인다. 하지만 만약 분산(variance)이 0이라면 단 한 번만 시도 해보고 true value 를 알 수 있기 때문에 exploration 없이도 optimal policy 를 찾을 수 있을 것이다. 하지만 이런 <strong>deterministic</strong> 한 경우라도 일부 가정이 불확실 하다면 exploration 은 필요하다. 예를 들어서 bandit problem 이 <strong>nonstationary</strong> 하다면 true value 는 시간이 지남에 따라 변경되기 때문에 exploration 이 필요하다. nonstationary 문제는 reinforcement learning 에서 자주 나타나는 상황이다. 이와 같이 reinforcement learning 에서 exploration 과 exploitation 의 균형은 매우 중요하다.</p>
 
 <hr />
 
 <h3 id="incremental-implementation">Incremental Implementation</h3>
-<p>지금까지 논의한 <strong>action-value method</strong>는 얻은 rewards의 평균(sample averages)을 내어서 estimate 하였다. 이번에는 이렇게 매번 평균을 내는 것보다 더 효율적인 방법에 대해 알아볼 것이다.</p>
+<p>지금까지 논의한 <strong>action-value method</strong> 는 얻은 rewards 의 평균(sample averages)을 내어서 estimate 하였다. 이번에는 이렇게 매번 평균을 내는 것보다 더 효율적인 방법에 대해 알아볼 것이다.</p>
 
-<p>복잡한 식를 피하기 위해서 하나의 action에 대해서만 다룬다. action-value 식은 아래와 같다.</p>
+<p>복잡한 식를 피하기 위해서 하나의 action 에 대해서만 다룬다. action-value 식은 아래와 같다.</p>
 
 <script type="math/tex; mode=display">Q_n \doteq \frac{R_1 + R_2 + \dots + R_{n-1}}{n-1}</script>
 
 <ul>
-  <li>$R_i$: i번째 action이 선택된 후에 받은 reward</li>
+  <li>$R_i$: i번째 action 이 선택된 후에 받은 reward</li>
   <li>$Q_n$: n-1번째 까지 측정된 action value</li>
 </ul>
 
-<p>위의 방식은 모든 reward를 보관하고 있다가 value를 estimate할 때마다 계산하는데, 이런 방식은 시간이 지나고 reward를 받을 때마다 더 많은 메모리와 연산을 필요로 한다. 예상할 수 있듯이, 이는 비효율적이기 때문에 평균(average)를 업데이트 하는 다른 방법이 필요하다. 이미 계산된 $Q_n$과 n번째 reward $R_n$이 주어지면 모든 reward의 평균을 아래와 같이 <strong>incremental formulas</strong>로 계산할 수 있다.</p>
+<p>위의 방식은 모든 reward 를 보관하고 있다가 value 를 estimate 할 때마다 계산하는데, 이런 방식은 시간이 지나고 reward 를 받을 때마다 더 많은 메모리와 연산을 필요로 한다. 예상할 수 있듯이, 이는 비효율적이기 때문에 평균(average)를 업데이트 하는 다른 방법이 필요하다. 이미 계산된 $Q_n$과 n번째 reward $R_n$이 주어지면 모든 reward 의 평균을 아래와 같이 <strong>incremental formulas</strong> 로 계산할 수 있다.</p>
 
 <script type="math/tex; mode=display">% <![CDATA[
 \begin{align*}
@@ -723,15 +820,15 @@ Q_n &= \frac{1}{n}\sum_{i=1}^{n}R_i \\
     &= Q_n + \frac{1}{n}\left[R_n - Q_n\right] & (2.3)
 \end{align*} %]]></script>
 
-<p>위의 연산은 새로운 reward를 얻더라도 $Q_n$과 $n$ 그리고 (2.3)정도의 간단한 연산만 필요하다. 위의 update 식은 일반적으로 아래와 같이 표기할 수 있다.</p>
+<p>위의 연산은 새로운 reward 를 얻더라도 $Q_n$과 $n$ 그리고 (2.3)정도의 간단한 연산만 필요하다. 위의 update 식은 일반적으로 아래와 같이 표기할 수 있다.</p>
 
 <script type="math/tex; mode=display">NewEstimate \leftarrow OldEstimate + StepSize [Target - OldEstimate]</script>
 
-<p>위 식에서 $[Target - OldEstimate]$가 estimate에서 <strong>error</strong>이며, $Target$에 가까워질수록 작아진다. target은  우리가 원하는 방향이며 여기서는 n번째 reward다.</p>
+<p>위 식에서 $[Target - OldEstimate]$가 estimate 에서 <strong>error</strong> 이며, $Target$ 에 가까워질수록 작아진다. target 은 우리가 원하는 방향이며 여기서는 n번째 reward 다.</p>
 
-<p>참고로, <strong>incremental method</strong> (2.3)에서 사용된 step-size parameter(StepSize)는 time step이 지날 수록 $\frac{1}{n}$으로 변경된다. 우리는 앞으로 이 <strong>step-size</strong>를 $\alpha$ 혹은 $\alpha_t(a)$로 표기할 것이다.</p>
+<p>참고로, <strong>incremental method</strong> (2.3)에서 사용된 step-size parameter(StepSize)는 time step 이 지날 수록 $\frac{1}{n}$으로 변경된다. 우리는 앞으로 이 <strong>step-size</strong> 를 $\alpha$ 혹은 $\alpha_t(a)$로 표기할 것이다.</p>
 
-<p>아래는 incrementally computed sample averages 와 $\varepsilon$-greedy action selection을 사용한 A Simple bandit algorithm의 슈도코드(Pseudocode)다.</p>
+<p>아래는 incrementally computed sample averages 와 $\varepsilon$-greedy action selection 을 사용한 A Simple bandit algorithm 의 슈도코드(Pseudocode)다.</p>
 
 <p><img src="/assets/2019-01-02-rl-bulti-armed-bandits/pseudocode_1.png" alt="image" /></p>
 
@@ -739,11 +836,11 @@ Q_n &= \frac{1}{n}\sum_{i=1}^{n}R_i \\
 
 <h3 id="tracking-a-nonstationary-problem">Tracking a Nonstationary Problem</h3>
 
-<p>지금까지는 시간이 지나더라도 reward의 probability가 변하지 않는 <strong>stationary</strong> 상황에서 bandit problems에 대해 알아보았다. 하지만 reinforcement learning에서는 종종 시간이 지남에 따라 reward의 probability가 변하는 <strong>nonstationary</strong> 상황에 대해서 다뤄야 할 때가 있다. 이런 상황에서는 한참 전에 받은 reward보다 최근에 받은 reward에 좀 더 비중을 두는 것이 합당하다. 우리는 이를 상수 step-size paramenter를 사용해서 구현할 수 있다. 예를 들어서, (2.3)식을 수정한 식은 아래와 같다.</p>
+<p>지금까지는 시간이 지나더라도 reward 의 probability 가 변하지 않는 <strong>stationary</strong> 상황에서 bandit problems 에 대해 알아보았다. 하지만 reinforcement learning 에서는 종종 시간이 지남에 따라 reward 의 probability 가 변하는 <strong>nonstationary</strong> 상황에 대해서 다뤄야 할 때가 있다. 이런 상황에서는 한참 전에 받은 reward 보다 최근에 받은 reward 에 좀 더 비중을 두는 것이 합당하다. 우리는 이를 상수 step-size paramenter 를 사용해서 구현할 수 있다. 예를 들어서, (2.3)식을 수정한 식은 아래와 같다.</p>
 
 <script type="math/tex; mode=display">Q_{n+1} = Q_n + \alpha\left[R_n - Q_n\right]</script>
 
-<p>$\alpha$는 $\alpha\in(0,1]$인 상수다. $Q_{n+1}$은 지난 rewards의 weighted average이고 $Q_1$은 초기값이다.</p>
+<p>$\alpha$는 $\alpha\in(0,1]$인 상수다. $Q_{n+1}$은 지난 rewards 의 weighted average 이고 $Q_1$은 초기값이다.</p>
 
 <script type="math/tex; mode=display">% <![CDATA[
 \begin{align*}
@@ -757,47 +854,47 @@ Q_n &= Q_n + \alpha\left[R_n - Q_n\right] \\
 
 \end{align*} %]]></script>
 
-<p>우리는 위 식을 것은 weighted average라고 부르는데, weight의 총 합이 1이기 때문이다.</p>
+<p>우리는 위 식을 것은 weighted average 라고 부르는데, weight 의 총 합이 1이기 때문이다.</p>
 
 <script type="math/tex; mode=display">(1 - \alpha)^n + \sum_{i=1}^{n}\alpha(1 - \alpha)^{n-1} = 1</script>
 
-<p>$R_i$의 가중치 $\alpha(1 - \alpha)^{n-1}$는 이전에 얼마나 많은 reward가 있었느냐에 따라 달라진다. (2.6) 식에서 $1-\alpha$은 1보다 작기 때문에, 전체 reward의 수(n)가 증가 할수록 $R_i$이 값은 작아진다. 여기서 weight은 $1 - \alpha$의 exponent에 의해서 기하급수적으 줄어드는데 이를 <em>exponential recency-weighted average</em> 라고 한다.</p>
+<p>$R_i$의 가중치 $\alpha(1 - \alpha)^{n-1}$ 는 이전에 얼마나 많은 reward 가 있었느냐에 따라 달라진다. (2.6) 식에서 $1-\alpha$ 은 1보다 작기 때문에, 전체 reward 의 수(n)가 증가 할수록 $R_i$ 이 값은 작아진다. 여기서 weight 은 $1 - \alpha$ 의 exponent 에 의해서 기하급수적으로 줄어드는데 이를 <em>exponential recency-weighted average</em> 라고 한다.</p>
 
 <div class="message">
-위 설명이 조금 복잡했는데요, 간단하게 요약하면 위 action-value method에서 $\alpha$ 가 1보다 작기 때문에, 오래전에 받은 reward일 수록 가중치(weight)는 점점 작아지고, 가장 최근에 받은 reward의 가중치(weight)는 더 커진다는 뜻입니다.
+위 설명이 조금 복잡했는데요, 간단하게 요약하면 위 action-value method 에서 $\alpha$ 가 1보다 작기 때문에, 오래전에 받은 reward일 수록 가중치(weight)는 점점 작아지고, 가장 최근에 받은 reward의 가중치(weight)는 더 커진다는 뜻입니다.
 </div>
 
 <hr />
 
 <h3 id="optimistic-initial-values">Optimistic Initial Values</h3>
 
-<p>지금까지 나온 모든 수식들은 action-value의 초기값 $Q_1(a)$에 영향을 받는다. 통게학에서는 이를 <em>bias</em>라고 얘기한다. sample-average methods 에서는 모든 action들이 한 번씩 선택되면 이 bias는 모두 사라진다. 하지만 step-size인 $\alpha$가 존재한다면 $Q_1$은 점점 작아지더라도 완전히 사라지지는 않는다.(식 2.6 참고) 이 bias는 종종 매우 유용한데, 예상되는 reward의 값을 미리 설정할 수 있기 때문이다.</p>
+<p>지금까지 나온 모든 수식들은 action-value 의 초기값 $Q_1(a)$ 에 영향을 받는다. 통게학에서는 이를 <em>bias</em>라고 얘기한다. sample-average methods 에서는 모든 action 들이 한 번씩 선택되면 이 bias 는 모두 사라진다. 하지만 step-size 인 $\alpha$ 가 존재한다면 $Q_1$ 은 점점 작아지더라도 완전히 사라지지는 않는다.(식 2.6 참고) 이 bias 는 종종 매우 유용한데, 예상되는 reward 의 값을 미리 설정할 수 있기 때문이다.</p>
 
-<p>또한, action value를 초기화하는 방법으로 간단하게 <strong>exploration</strong>을 유도할 수 있다. 예를 들어서, 10-armed bandit testbed 에서 action value의 초기값을 0이 아닌 +5로 설정했다고 가정해보자. $q_*(a)$의 평균은 0이고 분산은 1이다. 그러면 앞으로 action이 어떤 것으로 선택되더라도 update된 reward는 초기값 +5보다 작을 것이기 때문에(식 2.6 참고), 다음에 선택할 greedy action은 항상 시도해보지 않은 action일 것이다. 즉, value estimate가 수렴하기 전까지 <strong>exploration</strong> 할 것이다.</p>
+<p>또한, action value 를 초기화하는 방법으로 간단하게 <strong>exploration</strong> 을 유도할 수 있다. 예를 들어서, 10-armed bandit testbed 에서 action value 의 초기값을 0이 아닌 +5로 설정했다고 가정해보자. $q_*(a)$ 의 평균은 0이고 분산은 1이다. 그러면 앞으로 action 이 어떤 것으로 선택되더라도 update 된 reward 는 초기값 +5보다 작을 것이기 때문에(식 2.6 참고), 다음에 선택할 greedy action 은 항상 시도해보지 않은 action 일 것이다. 즉, value estimate 가 수렴하기 전까지 <strong>exploration</strong> 할 것이다.</p>
 
-<p>아래는 10-armed bandit testbed 에서 $Q_1(a) = +5$ 으로 설정한 greedy method와 $Q_1(a) = 0$ 으로 설정한 $\varepsilon$-greedy method를 비교한 것이다. 초기에는 greedy method($Q_1(a) = +5$)가 더 많은 exploration을 하기 때문에 좋은 나쁜 성능을 보이지만, 시간이 지날 수록 exploration하는 횟수가 줄어들면서 Optial action에 더 가까워지는 것을 볼 수 있다. 이런 테크닉을 <strong><em>optimistic initial values</em></strong> 라고 한다.</p>
+<p>아래는 10-armed bandit testbed 에서 $Q_1(a) = +5$ 으로 설정한 greedy method 와 $Q_1(a) = 0$ 으로 설정한 $\varepsilon$-greedy method 를 비교한 것이다. 초기에는 greedy method($Q_1(a) = +5$) 가 더 많은 exploration 을 하기 때문에 좋은 나쁜 성능을 보이지만, 시간이 지날 수록 exploration하는 횟수가 줄어들면서 Optial action 에 더 가까워지는 것을 볼 수 있다. 이런 테크닉을 <strong><em>optimistic initial values</em></strong> 라고 한다.</p>
 
 <p><img src="/assets/2019-01-02-rl-bulti-armed-bandits/figure2_3.png" alt="image" /></p>
 
-<p>이런 방법은 특정 stationary problems에서만 유용한 simple trick으로, 일방적인 상황에서 exploration 하는 방법으로는 효율적이지 않다. 예를 들어서 nonstationary problems에는 적합하지 않은데, 본질적으로 이런 방법은 일시적으로만 작동하기 때문이다.</p>
+<p>이런 방법은 특정 stationary problems 에서만 유용한 simple trick 으로, 일방적인 상황에서 exploration 하는 방법으로는 효율적이지 않다. 예를 들어서 nonstationary problems 에는 적합하지 않은데, 본질적으로 이런 방법은 일시적으로만 작동하기 때문이다.</p>
 
 <hr />
 
 <h3 id="upper-confidence-bound-action-selection">Upper-Confidence-Bound Action Selection</h3>
 
-<p>action-value estimates는 불확실성을 내재하고 있기 때문에 exploration이 필요하다. greedy action이 현재 시점에서는 가장 좋은 선택일지라도, 장기적인 관점에서 봤을 때 다른 action이 더 좋은 선택일 수 있기 때문이다. 그래서 $\varepsilon$-greedy action selection으로 non-greedy action을 시도하는데, 그 중에서 어떤 action이 더 좋을지에 대한 기준없이 랜덤으로 선택한다. 이런 방법 보다는 그 중에서 가장 optimal이 될 가능성이 높은 action을 선택하는 것이 더 나을 것이다. 아래는 효율적으로 action을 선택하는 방법중 하나다.</p>
+<p>action-value estimates 는 불확실성을 내재하고 있기 때문에 exploration 이 필요하다. greedy action 이 현재 시점에서는 가장 좋은 선택일지라도, 장기적인 관점에서 봤을 때 다른 action 이 더 좋은 선택일 수 있기 때문이다. 그래서 $\varepsilon$-greedy action selection 으로 non-greedy action 을 시도하는데, 그 중에서 어떤 action 이 더 좋을지에 대한 기준없이 랜덤으로 선택한다. 이런 방법 보다는 그 중에서 가장 optimal 이 될 가능성이 높은 action 을 선택하는 것이 더 나을 것이다. 아래는 효율적으로 action 을 선택하는 방법중 하나다.</p>
 
 <script type="math/tex; mode=display">A_t \doteq \underset{a}{\operatorname{argmax}} \left[ Q_t(a) + c\sqrt{\frac{\operatorname{ln}t}{N_t(a)}} \right]</script>
 
 <ul>
-  <li>$\operatorname{ln}t$: $t$의 자연로그</li>
-  <li>$N_t(a)$: time $t$전에 action $a$가 선택된 횟수</li>
-  <li>$c$: $c &gt; 0$으로 exploration의 빈도를 조절</li>
+  <li>$\operatorname{ln}t$: $t$ 의 자연로그</li>
+  <li>$N_t(a)$: time $t$ 전에 action $a$ 가 선택된 횟수</li>
+  <li>$c$: $c &gt; 0$으로 exploration 의 빈도를 조절</li>
 </ul>
 
-<p>만약 $N_t(a) = 0$ 이면, 이때 $a$는 식을 가장 최대화 하는 action으로 간주된다.</p>
+<p>만약 $N_t(a) = 0$ 이면, 이때 $a$ 는 식을 가장 최대화 하는 action 으로 간주된다.</p>
 
-<p>이런 아이디어를 <strong><em>upper confidence bound</em> (UCB)</strong> action selection 이라고 하는데 제곱근 식($\sqrt{\frac{\operatorname{ln}t}{N_t(a)}}$)은  $a$ value의 불확실한 정도(uncertainty) 혹은 변화하는 정도(variance)를 측정한다. 분모에 있는 $N_t(a)$가 증가하면 불확실한 정도(uncertainty)는 낮아지고, 반면에 다른 action이 선택 되어 $N_t(a)$는 증가하지 않고 $t$ 만 증가한다면 불확실한 정도(uncertainty)는 증가할 것이다. 결국 모든 action이 선택될 것이다. 다만, 측정(estimate)된 value가 낮거나 이전에 자주 선택됐던 action은 시간이 지날수록 낮은 빈도로 선택될 것이다.</p>
+<p>이런 아이디어를 <strong><em>upper confidence bound</em> (UCB)</strong> action selection 이라고 하는데 제곱근 식($\sqrt{\frac{\operatorname{ln}t}{N_t(a)}}$)은  $a$ value 의 불확실한 정도(uncertainty) 혹은 변화하는 정도(variance)를 측정한다. 분모에 있는 $N_t(a)$가 증가하면 불확실한 정도(uncertainty)는 낮아지고, 반면에 다른 action 이 선택 되어 $N_t(a)$는 증가하지 않고 $t$ 만 증가한다면 불확실한 정도(uncertainty)는 증가할 것이다. 결국 모든 action 이 선택될 것이다. 다만, 측정(estimate)된 value 가 낮거나 이전에 자주 선택됐던 action 은 시간이 지날수록 낮은 빈도로 선택될 것이다.</p>
 
 <p>아래는 10-armed testbed에서 <strong>UCB</strong> 를 사용한 결과다. 보여지는 것처럼 UCB는 잘 작동하지만 더 일반적으로 셋팅된 reinforcement learning 문제에서는 $\varepsilon$-greedy 보다 낮은 성능을 보인다.</p>
 
@@ -807,16 +904,16 @@ Q_n &= Q_n + \alpha\left[R_n - Q_n\right] \\
 
 <h3 id="gradient-bandit-algorithms">Gradient Bandit Algorithms</h3>
 
-<p>지금까지는 action을 선택하는데 action value를 사용했다. 이 방법은 매우 좋은 방법이지만 유일한 방법은 아니다. 여기서는 action $a$를 선택하기 위해 각 action의 <strong>preference</strong>을 사용할 것이며 $H_t(a)$ 으로 표기한다. preference가 큰 action이 더 자주 선택될 것이다. action에 대한 preference는 다음과 같이 <em>softmax distribution</em>으로 나타낼 수 있다.</p>
+<p>지금까지는 action 을 선택하는데 action value 를 사용했다. 이 방법은 매우 좋은 방법이지만 유일한 방법은 아니다. 여기서는 action $a$ 를 선택하기 위해 각 action 의 <strong>preference</strong>을 사용할 것이며 $H_t(a)$ 으로 표기한다. preference 가 큰 action 이 더 자주 선택될 것이다. action 에 대한 preference 는 다음과 같이 <em>softmax distribution</em> 으로 나타낼 수 있다.</p>
 
 <script type="math/tex; mode=display">\operatorname{Pr} \left\{ A_t=a \right\} \doteq \frac{e^{H_t(a)}}{\sum^{k}_{b=1}e^{H_t(b)}} \doteq \pi_t(a)</script>
 
 <ul>
-  <li>$H_t(a)$: action $a$의 preference</li>
-  <li>$\pi_t(a)$: time $t$ 에서 action $a$를 선택할 확률</li>
+  <li>$H_t(a)$: action $a$ 의 preference</li>
+  <li>$\pi_t(a)$: time $t$ 에서 action $a$ 를 선택할 확률</li>
 </ul>
 
-<p>모든 action의 preference 초기값은 0으로 같기 때문에 (e.g., $H_1(a) = 0$), 처음에 각 action의 선택될 확률은 모두 같다. 각 step에서 action $A_t$가 선택되고 reward $R_t$를 받으면 action preference는 다음 식에 의해 업데이트된다.</p>
+<p>모든 action 의 preference 초기값은 0으로 같기 때문에 (e.g., $H_1(a) = 0$), 처음에 각 action 의 선택될 확률은 모두 같다. 각 step 에서 action $A_t$ 가 선택되고 reward $R_t$ 를 받으면 action preference 는 다음 식에 의해 업데이트된다.</p>
 
 <script type="math/tex; mode=display">% <![CDATA[
 \begin{align*}
@@ -826,33 +923,33 @@ H_{t+1}(A_t) &\doteq H_t(a) - \alpha(R_t - \bar{R_t})\pi_t(A_t) && \text{for all
 
 <ul>
   <li>$\alpha$: 0보다 큰 step-size parameter</li>
-  <li>$\bar{R_t}$: time $t$를 포함한 모든 reward의 평균</li>
+  <li>$\bar{R_t}$: time $t$를 포함한 모든 reward 의 평균</li>
 </ul>
 
-<p>위 식은 <em>Incremental Implementation</em> 에서 봤던 update 방식으로 계산된다. 그리고, $\bar{R_t}$은 reward의 <strong>baseline</strong>으로 사용되는데 만약 reward가 baseline보다 높으면 $A_t$가 선택될 확률은 증가하고, 반대로 reward가 basline보다 낮으면 $A_t$가 선택될 확률은 낮아진다. 선택되지 않은 action은 이와 반대로 계산된다.</p>
+<p>위 식은 <em>Incremental Implementation</em> 에서 봤던 update 방식으로 계산된다. 그리고, $\bar{R_t}$ 은 reward 의 <strong>baseline</strong> 으로 사용되는데 만약 reward 가 baseline 보다 높으면 $A_t$가 선택될 확률은 증가하고, 반대로 reward 가 basline 보다 낮으면 $A_t$가 선택될 확률은 낮아진다. 선택되지 않은 action 은 이와 반대로 계산된다.</p>
 
-<p>아래 Figure 2.5는 분산이 1이고 평균이 4인 정규 분포로부터 reward를 얻는 10-armed testbed에서 테스트한 결과다.</p>
+<p>아래 Figure 2.5는 분산이 1이고 평균이 4인 정규 분포로부터 reward 를 얻는 10-armed testbed 에서 테스트한 결과다.</p>
 
 <p><img src="/assets/2019-01-02-rl-bulti-armed-bandits/figure2_5.png" alt="image" /></p>
 
 <div class="message">
-사실 이 Gradient Bandit Algorithms은 정확하게 이해하지 못했습니다. 위의 그래프를 보면 baseline을 사용한 경우 Optimal action에 더 접근하는 것 같습니다.
+사실 이 Gradient Bandit Algorithms 은 정확하게 이해하지 못했습니다. 위의 그래프를 보면 baseline을 사용한 경우 Optimal action 에 더 접근하는 것 같습니다.
 </div>
 
 <hr />
 
 <h3 id="associative-search-contextual-bandits">Associative Search (Contextual Bandits)</h3>
-<p>지금까지는 각 다른 상황(situation)에서 다른 action이 필요하지 않은 <em>nonassociative task</em>에 대해서 다뤘다. task가 stationary할 때는 best action를 찾으면 됐고, task가 nonstationary할 때는 시간에 따라 best action을 추적하면 됐다. 하지만 일반적인 reinforcement learning task에서는 단지 한가지 상황만 존재하지 않는다. 각 상황에 맞는 action을 찾기 위한 <strong>policy</strong>를 학습해야 한다.</p>
+<p>지금까지는 각 다른 상황(situation)에서 다른 action 이 필요하지 않은 <em>nonassociative task</em> 에 대해서 다뤘다. task 가 stationary 할 때는 best action 를 찾으면 됐고, task 가 nonstationary 할 때는 시간에 따라 best action 을 추적하면 됐다. 하지만 일반적인 reinforcement learning task 에서는 단지 한가지 상황만 존재하지 않는다. 각 상황에 맞는 action 을 찾기 위한 <strong>policy</strong> 를 학습해야 한다.</p>
 
-<p>예를 들어서, 여러개의 다른 k-armed bandit task가 존재하고 매 step마다 그 중 하나를 랜덤으로 선택한다고 가정하자. 그렇다면 bandit task는 매 step마다 랜덤하게 바뀔 것이다. 그러면 마치 true action value가 step마다 변경되는 단 한개의 <strong>nonstationary</strong> k-armed bandit task 처럼 보일 것이다. 그렇다면 이번 챕터에서 배운 method를 사용할 수 있더라도 제대로 작동하지 않을 것이다. 하지만 만약 각 <em>slot machine</em>의 색이 다르다면 이와 연관된 <strong>policy</strong>를 학습할 수 있을 것이다.</p>
+<p>예를 들어서, 여러개의 다른 k-armed bandit task 가 존재하고 매 step 마다 그 중 하나를 랜덤으로 선택한다고 가정하자. 그렇다면 bandit task 는 매 step 마다 랜덤하게 바뀔 것이다. 그러면 마치 true action value 가 step 마다 변경되는 단 한개의 <strong>nonstationary</strong> k-armed bandit task 처럼 보일 것이다. 그렇다면 이번 챕터에서 배운 method 를 사용할 수 있더라도 제대로 작동하지 않을 것이다. 하지만 만약 각 <em>slot machine</em> 의 색이 다르다면 이와 연관된 <strong>policy</strong> 를 학습할 수 있을 것이다.</p>
 
-<p>이것을 <em>associative search</em> task라고 한다. 그리고 k-armed bandit problem 에서는 각 action이 reward에만 영향을 미치는데, 만약 다음 상황(next situation)에도 영향을 미친다면 이것을 <strong>full reinforcement learning</strong> 라고 한다.</p>
+<p>이것을 <em>associative search</em> task 라고 한다. 그리고 k-armed bandit problem 에서는 각 action 이 reward 에만 영향을 미치는데, 만약 다음 상황(next situation)에도 영향을 미친다면 이것을 <strong>full reinforcement learning</strong> 라고 한다.</p>
 
 <hr />
 
 <h3 id="summary">Summary</h3>
 
-<p>아래는 이번 챕터에서 다룬 각 method를 비교한 결과다.</p>
+<p>아래는 이번 챕터에서 다룬 각 method 를 비교한 결과다.</p>
 
 <p><img src="/assets/2019-01-02-rl-bulti-armed-bandits/figure2_5.png" alt="image" /></p>
 
@@ -1059,186 +1156,6 @@ int main() {
       <a href="/algorithm/2018/12/29/boj-go-trip-1976/#disqus_thread"> <i class="fa fa-comments" aria-hidden="true"></i>Comment</a>&nbsp;
       
       <a href="/algorithm/2018/12/29/boj-go-trip-1976/"><i class="fa fa-plus-circle" aria-hidden="true"></i>Read more</a>
-    </div>
-  </div>
-  
-  <div class="post">
-    <h1 class="post-title">
-      <a href="/bixby/2018/12/28/basic_tutorial_4/">
-        주사위 프로젝트 - View 및 Dialog 작성
-      </a>
-    </h1>
-
-    <span class="post-date">28 Dec 2018</span>
-     | 
-    
-    <a href="/blog/tags/#인공지능" class="post-tag">인공지능</a>
-    
-    <a href="/blog/tags/#빅스비" class="post-tag">빅스비</a>
-    
-    
-
-    <article>
-      <h2 id="view-작성">View 작성</h2>
-
-<p>안녕하세요! 이전 포스트에서는 View를 작성하지 않아 테이블 형태로 결과를 보여주었는데요, 이번 포스트에서는 View를 작성해서 사용자에게 결과 화면을 더 이쁘게(?!) 보여주겠습니다. 자 그럼 아래와 같이 파일을 생성하고 코드를 작성합니다.</p>
-
-<hr />
-
-<p><em>/resources/ko/RollResult.view.bxb</em></p>
-<pre><code>result-view {
- match {
-   RollResult (rollResult)
- }
-
- render {
-   layout {
-     section {
-       content {
-         single-line {
-           text {
-             style (Detail_M)
-             value ("Sum: #{value(rollResult.sum)}")
-           }
-         }
-         single-line {
-           text {
-             style (Detail_M)
-             value ("Rolls: #{value(rollResult.roll)}")
-           }
-         }
-       }
-     }
-   }
- }
-}
-</code></pre>
-
-<hr />
-
-<div class="message">
-'ko' 폴더는 단말에서 빅스비 언어를 한국어로 설정했을 때 반영됩니다. 현재는 전체 코드를 나눠놨지만 전체 구조는 공유하고 단어나 문장이 출력되는 부분만 template으로 따로 빼서 Localization을 할 수 있습니다.
-</div>
-
-<p>위 코드에서 <strong>match</strong> 부분은 action의 output과 연결됩니다. 코드를 풀이해보면 어떤 action의 output이 RollResult라면 현재 view에서 보여주겠다는 뜻입니다. 자세한 <a href="https://bixbydevelopers.com/dev/docs/dev-guide/developers/customizing-plan.match-patterns"><strong>match patterns</strong></a> 는 공식 홈페이지에서 확인하실 수 있습니다.</p>
-
-<p>그리고 아래 <strong>render</strong>에 화면에 표시해주는 코드를 작성합니다. 화면에 따라서 용도에 맞는 component를 사용해서 작성하실 수 있습니다. 지금은 깊게 다루지 않기 때문에 전체 흐름만 파악하시면 될 것 같습니다. 자세한 내용은 공식 홈페이지의 <a href="https://bixbydevelopers.com/dev/docs/dev-guide/developers/building-views"><strong>Building Views</strong></a> 를 참고 부탁드립니다.</p>
-
-<p>코드 중간에 보면 <strong>#{value(rollResult.sum)}</strong>와 같이 <strong>#{}</strong>로 작성된 부분을 볼 수 있는데요. 이 부분은 빅스비의 <a href="https://bixbydevelopers.com/dev/docs/dev-guide/developers/customizing-plan.using-el"><strong>Expression Language</strong></a>로 다양한 연산자를 View의 String 내부에서 사용할 수 있게 도와줍니다.</p>
-
-<p>이제 아래와 같이 intent를 보내서 화면에 어떻게 나오는지 확인할 수 있습니다.</p>
-
-<pre><code>intent {
-  goal: RollResult
-  value: NumSides (6)
-  value: NumDice (2)
-}
-</code></pre>
-
-<p>다음은 결과 화면입니다.
-<img src="/assets/2018-12-28-basic_tutorial_4/result.png" alt="image" width="50%" height="50%" /></p>
-
-<p>현재는 기본 Dialog로 <strong><em>“검색 완료! 확인해보세요.”</em></strong> 라고 나옵니다.</p>
-
-<h2 id="dialog-작성">Dialog 작성</h2>
-
-<p>이제 기본 Dialog를 변경해서 원하는 문장을 출력해봅시다. 결과물을 보여주는 화면을 만들기 전에 아래와 같이 Dialog 파일을 생성하고 코드를 작성합니다.</p>
-
-<hr />
-
-<p><em>/resources/ko/NumSides.dialog.bxb</em></p>
-<pre><code>dialog (Concept) {
- match {
-   // Look for this type
-   NumSides
- }
- // Use the following template text with this type
- template("면의 수")
-}
-</code></pre>
-
-<p><em>/resources/ko/NumDice.dialog.bxb</em></p>
-<pre><code>dialog (Concept) {
- match {
-   // Look for this type
-   NumDice
- }
- // Use this template text with this type
- template("주사위 수")
-}
-</code></pre>
-
-<hr />
-
-<p>참고로, 위의 두 dialog 모드(mode) concept입니다. 이 모드는 <a href="https://bixbydevelopers.com/dev/docs/reference/ref-topics/dialog-modes.dialog-fragments#concept-fragment">Dialog Fragment</a>중 하나로, 필요한 concept을 intent에 넣지 않고 보냈을 경우 아래와 같이 응답을 생성하는데 사용됩니다.</p>
-
-<blockquote>
-  <p>계속하려면 <strong>주사위 수</strong>가 필요해요</p>
-</blockquote>
-
-<p>다음과 같이 NumDice를 제외한채 intent를 보내다보면 확인하실 수 있습니다.</p>
-
-<pre><code>intent {
-  goal: RollResult
-  value: NumSides (6)
-}
-</code></pre>
-
-<p>자, 이제 최종 결과물을 보여주는 Dialog를 작성합시다. 아래와 같이 파일을 만들면 됩니다.</p>
-
-<hr />
-
-<p><em>/resources/ko/RollResult.dialog.bxb</em></p>
-<pre><code>dialog (Result) {
- // bind the variable "rollResult" to the result and "rollOutput" to
- // the action of which it was output
- match {
-   RollResult (rollResult) {
-     from-output: RollDice (rollOutput)
-   }
- }
- // define a condition that changes the dialog depending on whether there
- // is one or more dice
- if (rollOutput.numDice == 1) {
-   template ("주사위의 번호는 ${value(rollResult.roll)}입니다!")    
- }
- if (rollOutput.numDice &gt; 1) {
-   choose (Random) {
-     template ("주사위의 총 합은 ${value(rollResult.sum)}입니다.")
-     template ("각 주사위의 번호는 ${list(rollResult.roll, 'value')}입니다.")    
-   }
- }
-}
-</code></pre>
-
-<hr />
-
-<p>전체적으로 View코드와 유사한데요, 조금 다른 점이 있습니다. 바로 <strong><em>from-output</em></strong> 인데요. RollDice의 output인 RollResult와 매칭을 시키겠다는 뜻입니다. 사실 이 프로젝트에서는 action이 유일하기 때문에 view와 매칭은 되는데요, 아래 보면 RollDice의 변수로 지정한 <strong>rollOutput</strong>을 이용하는 코드가 존재하기 때문에 유지해야합니다. rollOutput을 을 이용해서 RollDice의 input 값에 접근할 수 있습니다. <strong>choose(Random)</strong> 는 template 중 한가지를 임의 선택합니다.</p>
-
-<div class="message">
-같은 질문에 매번 같은 대답만 한다면 인공지능처럼 느껴지지 않을 것입니다. 또한 사용자 입장에서 재미도 없을 겁니다. 그래서 다양한 응답 varidation을 주기 위해서 choose(Random)은 자주 사용하는 키워드입니다.
-</div>
-
-<p>이제 다시 아래 intent를 보내면 최종 결과물을 확인할 수 있습니다.</p>
-
-<pre><code>intent {
-  goal: RollResult
-  value: NumSides (6)
-  value: NumDice (2)
-}
-</code></pre>
-
-<p>다음은 View와 Dialog가 적용된 화면입니다.
-<img src="/assets/2018-12-28-basic_tutorial_4/result2.png" alt="image" width="50%" height="50%" /></p>
-
-<p>여기까지 진행 하셨으면 Capsule의 기본적인 부분은 완성되었습니다. 다음 포스트에서는 Default Value 넣는 방법에 대해 다루겠습니다. 감사합니다.</p>
-
-    <article>
-    <div class="post-more">
-      
-      <a href="/bixby/2018/12/28/basic_tutorial_4/#disqus_thread"> <i class="fa fa-comments" aria-hidden="true"></i>Comment</a>&nbsp;
-      
-      <a href="/bixby/2018/12/28/basic_tutorial_4/"><i class="fa fa-plus-circle" aria-hidden="true"></i>Read more</a>
     </div>
   </div>
   
