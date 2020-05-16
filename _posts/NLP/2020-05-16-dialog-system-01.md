@@ -10,7 +10,7 @@ tag: [NLP, Dialogue System]
 **Task-Oriented Dialogue System** 대화 시스템의 아키텍쳐는 보통 아래와 같이 3개의 모듈로 구성되어 있습니다. 더 똑똑한 대화 시스템을 구현하기 위해서 각 모듈이 합쳐지거나 더 세분화 되기도 합니다.
 
 <p align="center">
-  <img width="80%" height="80%" src="/assets/2020-05-16-dialog-system-01/simple-architecture-2.png">
+  <img width="90%" height="90%" src="/assets/2020-05-16-dialog-system-01/simple-architecture-2.png">
 </p>
 
 
