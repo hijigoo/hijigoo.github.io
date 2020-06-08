@@ -2,7 +2,7 @@
 layout: post
 title: 대화 시스템(Dialogue System) - 아키텍쳐
 category: NLP
-tag: [NLP, Dialogue System]
+tag: [NLP, Dialogue System, Chatbot]
 ---
 
 ## 대화 시스템(Dialogue System) - 아키텍쳐
