@@ -45,6 +45,7 @@ nav:
     - { Bixby: '/blog/categories/#bixby' }
     - { NLP: '/blog/categories/#nlp' }
     - { Reinforcement Learning: '/blog/categories/#reinforcement-learning' }
+    - { Flutter: '/blog/categories/#flutter' }
     - { Daily: '/blog/categories/#daily' }
     
   Tags:
