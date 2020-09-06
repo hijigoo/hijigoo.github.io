@@ -12,7 +12,7 @@ tag: [BOJ, 백준, 알고리즘, 자료구조]
 </div>
 
 ## 라인 길이
-```
+```cpp
 // define
 #define MAX 200010
 
@@ -28,7 +28,7 @@ int distance(int a, int b) {
 
 
 ## 유니온 파인드
-```
+```cpp
 int parent[MAX];
 
 int find(int n) {
@@ -50,7 +50,7 @@ void merge(int a, int b) {
 ```
 
 ## 메인 함수
-```
+```cpp
 #include <stdio.h>
 int main() {
 

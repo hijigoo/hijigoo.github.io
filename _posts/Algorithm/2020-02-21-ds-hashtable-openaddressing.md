@@ -12,7 +12,7 @@ tag: [알고리즘, 자료구조]
 </div>
 
 ## int 자료형을 다루는 해시테이블
-```
+```cpp
 #include <iostream>
 using namespace std;
 
@@ -76,7 +76,7 @@ int main() {
 ```
 
 ## 구조체를 다루는 해시테이블
-```
+```cpp
 #include <stdio.h>
 using namespace std;
 

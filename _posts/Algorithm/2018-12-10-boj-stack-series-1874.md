@@ -11,7 +11,7 @@ tag: [BOJ, 백준, 알고리즘, 자료구조]
 
 
 ## 배열과 헤드위치 선언
-```
+```cpp
 int stack[100005];
 int head = 0;
 ```
@@ -19,7 +19,7 @@ int head = 0;
 
 ## 전체 코드
 
-```
+```cpp
 #include <stdio.h>
 
 int stack[100005];

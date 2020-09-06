@@ -12,7 +12,7 @@ Flutter 에서 가장 기본으로 사용할 수 있는 AppBar 입니다.
 
 ## 메인 화면 구성
 ### /lib/main.dart
-~~~dart
+```dart
 import 'package:flutter/material.dart';
 
 void main() {
@@ -32,11 +32,11 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-~~~
+```
 
 ## AppBar 및 Body 구성
 ### /lib/main.dart
-~~~dart
+```dart
 class Home extends StatelessWidget {
   final String title;
 
@@ -71,7 +71,7 @@ class Home extends StatelessWidget {
     );
   }
 }
-~~~
+```
 
 ***
 ### Reference

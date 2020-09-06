@@ -16,7 +16,7 @@ hash code 구하는 식은 [Naver D2](https://d2.naver.com/helloworld/831311)를
 
 
 ## 노드
-```
+```cpp
 // define
 #define MAX 200010
 
@@ -48,7 +48,7 @@ int hashCode(char* str) {
 ```
 
 ## Hash Map
-```
+```cpp
 Node* h[MAX];
 
 int get(char* name) {
@@ -100,7 +100,7 @@ int isContain(char* name) {
 ```
 
 ## 유니온 파인드
-```
+```cpp
 int find(int n) {
 	if (p[n] < 0) return n;
 	else {
@@ -125,7 +125,7 @@ int uni(int a, int b) {
 ```
 
 ## 메인 함수
-```
+```cpp
 #include <stdio.h>
 #include <stdlib.h>
 int main() {
