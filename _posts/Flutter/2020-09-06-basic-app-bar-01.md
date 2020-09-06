@@ -36,7 +36,7 @@ class MyApp extends StatelessWidget {
 
 ## AppBar 및 Body 구성
 ### /lib/main.dart
-~~~dart
+```dart
 class Home extends StatelessWidget {
   final String title;
 
@@ -71,7 +71,7 @@ class Home extends StatelessWidget {
     );
   }
 }
-~~~
+```
 
 ***
 ### Reference
