@@ -77,6 +77,6 @@ disqus_short_name: 'hijigoo' # leave blank if you don't want disqus
 # Highlighter
 highlighter: rouge
 markdown: kramdown
-kramdown:
-   syntax_highlighter_opts:
-      disable : true
+# kramdown:
+#    syntax_highlighter_opts:
+#       disable : true
