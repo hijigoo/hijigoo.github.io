@@ -35,6 +35,7 @@ tag: [NLP, Dialogue System, Chatbot]
 
 ***
 **Reranker**
+
 IR 결과 중에서 가장 연관된 정보를 추출합니다. 검색된 결과가 여러 개라면 그중에서 하나의 정보를 선택할 수도 있고, 결과가 한 개라면 해당 정보안에서 가장 관련된 문장을 추출할 수도 있습니다. 핵심은 IR에서 검색된 결과를 가지고 한 번더 가장 연관된 정보를 찾는 것 입니다.
 
 - **IR 결과**: [미국의 대통령 검색 결과](https://ko.wikipedia.org/wiki/%EB%AF%B8%EA%B5%AD%EC%9D%98_%EB%8C%80%ED%86%B5%EB%A0%B9)
