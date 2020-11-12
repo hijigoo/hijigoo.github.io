@@ -2,7 +2,7 @@
 layout: post
 title: 탐색 - Trie Wildcard 
 category: Algorithm
-tag: [알고리즘, 소소한팁]
+tag: [알고리즘, 탐색]
 ---
 
 Wildcard(*)가 포함된 단어 찾기 입니다. *는 0개 이상의 알파벳으로 대체될 수 있습니다. 단어를 빠르게 찾는 방법으로 Trie를 사용했습니다.
