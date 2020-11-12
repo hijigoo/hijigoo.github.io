@@ -7,7 +7,7 @@ tag: [NLP, Dialogue System, Chatbot]
 
 ## 대화 시스템(Dialogue System) - External Knowledge Based
 
-**External Knowledge Based Dialogue System** 은 단어 그대로 외부에서 사용자 발화와 관련된 정보를 가져와서 응답을 생성합니다. 정보는 Wikipidea 혹은 기사의 댓글 등이 될 수 있습니다. 
+**External Knowledge Based Dialogue System** 은 단어 그대로 외부에서 사용자 발화와 관련된 정보를 가져와서 응답을 생성합니다. 정보는 Wikipidea, News 혹은 댓글 등이 될 수 있습니다. 
 
 **Task-Oriented Dialogue System** 에서는 Chatbot이 처리할 수 있는 Intent와 응답에 필요한 Slot 값을 미리 정의해두어야 했었습니다. 하지만 사용자의 모든 발화에 대해서 Intent와 필요한 Slot 정보를 정의하는 것은 사실상 거의 불가능한 일입니다. 
 
@@ -17,6 +17,11 @@ tag: [NLP, Dialogue System, Chatbot]
 <p align="center">
   <img width="90%" height="90%" src="/assets/2020-11-13-dialog-system-02/simple-architecture.png">
 </p>
+
+***
+**Knowledge**
+
+외부에 저장되어 있는 정보입니다. Wikipedia, News, 혹은 댓글이 될 수도 있습니다.
 
 
 ***
