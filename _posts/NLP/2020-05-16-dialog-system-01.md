@@ -1,11 +1,11 @@
 ---
 layout: post
-title: 대화 시스템(Dialogue System) - 아키텍쳐
+title: 대화 시스템(Dialogue System) - Task Oriented
 category: NLP
 tag: [NLP, Dialogue System, Chatbot]
 ---
 
-## 대화 시스템(Dialogue System) - 아키텍쳐
+## 대화 시스템(Dialogue System) - Task Oriented
 
 **Task-Oriented Dialogue System** 대화 시스템의 아키텍쳐는 보통 아래와 같이 3개의 모듈로 구성되어 있습니다. 더 똑똑한 대화 시스템을 구현하기 위해서 각 모듈이 합쳐지거나 더 세분화 되기도 합니다.
 
