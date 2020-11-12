@@ -53,3 +53,4 @@ Reranker 로부터 데이터를 기반으로 사용자에게 친숙한 응답을
 ***
 ### Reference
 - [Beyond Domain APIs: Task-oriented Conversational Modeling with Unstructured Knowledge Access](https://arxiv.org/abs/2006.03533)
+- [Wizard of Wikipedia: Knowledge-Powered Conversational agents](https://arxiv.org/abs/1811.01241)
