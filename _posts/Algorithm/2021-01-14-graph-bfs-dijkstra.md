@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 그래프 - 최단거리 [BFS vs Dijkstra]
+title: 그래프 - 최단거리 [BFS vs Dijkstra(다익스트라)]
 category: Algorithm
 tag: [알고리즘, 그래프]
 ---
