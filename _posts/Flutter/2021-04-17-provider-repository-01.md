@@ -15,7 +15,7 @@ Bloc를 runApp()에서 호출하는 경우 동작하기는 하였으나, Materia
 
 
 ### Provider, Repository 등록
-~~~dart
+```
 void main() {
   // set timezone - for notification
   tz.initializeTimeZones();
@@ -53,4 +53,4 @@ void main() {
     ),
   ));
 }
-~~~
+```
