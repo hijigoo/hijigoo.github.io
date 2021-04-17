@@ -10,7 +10,7 @@ Flutter에서 **Provider** 와 **Repository** 를 사용하려면 트리의 상�
 **Bloc** 사용시에도 마찬가지입니다. 단, Provider 와 Repository 는 **runApp()** 호출할 때 등록하고 Bloc는 **MaterialApp** 호출할 떄 등록하기 때문에 본 예에서는 다루지 않았습니다.
 
 <div class="message">
-등록할 때 화면을 초기화하는 Bloc를 runApp()에서 호출하는 경우 동작하기는 하였으나, MaterialApp 함수 호출 시 등록하는 localizationsDelegates, supportedLocales 등의 국가/언어를 초기화하는 일부 기능이 적용되지 않았기 때문에 MaterialApp 에서 별도로 등록해주었습니다.
+Bloc를 runApp()에서 호출하는 경우 동작하기는 하였으나, MaterialApp 함수 호출 시 등록하는 localizationsDelegates, supportedLocales 등의 국가/언어를 초기화하는 일부 기능이 적용되지 않았기 때문에 MaterialApp 에서 별도로 등록해주었습니다.
 </div>
 
 
