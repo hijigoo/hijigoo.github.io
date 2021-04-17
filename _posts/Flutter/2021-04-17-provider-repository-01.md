@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Provider, Repository 등록하기
+title: Provider, Repository 동시에 등록하기
 category: Flutter
 tag: [Flutter, Provider, Repository]
 ---
@@ -16,7 +16,15 @@ Flutter에서 **Provider** 와 **Repository** 를 사용하려면 트리의 상�
 
 ### Provider, Repository 등록
 ~~~dart
-runApp(MultiRepositoryProvider(
+void main() {
+  // set timezone - for notification
+  tz.initializeTimeZones();
+  tz.setLocalLocation(tz.getLocation('Asia/Seoul'));
+
+  Bloc.observer = DefaultObserver();
+  WidgetsFlutterBinding.ensureInitialized();
+
+  runApp(MultiRepositoryProvider(
     // provide Repository
     providers: [
       RepositoryProvider<AuthenticationRepository>(
@@ -44,4 +52,5 @@ runApp(MultiRepositoryProvider(
       child: App(),
     ),
   ));
+}
 ~~~
