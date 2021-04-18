@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 기본 AppBar 만들기
+title: Flutter - 기본 AppBar 만들기
 category: Flutter
 tag: [Flutter, AppBar]
 ---

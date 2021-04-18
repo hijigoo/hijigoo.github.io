@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Provider, Repository 동시에 등록하기
+title: Flutter - Provider, Repository 동시에 등록하기
 category: Flutter
 tag: [Flutter, Provider, Repository]
 ---
