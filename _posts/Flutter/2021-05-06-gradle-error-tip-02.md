@@ -16,7 +16,7 @@ flutter build apk --profile
 flutter build apk --release
 
 cd build/app/outputs/flutter-apk/
-abd install ./app-release.apk
+adb install ./app-release.apk
 ```
 
 ***
