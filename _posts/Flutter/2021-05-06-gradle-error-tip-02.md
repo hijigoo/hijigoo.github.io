@@ -21,4 +21,4 @@ abd install ./app-release.apk
 
 ***
 ### 출처
-- [Reinforcement Learning: An Introduction - Richard S. Sutton and Andrew G. Barto](https://stackoverflow.com/questions/62394034/flutter-can-not-build-android-apk)
+- [flutter-can-not-build-android-apk](https://stackoverflow.com/questions/62394034/flutter-can-not-build-android-apk)
