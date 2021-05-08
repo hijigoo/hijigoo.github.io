@@ -15,8 +15,8 @@ flutter build apk --debug
 flutter build apk --profile
 flutter build apk --release
 
-// Runtime 에서 에러가 발생하는 경우
-// flutter build apk --release —no-shrink
+# Runtime 에서 에러가 발생하는 경우
+# flutter build apk --release —no-shrink
 
 cd build/app/outputs/flutter-apk/
 adb install ./app-release.apk
