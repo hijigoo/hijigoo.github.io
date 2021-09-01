@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Strategy Pattern (전략 패턴)
-category: Reinforcement Learning
+category: Design Pattern
 tag: [디자인 패턴, Behavioral]
 ---
 
