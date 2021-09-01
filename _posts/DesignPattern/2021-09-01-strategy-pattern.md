@@ -96,6 +96,8 @@ public class Squeak implements QuackBehavior {
 }
 ```
 
+***
+
 ## Sample
 ### 1. MallardDuck
 필요한 Strategy를 직접 생성해서 사용한다.
