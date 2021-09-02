@@ -42,7 +42,8 @@ public class Coffee extends CaffeineBeverage {
     System.out.println("Adding Sugar and Milk");
   }
 }
-
+```
+```java
 public class Tea extends CaffeineBeverage {
   public void brew() {
     System.out.println("Steeping the tea");
