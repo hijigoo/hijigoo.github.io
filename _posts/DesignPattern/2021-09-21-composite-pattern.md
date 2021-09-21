@@ -149,12 +149,12 @@ public class MenuTextDrive {
     pancakeHouseMenu.add(New MenuItem("Regular Pancake Breakfast", 
       "Pancakes with fried eggs, and saausage", false, 2.99))
 
-      /*
-      ... adding more MenuItems ...
-      */
+    /*
+    ... adding more MenuItems ...
+    */
 
-      Waitress waitress = new Waitress(allMenues);
-      waitress.printMenu();
+    Waitress waitress = new Waitress(allMenues);
+    waitress.printMenu();
   }
 }
 ```
