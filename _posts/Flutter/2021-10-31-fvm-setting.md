@@ -31,8 +31,8 @@ fvm use 2.5.3
 
 ### VSCode에 Flutter SDK 위치 지정
 프로젝트 폴더에 **.vscode/settings.json** 를 생성후 아래와 같이 경로 지정
-'''
+```
 {
   "dart.flutterSdkPaths": [".fvm/flutter_sdk"]
 }
-'''
+```
