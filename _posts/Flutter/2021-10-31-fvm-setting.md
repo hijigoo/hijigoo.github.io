@@ -1,11 +1,12 @@
 ---
 layout: post
-title: Flutter - VSCode에서 fvm 으로 프로젝트 셋팅하기
+title: Flutter - VSCode에서 fvm셋팅하기
 category: Flutter
 tag: [Flutter]
 ---
 
 fvm(Flutter Version Management)을 사용하면 프로젝트 별로 Flutter SDK 버전관리를 할 수 있다. 이미 개발환경 및 프로젝트가 생성된 상태에서 fvm만 적용하는 것을 가정으로 작성했다.
+
 ***
 
 ### Release 된 Flutter SDK 버전 확인하기
