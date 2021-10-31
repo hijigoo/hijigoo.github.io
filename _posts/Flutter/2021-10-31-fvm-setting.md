@@ -5,7 +5,7 @@ category: Flutter
 tag: [Flutter]
 ---
 
-fvm(Flutter Version Management)을 사용하면 프로젝트 별로 Flutter SDK 버전관리를 할 수 있다. 이미 개발환경 및 프로젝트가 생성된 상태에서 fvm만 적용하는 것을 가정으로 작성했다.
+fvm(Flutter Version Management)을 사용하면 프로젝트 별로 Flutter SDK 버전관리를 할 수 있습니다. 이미 개발환경 및 프로젝트가 생성된 상태에서 fvm만 적용하는 것을 가정으로 작성했습니다.
 
 ***
 
