@@ -6,6 +6,7 @@ tag: [Flutter]
 ---
 
 Flutter 에는 3개의 **Widget Tree**, **Element Tree**, **RenderObject Tree** 가 있습니다. 그리고 이 3개의 트리를 이용해서 화면을 구성합니다.
+
 ***
 
 ## Widget Tree
