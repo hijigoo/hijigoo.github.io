@@ -32,6 +32,7 @@ Element를 구성하는 트리입니다. Widget이 생성되면 Element가 생�
 
 ## RenderObject Tree
 RenderObject 를 구성하는 트리입니다. RenderObject 는 화면을 그리기 위한 정보를 가지고 있습니다. Flutter 에서 화면을 그릴 때 이 RenderObject 를 참고합니다. **StatefulWidget** 에서 **setState()** 를 호출하면 RenderObject 를 업데이트합니다.
+
 ***
 
 ### Reference
