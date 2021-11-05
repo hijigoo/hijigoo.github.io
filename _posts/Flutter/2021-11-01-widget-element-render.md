@@ -15,7 +15,13 @@ Widget 을 구성하는 트리입니다. Widget 은 화면을 구성하는 속�
 ***
 
 ## Element Tree
-Element를 구성하는 트리입니다. Widget이 생성되면 Element가 생성되며 또한 Element 는 Widget 이 RenderObject 를 생성하게끔 합니다. **BuildContext** 는 Element에 담겨있습니다. 실제 화면에 붙는 것은 이 Element 라고 볼 수 있습니다.
+Element를 구성하는 트리입니다. Widget이 생성되면 Element가 생성되며 또한 Element 는 Widget 이 RenderObject 를 생성하게끔 합니다. **BuildContext** 는 Element에 담겨있습니다. 정확히 말하면 Element 는 BuildContext 인터페이스를 implement 합니다. 실제 화면에 붙는 것은 이 Element 라고 볼 수 있습니다.
+
+```
+abstract class Element extends DiagnosticableTree implements BuildContext {
+  ...
+}
+```
 
 ***
 
