@@ -11,7 +11,6 @@ Flutter 에는 3개의 **Widget Tree**, **Element Tree**, **RenderObject Tree** 
 
 ## Widget Tree
 Widget 을 구성하는 트리입니다. Widget 은 화면을 구성하는 속성을 포함하고 있으며 **immutable** 이기 때문에 변경이 불가능합니다. Widget 은 **Element** 와 **RenderObject** 를 생성합니다. **StatefulWidget**의 경우 **State Object**가 별도로 존재합니다.  Widget 은 Element 를 생성하기 위한 Blueprint(청사진) 이라고 볼 수 있습니다.
-```
 
 ***
 
