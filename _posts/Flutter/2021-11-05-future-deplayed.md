@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Flutter - Future.delayed
+title: Flutter - Future.delayed()
 category: Flutter
 tag: [Flutter]
 ---
