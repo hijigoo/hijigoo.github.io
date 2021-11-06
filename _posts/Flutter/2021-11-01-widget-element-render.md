@@ -32,6 +32,7 @@ RenderObject 를 구성하는 트리입니다. RenderObject 는 화면을 그리
 
 ## Reference
 - [Layouts in Flutter](https://flutter.dev/docs/development/ui/layout#videos)
+- [RenderObjects?](https://www.youtube.com/watch?v=zmbmrw07qBc)upd
 - [플루터는 어떻게 위젯을 렌더링할까](https://medium.com/@kimdohun0104/%ED%94%8C%EB%9F%AC%ED%84%B0%EB%8A%94-%EC%96%B4%EB%96%BB%EA%B2%8C-%EC%9C%84%EC%A0%AF%EC%9D%84-%EB%A0%8C%EB%8D%94%EB%A7%81%ED%95%A0%EA%B9%8C-%EB%B0%9C%ED%91%9C-%EC%98%81%EC%83%81-70a726f4e53e)
 - [Keys! What are they good for?](https://medium.com/flutter/keys-what-are-they-good-for-13cb51742e7d)
 
