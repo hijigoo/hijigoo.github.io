@@ -13,7 +13,23 @@ Robert C. Martin (Uncle Bob) 아저씨의 클린코드를 보면 Dependency 가 
 
 ![image](/assets/2022-04-19-flutter-clean-architecture/figure01.png)
 
+#### Data Layer
+-  Domain 레이어의 Repository 를 Imprementation 한다.
+-  Domain 레이어의 Entity 를 상속해서 Model 을 만든다.  
+
+#### Domain Layer
+- 다른 Layer 에 의존하지 않는다.
+- 가장 중요한 부분으로 중요 정책을 결정한다.
+- Usecase 하나는 여러개의 Repository 를 사용할 수 있다.
+
+#### Presentation Layer
+- Entity 를 사용한다.
+- Usecase 를 사용한다.
+- Bloc 는 여러개의 Usecase 를 사용할 수 있다.
+
+
 ***
 ### Reference
 - [The Clean Architecture](https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html)
 - [clean-code-architecture-flutter - RashmiRanganathan](https://github.com/RashmiRanganathan/clean-code-architecture-flutter)
+- [flutter clean architecture - devmuaz](https://devmuaz.medium.com/flutter-clean-architecture-series-part-1-d2d4c2e75c47)
