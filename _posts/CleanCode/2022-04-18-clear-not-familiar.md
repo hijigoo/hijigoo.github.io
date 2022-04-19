@@ -5,7 +5,7 @@ category: Clean Code
 tag: [Clean Code]
 ---
 
-## 2. Clear intent does not mean familiar!
+## Clear intent does not mean familiar!
 
 나에게 익숙한 코드가 항상 명확한 의도를 가지진 않는다. 더 코드를 읽기 쉽게 작성해야 한다. 아래 두 개 중에 당연 두 번째가 더 Clean 하고 Simple 하다.
 
