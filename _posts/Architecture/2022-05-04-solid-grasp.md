@@ -4,6 +4,7 @@ title: SOLID & GRASP
 category: Architecture
 tag: [SOLID, GRASP]
 ---
+
 # SOLID
 ### 0. SOLID 장점
   - 시스템에 새로운 요구사항이나 변경사항이 있을 때, 영향을 받는 범위가 적은 구조로 만든다.
