@@ -7,12 +7,15 @@ tag: [디자인 패턴]
 
 ### Behavioral
 클래스와 객체들이 상호작용하는 방법 및 역할을 분담하는 방법과 관련된 패턴이다.
+
 ### Creational
 객체 인스턴스 생성을 위한 패턴으로, 클라이언트와 그 클라이언트에서 생성할 객체 인스턴스 사이의 연결을 끊어주는 패턴이다.
+
 ### Structure
 클래스 및 객체들을 구성(합성)을 통해서 더 큰 구조로 만들 수 있게 해주는 것과 관련된 패턴이다.
 
 
+### Design Patterns
 #### 1. Strategy Pattern (#알고리즘 #Family #캡슐화 #교환)
   - Type: Behavioral
   - Purpose(Benefit)
