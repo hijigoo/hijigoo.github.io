@@ -36,10 +36,10 @@ tag: [SOLID, GRASP]
 
 ### 4. Interface Segregation Principle (ISP)
   - **정의**  
-    . Clients should not be forced to depend on methods they do not use
-    . 사용하지 않는 인터페이스에 의존해서는 안된다.
-    . 인터페이스를 작은 단위로 분리시킴으로써 한 클래스가 다른 클래스에 종속될 때 가능한 최소한의 인터페이스만을 사용한다.
-    . 특정 클라이언트를 위한 인터페이스 여러 개가 범용 인터페이스 하나보다 낫다
+    - Clients should not be forced to depend on methods they do not use
+    - 사용하지 않는 인터페이스에 의존해서는 안된다.
+    - 인터페이스를 작은 단위로 분리시킴으로써 한 클래스가 다른 클래스에 종속될 때 가능한 최소한의 인터페이스만을 사용한다.
+    - 특정 클라이언트를 위한 인터페이스 여러 개가 범용 인터페이스 하나보다 낫다
   - **장점**
     . 본인의 관심 영역에 해당하지 않는 interface에 의존관계가 생기지 않기 때문에 Loose Copuling이 된다.
 
