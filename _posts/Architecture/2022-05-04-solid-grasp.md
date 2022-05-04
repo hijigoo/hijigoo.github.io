@@ -1,6 +1,6 @@
 ---
 layout: post
-title: SOLID, GRASP
+title: SOLID & GRASP
 category: Architecture
 tag: [SOLID, GRASP]
 ---
