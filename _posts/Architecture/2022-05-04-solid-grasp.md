@@ -23,7 +23,7 @@ tag: [SOLID, GRASP]
   - **정의**
     - Software entities (classes, modules, functions, etc.) should be open for extension 
       but closed for modification.
-    . 소프트웨어 엔티티들은(클래스, 모듈, 함수, 등) 신규 기능의 확장에는 열려 있어야 하고 기존 코드 수정에는 닫혀있어야 한다.
+    - 소프트웨어 엔티티들은(클래스, 모듈, 함수, 등) 신규 기능의 확장에는 열려 있어야 하고 기존 코드 수정에는 닫혀있어야 한다.
   - **장점**
     - 유연성, 재사용성, 유지보수성 등 많은 장점이 있다.
 
