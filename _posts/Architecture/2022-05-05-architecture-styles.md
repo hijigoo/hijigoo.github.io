@@ -2,7 +2,7 @@
 layout: post
 title: Architecture Styles 14가지 정리
 category: Architecture
-tag: [SOLID, GRASP]
+tag: [Architecture, Architecture Style]
 ---
 
 ### 1. Batch Sequential Architecture Style
