@@ -6,7 +6,7 @@ tag: [Architecture, Architecture Style]
 ---
 
 ### 1. Batch Sequential Architecture Style
-  - Bath 단위의 데이터를 하나의 컴포넌트에서 다른 컴포넌트로 전달한다.
+  - Batch 단위의 데이터를 하나의 컴포넌트에서 다른 컴포넌트로 전달한다.
   - 모든 데이터가 하나 끝나면 다음, 다음 끝나면 그 다음으로 이동한다.
 
   - **장점**
