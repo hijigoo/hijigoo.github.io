@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 디자인 패턴 23개 요약
+title: 디자인 패턴 23개 정리
 category: Design Pattern
 tag: [디자인 패턴]
 ---
