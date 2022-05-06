@@ -132,8 +132,7 @@ tag: [Architecture, Architecture Style]
   
 ### 10. Broker Architecture Style
   - Broker 에 등록된 서버와 클라이언트 사이에서 통신을 중계한다.
-  - 독립적으로 통신을 핸들링한다.
-  - 같은 서버를 복사해서 사용한다.
+  - 분산 시스템에서 같은 서버를 복사해서 사용
 
   - **장점**
     1. 클라이언트와 서버를 Decoupling 시켜 확장이 가능하다.
