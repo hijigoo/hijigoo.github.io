@@ -69,6 +69,9 @@ tag: [Architecture, Architecture Style]
 
 ### 5. Blackboard Architecture Style
   - 명확하게 정의된 문제 해결 방법이 존재하지 않을 때 사용
+  - Blackboard: Solution 정보와 데이터를 관리
+  - Knowledge Source (KS): 부분 문제를 판단하고 결과를 도출하여 Blackboard 에 Update
+  - Control: Blackboard 모니터링 중 KS 가 종료되면, 다음 Source 로 변경
 
   - **장점**
     1. 정확한 접근법이 존재하지 않을 때 다양한 알고리즘을 적용
@@ -86,7 +89,7 @@ tag: [Architecture, Architecture Style]
     2. 데이터를 저장하기 편하고 무결성이 높다. 
   - **단점**
     1. 데이터 구조 변경이 어렵다. 
-    2. 여러 클래이언트에서 접근하기 때문에 오버헤드가 발생한다.
+    2. 여러 클라이언트에서 접근하기 때문에 오버헤드가 발생한다.
 
 
 ### 7. Microkernel Architecture Style
@@ -95,7 +98,7 @@ tag: [Architecture, Architecture Style]
   - **장점** 
     1. 새로운 기능들을 유연하게 추가할 수 있다.
   - **단점**
-    1. 호환성을 위한 Plugin 검증
+    1. 호환성을 위한 Plugin 검증 필요
     2. 복잡한 설계 구현
   - **용도**
     1. Eclipse 처럼 Plugin 으로 모듈이 추가되어야 할 때
@@ -124,7 +127,7 @@ tag: [Architecture, Architecture Style]
     1.  Single dispatcher 구조일때 failure가 발생하면 전체 이슈로 연결
   - **용도**
     1. 분산처리 환경에서 여러 대의 서버에서 서비스를 받고자 할 때
-    2. 로드밸런식에 사용
+    2. 로드밸런싱에 사용
 
   
 ### 10. Broker Architecture Style
@@ -137,7 +140,7 @@ tag: [Architecture, Architecture Style]
     2. 런타임에 서버 변경이 가능하다.
   - **단점**
     1. Broker 에 문제가 발생하면 전체 통신에 영향을 준다.
-    2. 클라이언트와 서버의 통신에 관여하기 때문에 비효율이며 오버헤드가 발생할 수 있다.
+    2. 클라이언트와 서버의 통신에 관여하기 때문에 비효율이 있으며 오버헤드가 발생할 수 있다.
     3. Lower fault tolerance
   - **용도**
     1. 하둡에서 Mapper Reduce 방식으로 동일한 데이터를 최소한 세곳에 복사를 해두고 병렬처리 해서 다시 취합한다.
@@ -151,12 +154,12 @@ tag: [Architecture, Architecture Style]
     1. 기능을 서버와 클라이언트로 분리하여 독립적인 기능을 할 수 있다.
     2. 복잡하거나 민감한 처리를 중앙집중화할 수 있다.
   - **단점**
-    1. 서버의 Falut가 통신하는 전체 클라이언트에게 영향을 준다.
+    1. 서버의 fault가 통신하는 전체 클라이언트에게 영향을 준다.
 
 
 ### 12. Master-Slave Architecture Style
   - Master 에 함수를 요청하면 Slaver 노드에게 각각 일을 맡기고 취합해서 리턴해준다.
-  - Slave 노드는 Replication이 아니다. 각각의 고유 기능이 있다.
+  - Slave 노드는 Replication이 아니다. 각각의 고유 로직이 있다.
   
   - **장점**
     1. 분산 컴퓨팅이 가능하다.
@@ -172,5 +175,5 @@ tag: [Architecture, Architecture Style]
   - Observer 패턴과 유사하나 중간에 Message Broker 또는 Event Bus 가 있다
 
   - **장점**
-    1. 게시자와 구독저는 서로 Decoupling 된다
+    1. 게시자와 구독자는 서로 Decoupling 된다
     2. Message Broker 가 Queue 역할을 하여 Subscriber는 Publisher 의 상태를 확인하지 않아도 된다.
