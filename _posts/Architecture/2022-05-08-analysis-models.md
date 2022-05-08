@@ -12,8 +12,7 @@ tag: [Architecture, DesignSmell]
 
 ## ATAM (Architecture Trade-off Analysis Method)
 - 아키텍처가 품질속성을 만족시키는지 판단, 품질 속성간 상호작용 확인
-
-- 품질 목표간의 Trade-off가 있는지 파악 가능한 아키텍처 평가
+- 품질 속성간의 Trade-off가 있는지 파악 가능한 아키텍처 평가
 
 
 ## CBAM (Cost Benefit Analysis Method)
